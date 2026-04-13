@@ -413,6 +413,7 @@
             border: 1px solid #eaedf0;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -598,17 +599,23 @@
                 <div class="grid-2">
                     <div class="panel-card">
                         <div class="panel-card-title">Live Payment Types (Copies)</div>
-                        <div class="chart-placeholder" style="min-height:160px;">📊 Donut chart</div>
+                        <div style="position:relative;height:200px;display:flex;align-items:center;justify-content:center;">
+                            <canvas id="chartPaymentTypes"></canvas>
+                        </div>
                     </div>
                     <div class="panel-card">
                         <div class="panel-card-title">Membership Level (Copies)</div>
-                        <div class="chart-placeholder" style="min-height:160px;">📊 Donut chart</div>
+                        <div style="position:relative;height:200px;display:flex;align-items:center;justify-content:center;">
+                            <canvas id="chartMembershipLevel"></canvas>
+                        </div>
                     </div>
                 </div>
 
                 <div class="panel-card">
                     <div class="panel-card-title">Issue Run Totals (excluding essential frees)</div>
-                    <div class="chart-placeholder" style="min-height:220px;">📈 Bar / line chart</div>
+                    <div style="position:relative;height:260px;">
+                        <canvas id="chartIssueRun"></canvas>
+                    </div>
                 </div>
 
             </div>
@@ -711,6 +718,98 @@
         headerEl.classList.toggle('open');
         const children = headerEl.nextElementSibling;
         if (children) children.classList.toggle('open');
+    }
+
+    // ── CHARTS ──
+    const dxColors = ['#5B8FF9','#61DDAA','#F6BD16','#7262FD','#78D3F8','#9661BC'];
+
+    function initCharts() {
+        // Donut: Payment Types
+        const ctxPay = document.getElementById('chartPaymentTypes');
+        if (ctxPay && !ctxPay._chartInstance) {
+            ctxPay._chartInstance = new Chart(ctxPay, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Direct Debit', 'Credit Card', 'Cash', 'Cheque', 'Invoice'],
+                    datasets: [{ data: [52, 24, 11, 8, 5], backgroundColor: dxColors, borderWidth: 2, borderColor: '#fff' }]
+                },
+                options: {
+                    cutout: '65%',
+                    plugins: {
+                        legend: { position: 'right', labels: { boxWidth: 12, font: { size: 12 }, color: '#444' } }
+                    }
+                }
+            });
+        }
+
+        // Donut: Membership Level
+        const ctxMem = document.getElementById('chartMembershipLevel');
+        if (ctxMem && !ctxMem._chartInstance) {
+            ctxMem._chartInstance = new Chart(ctxMem, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Premium', 'Standard', 'Essential', 'Digital Only'],
+                    datasets: [{ data: [38, 33, 18, 11], backgroundColor: dxColors, borderWidth: 2, borderColor: '#fff' }]
+                },
+                options: {
+                    cutout: '65%',
+                    plugins: {
+                        legend: { position: 'right', labels: { boxWidth: 12, font: { size: 12 }, color: '#444' } }
+                    }
+                }
+            });
+        }
+
+        // Bar + Line: Issue Run Totals
+        const ctxIssue = document.getElementById('chartIssueRun');
+        if (ctxIssue && !ctxIssue._chartInstance) {
+            const labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            ctxIssue._chartInstance = new Chart(ctxIssue, {
+                data: {
+                    labels,
+                    datasets: [
+                        {
+                            type: 'bar',
+                            label: 'Print Run',
+                            data: [3820,3750,3900,3870,3810,3950,3880,3920,3760,3840,3910,3850],
+                            backgroundColor: 'rgba(91,143,249,0.7)',
+                            borderRadius: 4,
+                            yAxisID: 'y'
+                        },
+                        {
+                            type: 'line',
+                            label: 'Digital',
+                            data: [410,430,460,445,470,490,480,510,500,520,515,530],
+                            borderColor: '#61DDAA',
+                            backgroundColor: 'rgba(97,221,170,0.1)',
+                            tension: 0.4,
+                            pointRadius: 3,
+                            fill: true,
+                            yAxisID: 'y'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { boxWidth: 12, font: { size: 12 }, color: '#444' } }
+                    },
+                    scales: {
+                        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#888', font: { size: 11 } } },
+                        x: { grid: { display: false }, ticks: { color: '#888', font: { size: 11 } } }
+                    }
+                }
+            });
+        }
+    }
+
+    // Init on load, and re-init when switching to visual-topline page
+    window.addEventListener('load', initCharts);
+    const _origShowPage = showPage;
+    function showPage(pageId, navEl) {
+        _origShowPage(pageId, navEl);
+        if (pageId === 'visual-topline') setTimeout(initCharts, 50);
     }
 </script>
 </body>
