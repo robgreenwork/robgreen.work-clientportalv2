@@ -5,513 +5,724 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESco Client Portal V2</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica", sans-serif;
-            background: #f5f5f5;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f0f2f5;
+            color: #1a1a2e;
         }
 
-        .container {
-            display: flex;
-            height: 100vh;
-        }
+        .container { display: flex; height: 100vh; }
 
+        /* ── SIDEBAR ── */
         .sidebar {
-            width: 250px;
-            background: #2c3e50;
-            color: white;
-            padding: 20px;
+            width: 230px;
+            background: #1e2a3a;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
             overflow-y: auto;
         }
 
         .sidebar-brand {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 30px;
+            padding: 20px 18px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
-        .nav-menu {
+        /* eSco logo */
+        .esco-logo {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            align-items: baseline;
+            gap: 0;
+            line-height: 1;
         }
+        .esco-logo-text {
+            font-size: 28px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            position: relative;
+            display: inline-block;
+        }
+        .esco-e  { color: #ffffff; }
+        .esco-S  { color: #ffffff; position: relative; display: inline-block; }
+        .esco-S svg {
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .esco-co { color: #ffffff; }
+
+        .brand-subtitle {
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+            margin-top: 5px;
+            letter-spacing: 0.3px;
+        }
+
+        /* Nav */
+        .nav-menu { flex: 1; padding: 6px 0 16px; }
+
+        .nav-section-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            cursor: pointer;
+            color: rgba(255,255,255,0.45);
+            font-size: 12.5px;
+            font-weight: 500;
+            transition: background 0.15s, color 0.15s;
+            user-select: none;
+            letter-spacing: 0.1px;
+        }
+        .nav-section-header:hover {
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.75);
+        }
+        .nav-section-header.open { color: rgba(255,255,255,0.75); }
+
+        .nav-arrow {
+            font-size: 8px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+            opacity: 0.6;
+        }
+        .nav-section-header.open .nav-arrow { transform: rotate(90deg); }
+
+        .nav-children { display: none; }
+        .nav-children.open { display: block; }
 
         .nav-item {
-            padding: 12px;
-            border-radius: 6px;
+            padding: 8px 14px 8px 32px;
             cursor: pointer;
-            transition: all 0.2s;
-            background: rgba(255, 255, 255, 0);
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            transition: background 0.15s, color 0.15s;
+            border-left: 3px solid transparent;
+            margin: 1px 8px 1px 0;
+            border-radius: 0 5px 5px 0;
         }
-
         .nav-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.9);
         }
-
         .nav-item.active {
-            background: #2196f3;
+            background: rgba(99,160,255,0.2);
+            color: #7eb8ff;
+            border-left-color: #4d9fff;
+            font-weight: 500;
+        }
+        .nav-new-badge {
+            font-size: 9px;
+            background: #f59e0b;
             color: white;
+            padding: 1px 5px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-left: 4px;
+            vertical-align: middle;
+            letter-spacing: 0.3px;
         }
 
-        .main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+        .nav-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.07);
+            margin: 6px 0;
         }
+
+        /* ── MAIN ── */
+        .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
 
         .header {
             background: white;
-            padding: 20px;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 0 24px;
+            height: 52px;
+            border-bottom: 1px solid #e8eaed;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-shrink: 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
         }
-
-        .header h1 {
-            font-size: 20px;
-            color: #1a1a1a;
+        .header-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a2e;
         }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 13px;
+            color: #666;
+        }
+        .header-logout {
+            color: #4d9fff;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .header-logout:hover { text-decoration: underline; }
 
         .content {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 24px;
         }
 
-        .page {
-            display: none;
-        }
+        .page { display: none; }
+        .page.active { display: block; }
 
-        .page.active {
-            display: block;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 24px;
-            border-bottom: 1px solid #e0e0e0;
-            margin-bottom: 24px;
-            padding: 0 0 12px 0;
-        }
-
-        .tab {
-            background: none;
-            border: none;
-            padding: 0;
-            font-size: 14px;
-            color: #999;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            padding-bottom: 12px;
-            transition: all 0.2s;
-        }
-
-        .tab:hover {
-            color: #1a1a1a;
-        }
-
-        .tab.active {
-            color: #1a1a1a;
-            border-bottom-color: #2196f3;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .metric-card {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            border: 1px solid #e0e0e0;
-        }
-
-        .metric-label {
-            font-size: 12px;
-            color: #999;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
-
-        .metric-value {
-            font-size: 28px;
-            font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-        }
-
-        .metric-change {
-            font-size: 13px;
-            color: #4caf50;
-        }
-
-        .metric-change.negative {
-            color: #f44336;
-        }
-
+        /* ── AI INSIGHT ── */
         .ai-insight {
-            background: linear-gradient(135deg, rgba(63, 81, 181, 0.08) 0%, rgba(3, 155, 229, 0.08) 100%);
-            border-left: 3px solid #2196f3;
-            border-radius: 6px;
-            padding: 12px 14px;
-            margin-bottom: 16px;
-            font-size: 13px;
-        }
-
-        .ai-insight-title {
-            font-weight: 600;
-            color: #2196f3;
-            font-size: 12px;
-            margin-bottom: 4px;
-        }
-
-        .scorecard-section {
             background: white;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-            padding: 20px;
-            margin-bottom: 24px;
-        }
-
-        .scorecard-header {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 16px;
+            border-left: 3px solid #4d9fff;
+            border-radius: 0 8px 8px 0;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #444;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
             display: flex;
-            gap: 12px;
-            align-items: center;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .scorecard-icon {
-            font-size: 20px;
-        }
-
-        .scorecard-items {
-            display: flex;
-            flex-direction: column;
+            align-items: flex-start;
             gap: 10px;
         }
-
-        .scorecard-item {
-            display: flex;
-            gap: 12px;
-            padding: 12px;
-            border-radius: 6px;
-            background: #f9f9f9;
-        }
-
-        .scorecard-item.good {
-            background: rgba(76, 175, 80, 0.08);
-        }
-
-        .scorecard-item.warning {
-            background: rgba(255, 152, 0, 0.08);
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-top: 4px;
+        .ai-insight-icon {
+            font-size: 16px;
+            margin-top: 1px;
             flex-shrink: 0;
         }
-
-        .status-dot.good {
-            background: #4caf50;
-        }
-
-        .status-dot.warning {
-            background: #ff9800;
-        }
-
-        .scorecard-text {
-            font-size: 13px;
-            color: #1a1a1a;
-        }
-
-        .scorecard-label {
+        .ai-insight-title {
             font-weight: 600;
-            display: block;
-            margin-bottom: 2px;
-            font-size: 12px;
-            color: #666;
+            color: #2d7dd2;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
         }
 
-        .chart-placeholder {
-            background: #f9f9f9;
-            border-radius: 6px;
-            padding: 40px;
-            text-align: center;
-            color: #999;
-            margin-bottom: 24px;
-            min-height: 240px;
+        /* ── KPI CARDS ── */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .kpi-card {
+            background: white;
+            border-radius: 8px;
+            padding: 18px 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            border: 1px solid #eaedf0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .kpi-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 20px;
+            flex-shrink: 0;
         }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
+        .kpi-icon.blue  { background: rgba(77,159,255,0.12); }
+        .kpi-icon.green { background: rgba(52,199,89,0.12); }
+        .kpi-icon.amber { background: rgba(245,158,11,0.12); }
+        .kpi-body { flex: 1; min-width: 0; }
+        .kpi-label {
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
         }
+        .kpi-value {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a1a2e;
+            line-height: 1.1;
+        }
+        .kpi-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 20px;
+            margin-top: 5px;
+        }
+        .kpi-badge.up   { background: rgba(52,199,89,0.12); color: #22a648; }
+        .kpi-badge.down { background: rgba(239,68,68,0.1);  color: #dc2626; }
+        .kpi-badge.neutral { background: rgba(107,114,128,0.1); color: #555; }
 
-        .btn {
-            padding: 8px 16px;
-            border: 1px solid #e0e0e0;
+        /* ── PANEL CARD ── */
+        .panel-card {
             background: white;
-            border-radius: 6px;
-            cursor: pointer;
+            border-radius: 8px;
+            padding: 18px 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            border: 1px solid #eaedf0;
+            margin-bottom: 20px;
+        }
+        .panel-card-title {
             font-size: 13px;
-            color: #1a1a1a;
-            transition: all 0.2s;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
         }
 
-        .btn:hover {
-            background: #f5f5f5;
-            border-color: #999;
+        /* ── RENEWAL TABLE ── */
+        .renewal-table {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            border: 1px solid #eaedf0;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .renewal-table-header {
+            background: #f7f8fa;
+            padding: 10px 16px;
+            font-size: 12px;
+            color: #666;
+            border-bottom: 1px solid #eaedf0;
+        }
+        .renewal-table-grid {
+            display: grid;
+            grid-template-columns: 72px 1fr 1fr 1fr;
+        }
+        .renewal-col-header {
+            padding: 10px 16px;
+            font-size: 11px;
+            color: #888;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            border-bottom: 1px solid #eaedf0;
+            border-right: 1px solid #f3f4f6;
+            background: #fafbfc;
+        }
+        .renewal-row-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 8px;
+            border-right: 1px solid #f3f4f6;
+            border-bottom: 1px solid #f3f4f6;
+            background: #fafbfc;
+        }
+        .renewal-row-label span {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            font-size: 10px;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+        .renewal-cell {
+            padding: 14px 16px;
+            border-right: 1px solid #f3f4f6;
+            border-bottom: 1px solid #f3f4f6;
+            text-align: center;
+        }
+        .renewal-cell-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+        .renewal-cell-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-top: 5px;
+        }
+        .renewal-cell-change.up   { background: rgba(52,199,89,0.1);  color: #22a648; }
+        .renewal-cell-change.down { background: rgba(239,68,68,0.08); color: #dc2626; }
+
+        /* ── CHART PLACEHOLDER ── */
+        .chart-placeholder {
+            background: #f8f9fb;
+            border-radius: 6px;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #c0c4cc;
+            font-size: 13px;
+            border: 1px dashed #e0e4e9;
+            gap: 8px;
+        }
+
+        /* ── SCORECARD ── */
+        .scorecard-section {
+            background: white;
+            border-radius: 8px;
+            padding: 18px 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            border: 1px solid #eaedf0;
+            margin-bottom: 20px;
+        }
+        .scorecard-section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .scorecard-items { display: flex; flex-direction: column; gap: 6px; }
+        .scorecard-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 6px;
+        }
+        .scorecard-item.good    { background: rgba(52,199,89,0.06); }
+        .scorecard-item.warning { background: rgba(245,158,11,0.07); }
+
+        .status-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%; flex-shrink: 0;
+        }
+        .status-dot.good    { background: #34c759; }
+        .status-dot.warning { background: #f59e0b; }
+
+        .scorecard-label {
+            font-size: 12px; font-weight: 600;
+            color: #333; display: block; margin-bottom: 1px;
+        }
+        .scorecard-text { font-size: 12px; color: #888; }
+
+        /* ── COMING SOON ── */
+        .coming-soon {
+            background: white;
+            border-radius: 8px;
+            padding: 60px 40px;
+            text-align: center;
+            color: #bbb;
+            font-size: 14px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            border: 1px solid #eaedf0;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-            <div class="sidebar-brand">esco</div>
-            <nav class="nav-menu">
-                <div class="nav-item active" onclick="showPage('dashboard')">Dashboard</div>
-                <div class="nav-item" onclick="showPage('scorecard')">Success Scorecard</div>
-                <div class="nav-item" onclick="showPage('analytics')">Analytics</div>
-                <div class="nav-item" onclick="showPage('reports')">Reports</div>
-                <div class="nav-item" onclick="showPage('settings')">Settings</div>
-            </nav>
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <div class="esco-logo">
+                <span class="esco-logo-text">
+                    <span class="esco-e">e</span><span class="esco-S">S<svg width="16" height="7" viewBox="0 0 16 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 1.5 Q8 9 14.5 1.5" stroke="#48c9b0" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg></span><span class="esco-co">co</span>
+                </span>
+            </div>
+            <div class="brand-subtitle">Client Portal V2</div>
         </div>
 
-        <div class="main">
-            <div class="header">
-                <h1>ESco Client Portal V2</h1>
-                <div style="display: flex; gap: 8px;">
-                    <button class="btn">Help</button>
-                    <button class="btn">Settings</button>
-                </div>
+        <nav class="nav-menu">
+
+            <div class="nav-section-header" onclick="toggleSection(this)">
+                <span class="nav-arrow">▶</span><span>ESco Connect</span>
+            </div>
+            <div class="nav-children">
+                <div class="nav-item" onclick="showPage('connect',this)">Overview</div>
             </div>
 
-            <div class="content">
-                <div id="dashboard" class="page active">
-                    <h2 style="margin-bottom: 20px; font-size: 24px;">Visual Topline - Title #03</h2>
-
-                    <div class="tabs">
-                        <button class="tab active" onclick="switchTab(event, 'dash-overview')">Dashboard</button>
-                        <button class="tab" onclick="switchTab(event, 'dash-scorecard')">Success Scorecard</button>
-                        <button class="tab" onclick="switchTab(event, 'dash-analytics')">Analytics</button>
-                        <button class="tab" onclick="switchTab(event, 'dash-reports')">Reports</button>
-                    </div>
-
-                    <div id="dash-overview" style="display: block;">
-                        <div class="ai-insight">
-                            <div class="ai-insight-title">AI Insight: Action Needed</div>
-                            Your cancellation rate is up 1.2% month-on-month. Review your Scorecard to identify key performance areas for improvement.
-                        </div>
-
-                        <div class="grid-3">
-                            <div class="metric-card">
-                                <div class="metric-label">Total Live Orders</div>
-                                <div class="metric-value">3,901</div>
-                                <div class="metric-change">+24 this week</div>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-label">Total Subscribers</div>
-                                <div class="metric-value">3,884</div>
-                                <div class="metric-change negative">-12 this week</div>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-label">Total Copies</div>
-                                <div class="metric-value">3,911</div>
-                                <div class="metric-change">+31 this week</div>
-                            </div>
-                        </div>
-
-                        <div class="grid-2">
-                            <div class="metric-card">
-                                <h3 style="margin-bottom: 16px;">Renewal & Yield Current</h3>
-                                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
-                                    <div>
-                                        <div class="metric-label">Overall Renewal</div>
-                                        <div class="metric-value" style="font-size: 24px;">94.9%</div>
-                                        <div class="metric-change">+1</div>
-                                    </div>
-                                    <div>
-                                        <div class="metric-label">Continuous</div>
-                                        <div class="metric-value" style="font-size: 24px;">95.3%</div>
-                                        <div class="metric-change">+1</div>
-                                    </div>
-                                    <div>
-                                        <div class="metric-label">Cash</div>
-                                        <div class="metric-value" style="font-size: 24px;">75.0%</div>
-                                        <div class="metric-change">+9</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="metric-card">
-                                <h3 style="margin-bottom: 16px;">Payment Distribution</h3>
-                                <div class="chart-placeholder">📊 Chart</div>
-                            </div>
-                        </div>
-
-                        <div class="metric-card">
-                            <h3 style="margin-bottom: 16px;">Issue Run Totals (Last 6 Months)</h3>
-                            <div class="chart-placeholder">📈 Trend Chart</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="scorecard" class="page">
-                    <h2 style="margin-bottom: 20px; font-size: 24px;">Success Scorecard</h2>
-
-                    <div class="grid-2">
-                        <div class="scorecard-section">
-                            <div class="scorecard-header">
-                                <span class="scorecard-icon">📊</span>
-                                <span>Performance Metrics</span>
-                            </div>
-                            <div class="scorecard-items">
-                                <div class="scorecard-item good">
-                                    <div class="status-dot good"></div>
-                                    <div>
-                                        <span class="scorecard-label">Subscription Volumes</span>
-                                        <span class="scorecard-text">Growing consistently YoY</span>
-                                    </div>
-                                </div>
-                                <div class="scorecard-item good">
-                                    <div class="status-dot good"></div>
-                                    <div>
-                                        <span class="scorecard-label">Renewal Rate</span>
-                                        <span class="scorecard-text">94.9% - Steady, trending up</span>
-                                    </div>
-                                </div>
-                                <div class="scorecard-item warning">
-                                    <div class="status-dot warning"></div>
-                                    <div>
-                                        <span class="scorecard-label">Cancellation Rate</span>
-                                        <span class="scorecard-text">3.2% - Watch closely</span>
-                                    </div>
-                                </div>
-                                <div class="scorecard-item good">
-                                    <div class="status-dot good"></div>
-                                    <div>
-                                        <span class="scorecard-label">Average Tenure</span>
-                                        <span class="scorecard-text">2.8 years - Stable</span>
-                                    </div>
-                                </div>
-                                <div class="scorecard-item good">
-                                    <div class="status-dot good"></div>
-                                    <div>
-                                        <span class="scorecard-label">Revenue Growth</span>
-                                        <span class="scorecard-text">+12% YoY</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="scorecard-section">
-                            <div class="scorecard-header">
-                                <span class="scorecard-icon">✓</span>
-                                <span>Compliance & Operations</span>
-                            </div>
-                            <div class="scorecard-items">
-                                <div class="scorecard-item good">
-                                    <div class="status-dot good"></div>
-                                    <div>
-                                        <span class="scorecard-label">Portal Usage</span>
-                                        <span class="scorecard-text">Team actively using reports</span>
-                                    </div>
-                                </div>
-                                <div class="scorecard-item good">
-                                    <div class="status-dot good"></div>
-                                    <div>
-                                        <span class="scorecard-label">PCI Compliance</span>
-                                        <span class="scorecard-text">Certified & compliant</span>
-                                    </div>
-                                </div>
-                                <div class="scorecard-item good">
-                                    <div class="status-dot good"></div>
-                                    <div>
-                                        <span class="scorecard-label">GDPR Compliance</span>
-                                        <span class="scorecard-text">Data policies in place</span>
-                                    </div>
-                                </div>
-                                <div class="scorecard-item good">
-                                    <div class="status-dot good"></div>
-                                    <div>
-                                        <span class="scorecard-label">eCommerce Setup</span>
-                                        <span class="scorecard-text">All integrations active</span>
-                                    </div>
-                                </div>
-                                <div class="scorecard-item warning">
-                                    <div class="status-dot warning"></div>
-                                    <div>
-                                        <span class="scorecard-label">Data Quality</span>
-                                        <span class="scorecard-text">Using 68% of available data</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="analytics" class="page">
-                    <h2>Analytics</h2>
-                    <div class="metric-card">Analytics coming soon</div>
-                </div>
-
-                <div id="reports" class="page">
-                    <h2>Reports</h2>
-                    <div class="metric-card">Reports coming soon</div>
-                </div>
-
-                <div id="settings" class="page">
-                    <h2>Settings</h2>
-                    <div class="metric-card">Settings coming soon</div>
-                </div>
+            <div class="nav-section-header open" onclick="toggleSection(this)">
+                <span class="nav-arrow">▶</span><span>Dashboards</span>
             </div>
-        </div>
+            <div class="nav-children open">
+                <div class="nav-item" onclick="showPage('subscriptions',this)">Subscriptions</div>
+                <div class="nav-item active" onclick="showPage('visual-topline',this)">Visual Topline</div>
+                <div class="nav-item" onclick="showPage('world-map',this)">World Map</div>
+                <div class="nav-item" onclick="showPage('uk-map',this)">UK Map</div>
+                <div class="nav-item" onclick="showPage('promotions',this)">Promotions</div>
+                <div class="nav-item" onclick="showPage('issue-run',this)">Issue Run Figures</div>
+                <div class="nav-item" onclick="showPage('payments',this)">Payments Dashboard</div>
+                <div class="nav-item" onclick="showPage('cancellations',this)">Online Cancellations</div>
+                <div class="nav-item" onclick="showPage('scorecard',this)">Success Scorecard<span class="nav-new-badge">NEW</span></div>
+            </div>
+
+            <div class="nav-divider"></div>
+
+            <div class="nav-section-header" onclick="toggleSection(this)">
+                <span class="nav-arrow">▶</span><span>Downloads</span>
+            </div>
+            <div class="nav-children">
+                <div class="nav-item" onclick="showPage('stub',this)">All Downloads</div>
+            </div>
+
+            <div class="nav-section-header" onclick="toggleSection(this)">
+                <span class="nav-arrow">▶</span><span>Reports</span>
+            </div>
+            <div class="nav-children">
+                <div class="nav-item" onclick="showPage('stub',this)">All Reports</div>
+            </div>
+
+            <div class="nav-section-header" onclick="toggleSection(this)">
+                <span class="nav-arrow">▶</span><span>Interactive Analysis</span>
+            </div>
+            <div class="nav-children">
+                <div class="nav-item" onclick="showPage('stub',this)">Overview</div>
+            </div>
+
+            <div class="nav-section-header" onclick="toggleSection(this)">
+                <span class="nav-arrow">▶</span><span>Customer Service</span>
+            </div>
+            <div class="nav-children">
+                <div class="nav-item" onclick="showPage('stub',this)">Overview</div>
+            </div>
+
+            <div class="nav-section-header" onclick="toggleSection(this)">
+                <span class="nav-arrow">▶</span><span>System</span>
+            </div>
+            <div class="nav-children">
+                <div class="nav-item" onclick="showPage('stub',this)">Settings</div>
+            </div>
+
+            <div class="nav-section-header" onclick="toggleSection(this)">
+                <span class="nav-arrow">▶</span><span>Orbit</span>
+            </div>
+            <div class="nav-children">
+                <div class="nav-item" onclick="showPage('stub',this)">Overview</div>
+            </div>
+
+        </nav>
     </div>
 
-    <script>
-        function showPage(pageName) {
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
-            document.getElementById(pageName).classList.add('active');
+    <!-- MAIN -->
+    <div class="main">
+        <div class="header">
+            <div class="header-title" id="header-title">Visual Topline — Title #03</div>
+            <div class="header-right">
+                <span>Welcome demo@esco.co.uk</span>
+                <span class="header-logout">Log Out</span>
+            </div>
+        </div>
 
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(item => item.classList.remove('active'));
-            event.target.classList.add('active');
-        }
+        <div class="content">
 
-        function switchTab(event, tabId) {
-            const tabContents = document.querySelectorAll('[id^="dash-"]');
-            tabContents.forEach(content => content.style.display = 'none');
-            document.getElementById(tabId).style.display = 'block';
+            <!-- VISUAL TOPLINE -->
+            <div id="visual-topline" class="page active">
 
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-    </script>
+                <div class="ai-insight">
+                    <div class="ai-insight-icon">💡</div>
+                    <div>
+                        <div class="ai-insight-title">AI Insight — Action Needed</div>
+                        Your cancellation rate is up 1.2% month-on-month. Review your Success Scorecard to identify key performance areas for improvement.
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <div class="kpi-card">
+                        <div class="kpi-icon blue">📋</div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">Total Live Orders</div>
+                            <div class="kpi-value">3,901</div>
+                            <div class="kpi-badge up">▲ +24 this week</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon green">👥</div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">Total Subscribers</div>
+                            <div class="kpi-value">3,884</div>
+                            <div class="kpi-badge down">▼ −12 this week</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon amber">📄</div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">Total Copies</div>
+                            <div class="kpi-value">3,911</div>
+                            <div class="kpi-badge up">▲ +31 this week</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Renewal & Yield -->
+                <div class="renewal-table">
+                    <div class="renewal-table-header">
+                        Renewal &amp; Yield — Current: 13/11/2025 to 13/02/2026 &nbsp;vs&nbsp; Historic: 13/02/2025 to 13/02/2026
+                    </div>
+                    <div class="renewal-table-grid">
+                        <div class="renewal-col-header"></div>
+                        <div class="renewal-col-header">Overall</div>
+                        <div class="renewal-col-header">Continuous</div>
+                        <div class="renewal-col-header">Cash with Order</div>
+
+                        <div class="renewal-row-label"><span>Renewals</span></div>
+                        <div class="renewal-cell">
+                            <div class="renewal-cell-value">94.94%</div>
+                            <div class="renewal-cell-change up">▲ +2.15%</div>
+                        </div>
+                        <div class="renewal-cell">
+                            <div class="renewal-cell-value">95.30%</div>
+                            <div class="renewal-cell-change up">▲ +1.64%</div>
+                        </div>
+                        <div class="renewal-cell">
+                            <div class="renewal-cell-value">75.00%</div>
+                            <div class="renewal-cell-change up">▲ +9.78%</div>
+                        </div>
+
+                        <div class="renewal-row-label"><span>Yield</span></div>
+                        <div class="renewal-cell">
+                            <div class="renewal-cell-value">£4.80</div>
+                            <div class="renewal-cell-change down">▼ −£0.10</div>
+                        </div>
+                        <div class="renewal-cell">
+                            <div class="renewal-cell-value">£4.81</div>
+                            <div class="renewal-cell-change down">▼ −£0.09</div>
+                        </div>
+                        <div class="renewal-cell">
+                            <div class="renewal-cell-value">£4.28</div>
+                            <div class="renewal-cell-change down">▼ −£0.68</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="panel-card">
+                        <div class="panel-card-title">Live Payment Types (Copies)</div>
+                        <div class="chart-placeholder" style="min-height:160px;">📊 Donut chart</div>
+                    </div>
+                    <div class="panel-card">
+                        <div class="panel-card-title">Membership Level (Copies)</div>
+                        <div class="chart-placeholder" style="min-height:160px;">📊 Donut chart</div>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-title">Issue Run Totals (excluding essential frees)</div>
+                    <div class="chart-placeholder" style="min-height:220px;">📈 Bar / line chart</div>
+                </div>
+
+            </div>
+
+            <!-- SUCCESS SCORECARD -->
+            <div id="scorecard" class="page">
+                <div class="grid-2">
+                    <div class="scorecard-section">
+                        <div class="scorecard-section-title">📊 Performance Metrics</div>
+                        <div class="scorecard-items">
+                            <div class="scorecard-item good">
+                                <div class="status-dot good"></div>
+                                <div><span class="scorecard-label">Subscription Volumes</span><span class="scorecard-text">Growing consistently YoY</span></div>
+                            </div>
+                            <div class="scorecard-item good">
+                                <div class="status-dot good"></div>
+                                <div><span class="scorecard-label">Renewal Rate</span><span class="scorecard-text">94.9% — Steady, trending up</span></div>
+                            </div>
+                            <div class="scorecard-item warning">
+                                <div class="status-dot warning"></div>
+                                <div><span class="scorecard-label">Cancellation Rate</span><span class="scorecard-text">3.2% — Watch closely</span></div>
+                            </div>
+                            <div class="scorecard-item good">
+                                <div class="status-dot good"></div>
+                                <div><span class="scorecard-label">Average Tenure</span><span class="scorecard-text">2.8 years — Stable</span></div>
+                            </div>
+                            <div class="scorecard-item good">
+                                <div class="status-dot good"></div>
+                                <div><span class="scorecard-label">Revenue Growth</span><span class="scorecard-text">+12% YoY</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scorecard-section">
+                        <div class="scorecard-section-title">✓ Compliance &amp; Operations</div>
+                        <div class="scorecard-items">
+                            <div class="scorecard-item good">
+                                <div class="status-dot good"></div>
+                                <div><span class="scorecard-label">Portal Usage</span><span class="scorecard-text">Team actively using reports</span></div>
+                            </div>
+                            <div class="scorecard-item good">
+                                <div class="status-dot good"></div>
+                                <div><span class="scorecard-label">PCI Compliance</span><span class="scorecard-text">Certified &amp; compliant</span></div>
+                            </div>
+                            <div class="scorecard-item good">
+                                <div class="status-dot good"></div>
+                                <div><span class="scorecard-label">GDPR Compliance</span><span class="scorecard-text">Data policies in place</span></div>
+                            </div>
+                            <div class="scorecard-item good">
+                                <div class="status-dot good"></div>
+                                <div><span class="scorecard-label">eCommerce Setup</span><span class="scorecard-text">All integrations active</span></div>
+                            </div>
+                            <div class="scorecard-item warning">
+                                <div class="status-dot warning"></div>
+                                <div><span class="scorecard-label">Data Quality</span><span class="scorecard-text">Using 68% of available data</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STUB PAGES -->
+            <div id="subscriptions" class="page"><div class="coming-soon">Subscriptions — coming soon</div></div>
+            <div id="world-map"     class="page"><div class="coming-soon">World Map — coming soon</div></div>
+            <div id="uk-map"        class="page"><div class="coming-soon">UK Map — coming soon</div></div>
+            <div id="promotions"    class="page"><div class="coming-soon">Promotions — coming soon</div></div>
+            <div id="issue-run"     class="page"><div class="coming-soon">Issue Run Figures — coming soon</div></div>
+            <div id="payments"      class="page"><div class="coming-soon">Payments Dashboard — coming soon</div></div>
+            <div id="cancellations" class="page"><div class="coming-soon">Online Cancellations — coming soon</div></div>
+            <div id="connect"       class="page"><div class="coming-soon">ESco Connect — coming soon</div></div>
+            <div id="stub"          class="page"><div class="coming-soon">Coming soon</div></div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const pageTitles = {
+        'visual-topline': 'Visual Topline — Title #03',
+        'scorecard':      'Success Scorecard',
+        'subscriptions':  'Subscriptions',
+        'world-map':      'World Map',
+        'uk-map':         'UK Map',
+        'promotions':     'Promotions',
+        'issue-run':      'Issue Run Figures',
+        'payments':       'Payments Dashboard',
+        'cancellations':  'Online Cancellations',
+        'connect':        'ESco Connect',
+        'stub':           'Coming Soon'
+    };
+
+    function showPage(pageId, navEl) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        if (navEl) navEl.classList.add('active');
+        document.getElementById('header-title').textContent = pageTitles[pageId] || pageId;
+    }
+
+    function toggleSection(headerEl) {
+        headerEl.classList.toggle('open');
+        const children = headerEl.nextElementSibling;
+        if (children) children.classList.toggle('open');
+    }
+</script>
 </body>
 </html>
