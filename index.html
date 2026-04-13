@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESco Client Portal V2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             background: #f0f2f5;
             color: #1a1a2e;
         }
@@ -807,10 +810,10 @@
     // Init on load, and re-init when switching to visual-topline page
     window.addEventListener('load', initCharts);
     const _origShowPage = showPage;
-    function showPage(pageId, navEl) {
+    showPage = function(pageId, navEl) {
         _origShowPage(pageId, navEl);
         if (pageId === 'visual-topline') setTimeout(initCharts, 50);
-    }
+    };
 </script>
 </body>
 </html>
