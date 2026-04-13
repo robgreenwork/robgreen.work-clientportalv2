@@ -415,6 +415,216 @@
             box-shadow: 0 1px 4px rgba(0,0,0,0.07);
             border: 1px solid #eaedf0;
         }
+
+        /* ── PERFORMANCE ALERTS ── */
+        .alert-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: white;
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            border: 1px solid #eaedf0;
+            border-left: 4px solid #f59e0b;
+        }
+        .alert-card.alert-red  { border-left-color: #ef4444; }
+        .alert-card.alert-amber{ border-left-color: #f59e0b; }
+        .alert-card.alert-green{ border-left-color: #22c55e; }
+        .alert-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+        .alert-body { flex: 1; min-width: 0; }
+        .alert-title { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 2px; }
+        .alert-desc  { font-size: 12px; color: #666; margin-bottom: 8px; }
+        .alert-meta  { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .alert-badge {
+            font-size: 11px; font-weight: 600; padding: 2px 8px;
+            border-radius: 20px; background: rgba(239,68,68,0.1); color: #dc2626;
+        }
+        .alert-badge.amber { background: rgba(245,158,11,0.1); color: #b45309; }
+        .alert-badge.green { background: rgba(34,197,94,0.1); color: #15803d; }
+        .alert-dismiss {
+            background: none; border: none; color: #bbb; cursor: pointer;
+            font-size: 16px; padding: 0 4px; flex-shrink: 0; line-height: 1;
+        }
+        .alert-dismiss:hover { color: #888; }
+
+        /* ── TALK TO AIMEE BUTTON ── */
+        .btn-aimee {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: #1e2a3a; color: white; border: none;
+            padding: 6px 12px; border-radius: 6px; font-size: 12px;
+            font-weight: 600; cursor: pointer; font-family: inherit;
+            transition: background 0.15s;
+        }
+        .btn-aimee:hover { background: #2c3e50; }
+        .btn-aimee-sm {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: rgba(30,42,58,0.08); color: #1e2a3a; border: none;
+            padding: 4px 10px; border-radius: 5px; font-size: 11px;
+            font-weight: 600; cursor: pointer; font-family: inherit;
+            transition: background 0.15s; margin-top: 8px;
+        }
+        .btn-aimee-sm:hover { background: rgba(30,42,58,0.15); }
+
+        /* ── AIMEE CHAT PANEL ── */
+        .aimee-panel {
+            position: fixed; top: 0; right: -340px; width: 320px; height: 100vh;
+            background: white; box-shadow: -4px 0 20px rgba(0,0,0,0.12);
+            display: flex; flex-direction: column; z-index: 1000;
+            transition: right 0.3s ease; border-left: 1px solid #e8eaed;
+        }
+        .aimee-panel.open { right: 0; }
+        .aimee-header {
+            background: #1e2a3a; color: white; padding: 16px 18px;
+            display: flex; align-items: center; justify-content: space-between;
+            flex-shrink: 0;
+        }
+        .aimee-header-left { display: flex; align-items: center; gap: 10px; }
+        .aimee-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg, #00BCBA, #4d9fff);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; flex-shrink: 0;
+        }
+        .aimee-header-name { font-size: 14px; font-weight: 700; }
+        .aimee-header-sub  { font-size: 11px; color: rgba(255,255,255,0.5); }
+        .aimee-close {
+            background: none; border: none; color: rgba(255,255,255,0.6);
+            font-size: 20px; cursor: pointer; line-height: 1; padding: 0;
+        }
+        .aimee-close:hover { color: white; }
+        .aimee-messages {
+            flex: 1; overflow-y: auto; padding: 16px;
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        .aimee-msg { display: flex; gap: 8px; align-items: flex-start; }
+        .aimee-msg.user-msg { flex-direction: row-reverse; }
+        .msg-avatar {
+            width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+            background: linear-gradient(135deg,#00BCBA,#4d9fff);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px;
+        }
+        .msg-avatar.user { background: #e8eaed; font-size: 12px; }
+        .msg-bubble {
+            background: #f4f6f8; border-radius: 12px 12px 12px 3px;
+            padding: 10px 13px; font-size: 12.5px; color: #333;
+            line-height: 1.5; max-width: 220px;
+        }
+        .msg-bubble.user { background: #1e2a3a; color: white; border-radius: 12px 12px 3px 12px; }
+        .msg-bubble strong { color: #1e2a3a; display: block; margin-bottom: 3px; font-size: 12px; }
+        .msg-bubble.user strong { color: rgba(255,255,255,0.7); }
+        .msg-time { font-size: 10px; color: #bbb; margin-top: 4px; }
+        .aimee-input-area {
+            padding: 12px 16px; border-top: 1px solid #f0f0f0;
+            display: flex; gap: 8px; flex-shrink: 0;
+        }
+        .aimee-input {
+            flex: 1; border: 1px solid #e0e4e9; border-radius: 20px;
+            padding: 8px 14px; font-size: 12.5px; outline: none;
+            font-family: inherit; resize: none; line-height: 1.4;
+        }
+        .aimee-input:focus { border-color: #4d9fff; }
+        .aimee-send {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: #1e2a3a; border: none; color: white;
+            font-size: 14px; cursor: pointer; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s;
+        }
+        .aimee-send:hover { background: #2c3e50; }
+
+        /* Aimee toggle FAB */
+        .aimee-fab {
+            position: fixed; bottom: 24px; right: 24px; z-index: 999;
+            width: 52px; height: 52px; border-radius: 50%;
+            background: linear-gradient(135deg, #1e2a3a, #2c4a6e);
+            box-shadow: 0 4px 16px rgba(30,42,58,0.35);
+            border: none; cursor: pointer; font-size: 22px;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .aimee-fab:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(30,42,58,0.45); }
+
+        /* ── INSIGHTS PAGE ── */
+        .insights-section-title {
+            font-size: 15px; font-weight: 700; color: #1a1a2e;
+            margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+        }
+        .insight-card {
+            background: white; border-radius: 8px; padding: 16px 18px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07); border: 1px solid #eaedf0;
+            border-left: 4px solid #4d9fff; margin-bottom: 12px;
+            display: flex; gap: 14px; align-items: flex-start;
+        }
+        .insight-card.good   { border-left-color: #22c55e; }
+        .insight-card.warn   { border-left-color: #f59e0b; }
+        .insight-card.urgent { border-left-color: #ef4444; }
+        .insight-card-icon { font-size: 22px; flex-shrink: 0; }
+        .insight-card-body  { flex: 1; }
+        .insight-card-title { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+        .insight-card-desc  { font-size: 12.5px; color: #555; line-height: 1.5; margin-bottom: 10px; }
+        .insight-card-footer{ display: flex; align-items: center; gap: 8px; }
+        .severity-badge {
+            font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px;
+            text-transform: uppercase; letter-spacing: 0.4px;
+        }
+        .severity-badge.good   { background: rgba(34,197,94,0.1);  color: #15803d; }
+        .severity-badge.warn   { background: rgba(245,158,11,0.1); color: #b45309; }
+        .severity-badge.urgent { background: rgba(239,68,68,0.1);  color: #dc2626; }
+        .btn-sm {
+            font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 5px;
+            border: 1px solid #e0e4e9; background: white; cursor: pointer;
+            font-family: inherit; color: #444; transition: background 0.15s;
+        }
+        .btn-sm:hover { background: #f4f6f8; }
+        .btn-sm.primary {
+            background: #1e2a3a; color: white; border-color: #1e2a3a;
+        }
+        .btn-sm.primary:hover { background: #2c3e50; }
+
+        /* Ask Aimee chat in Insights page */
+        .insights-chat {
+            background: white; border-radius: 8px; padding: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07); border: 1px solid #eaedf0;
+            margin-bottom: 20px;
+        }
+        .suggested-questions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+        .sq-btn {
+            background: #f4f6f8; border: 1px solid #e0e4e9; border-radius: 20px;
+            padding: 6px 14px; font-size: 12px; cursor: pointer; font-family: inherit;
+            color: #444; transition: all 0.15s;
+        }
+        .sq-btn:hover { background: #1e2a3a; color: white; border-color: #1e2a3a; }
+        .insights-chat-messages {
+            background: #f8f9fb; border-radius: 8px; padding: 14px;
+            min-height: 140px; margin-bottom: 12px;
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        .insights-input-row { display: flex; gap: 8px; }
+        .insights-input {
+            flex: 1; border: 1px solid #e0e4e9; border-radius: 8px;
+            padding: 10px 14px; font-size: 13px; outline: none; font-family: inherit;
+        }
+        .insights-input:focus { border-color: #4d9fff; }
+
+        /* Action cards */
+        .action-card {
+            background: white; border-radius: 8px; padding: 16px 18px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07); border: 1px solid #eaedf0;
+            margin-bottom: 12px; display: flex; gap: 14px; align-items: center;
+        }
+        .action-priority {
+            font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px;
+            text-transform: uppercase; letter-spacing: 0.4px; flex-shrink: 0;
+        }
+        .action-priority.high   { background: rgba(239,68,68,0.1);  color: #dc2626; }
+        .action-priority.medium { background: rgba(245,158,11,0.1); color: #b45309; }
+        .action-priority.low    { background: rgba(34,197,94,0.1);  color: #15803d; }
+        .action-body { flex: 1; }
+        .action-title  { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 3px; }
+        .action-impact { font-size: 12px; color: #777; }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
@@ -459,6 +669,7 @@
                 <div class="nav-item" onclick="showPage('payments',this)">Payments Dashboard</div>
                 <div class="nav-item" onclick="showPage('cancellations',this)">Online Cancellations</div>
                 <div class="nav-item" onclick="showPage('scorecard',this)">Success Scorecard<span class="nav-new-badge">NEW</span></div>
+                <div class="nav-item" onclick="showPage('insights',this)">Aimee Insights<span class="nav-new-badge" style="background:#00BCBA;">AI</span></div>
             </div>
 
             <div class="nav-divider"></div>
@@ -523,11 +734,41 @@
             <!-- VISUAL TOPLINE -->
             <div id="visual-topline" class="page active">
 
+                <!-- Performance Alerts -->
+                <div id="alert-cancellation" class="alert-card alert-amber">
+                    <div class="alert-icon">⚠️</div>
+                    <div class="alert-body">
+                        <div class="alert-title">Cancellation Rate Rising</div>
+                        <div class="alert-desc">Your cancellation rate is up 1.2% month-on-month, approaching the 3.5% watch threshold.</div>
+                        <div class="alert-meta">
+                            <span class="alert-badge amber">3.2% current</span>
+                            <span class="alert-badge amber">▲ +1.2% MoM</span>
+                            <button class="btn-aimee-sm" onclick="openAimee('I noticed your cancellation rate is up 1.2% month-on-month. What should I do to address this?')">💬 Talk to Aimee</button>
+                        </div>
+                    </div>
+                    <button class="alert-dismiss" onclick="this.closest('.alert-card').style.display='none'">×</button>
+                </div>
+
+                <div id="alert-subscribers" class="alert-card alert-amber">
+                    <div class="alert-icon">📉</div>
+                    <div class="alert-body">
+                        <div class="alert-title">Subscriber Count Declining</div>
+                        <div class="alert-desc">Total subscribers are down 12 this week. Three consecutive weeks of decline detected.</div>
+                        <div class="alert-meta">
+                            <span class="alert-badge amber">3,884 current</span>
+                            <span class="alert-badge amber">▼ −12 this week</span>
+                            <button class="btn-aimee-sm" onclick="openAimee('My subscriber count has declined for 3 consecutive weeks, down 12 this week. What actions would you recommend?')">💬 Talk to Aimee</button>
+                        </div>
+                    </div>
+                    <button class="alert-dismiss" onclick="this.closest('.alert-card').style.display='none'">×</button>
+                </div>
+
                 <div class="ai-insight">
                     <div class="ai-insight-icon">💡</div>
                     <div>
-                        <div class="ai-insight-title">AI Insight — Action Needed</div>
-                        Your cancellation rate is up 1.2% month-on-month. Review your Success Scorecard to identify key performance areas for improvement.
+                        <div class="ai-insight-title">Aimee AI Insight — Opportunity</div>
+                        Direct Debit continuous renewals are up +1.64%. This is your strongest acquisition channel right now — consider increasing budget here.
+                        <br><button class="btn-aimee-sm" onclick="openAimee('Tell me more about the Direct Debit opportunity and how I can act on it.')" style="margin-top:8px;">💬 Ask Aimee about this</button>
                     </div>
                 </div>
 
@@ -546,6 +787,7 @@
                             <div class="kpi-label">Total Subscribers</div>
                             <div class="kpi-value">3,884</div>
                             <div class="kpi-badge down">▼ −12 this week</div>
+                            <button class="btn-aimee-sm" onclick="openAimee('My subscriber count is down 12 this week. Why might this be happening and what can I do?')">💬 Ask Aimee</button>
                         </div>
                     </div>
                     <div class="kpi-card">
@@ -560,8 +802,9 @@
 
                 <!-- Renewal & Yield -->
                 <div class="renewal-table">
-                    <div class="renewal-table-header">
-                        Renewal &amp; Yield — Current: 13/11/2025 to 13/02/2026 &nbsp;vs&nbsp; Historic: 13/02/2025 to 13/02/2026
+                    <div class="renewal-table-header" style="display:flex;align-items:center;justify-content:space-between;">
+                        <span>Renewal &amp; Yield — Current: 13/11/2025 to 13/02/2026 &nbsp;vs&nbsp; Historic: 13/02/2025 to 13/02/2026</span>
+                        <button class="btn-aimee-sm" style="margin:0;" onclick="openAimee('Can you analyse my renewal and yield figures and tell me where to focus?')">💬 Ask Aimee</button>
                     </div>
                     <div class="renewal-table-grid">
                         <div class="renewal-col-header"></div>
@@ -679,6 +922,145 @@
                 </div>
             </div>
 
+            <!-- INSIGHTS PAGE -->
+            <div id="insights" class="page">
+
+                <!-- Section A: Active AI Insights -->
+                <div style="margin-bottom:24px;">
+                    <div class="insights-section-title">💡 Active AI Insights</div>
+
+                    <div class="insight-card urgent">
+                        <div class="insight-card-icon">🚨</div>
+                        <div class="insight-card-body">
+                            <div class="insight-card-title">Cancellation Alert: Rate Up 1.2% MoM</div>
+                            <div class="insight-card-desc">Your cancellation rate has risen to 3.2%, up 1.2% month-on-month. At the current trajectory it will exceed the 3.5% watch threshold within 6 weeks. Consider reviewing your retention offers and examining which subscriber segments are cancelling most.</div>
+                            <div class="insight-card-footer">
+                                <span class="severity-badge urgent">Urgent</span>
+                                <button class="btn-sm primary" onclick="openAimee('My cancellation rate is up 1.2% MoM and approaching 3.5%. What specific actions should I take?')">Take Action</button>
+                                <button class="btn-sm" onclick="showPage('cancellations', null)">View Cancellations</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card good">
+                        <div class="insight-card-icon">📈</div>
+                        <div class="insight-card-body">
+                            <div class="insight-card-title">Opportunity: Direct Debit Growth +1.64%</div>
+                            <div class="insight-card-desc">Continuous Direct Debit renewals are performing strongly at +1.64% above baseline. Subscribers acquired via this channel show 18% better retention. This is your most cost-effective acquisition channel right now — increasing budget here could yield significant returns.</div>
+                            <div class="insight-card-footer">
+                                <span class="severity-badge good">Opportunity</span>
+                                <button class="btn-sm primary" onclick="openAimee('How can I capitalise on the Direct Debit growth trend? What budget allocation would you recommend?')">Learn More</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card warn">
+                        <div class="insight-card-icon">🗺️</div>
+                        <div class="insight-card-body">
+                            <div class="insight-card-title">Warning: East Region Decline — Down 12%</div>
+                            <div class="insight-card-desc">UK Map data shows a 12% subscriber decline in the East region compared to last month. This is the most significant regional movement in the last quarter. Local competitor activity or distribution issues may be contributing factors worth investigating.</div>
+                            <div class="insight-card-footer">
+                                <span class="severity-badge warn">Watch</span>
+                                <button class="btn-sm primary" onclick="openAimee('The East region is down 12% month-on-month. What could be causing this and how should I respond?')">Ask Aimee</button>
+                                <button class="btn-sm" onclick="showPage('uk-map', null)">View UK Map</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card good">
+                        <div class="insight-card-icon">🎯</div>
+                        <div class="insight-card-body">
+                            <div class="insight-card-title">Recommendation: Lookalike Audiences 15% More Effective</div>
+                            <div class="insight-card-desc">Your lookalike audience campaigns are outperforming baseline by 15%. Subscribers acquired through this channel have a higher average tenure and lower early-cancellation rate. Expanding this targeting approach across more campaigns is recommended.</div>
+                            <div class="insight-card-footer">
+                                <span class="severity-badge good">Positive</span>
+                                <button class="btn-sm primary" onclick="openAimee('Tell me more about expanding lookalike audience targeting. What channels and budgets should I consider?')">Learn More</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card good">
+                        <div class="insight-card-icon">⭐</div>
+                        <div class="insight-card-body">
+                            <div class="insight-card-title">Insight: Premium Members Have 23% Longer Tenure</div>
+                            <div class="insight-card-desc">Analysis of your membership tiers shows Premium subscribers have an average tenure 23% longer than Standard. Your upsell strategy is working. Consider introducing a mid-tier promotional offer to move more Standard members to Premium at renewal time.</div>
+                            <div class="insight-card-footer">
+                                <span class="severity-badge good">Strategic</span>
+                                <button class="btn-sm primary" onclick="openAimee('How can I design a upsell strategy to move more Standard subscribers to Premium at renewal?')">Take Action</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section B: Ask Aimee -->
+                <div style="margin-bottom:24px;">
+                    <div class="insights-section-title">💬 Ask Aimee</div>
+                    <div class="insights-chat">
+                        <div class="suggested-questions">
+                            <button class="sq-btn" onclick="insightAsk('Why is my cancellation rate up?')">Why is my cancellation rate up?</button>
+                            <button class="sq-btn" onclick="insightAsk('Which payment method should I focus on?')">Which payment method should I focus on?</button>
+                            <button class="sq-btn" onclick="insightAsk('How do I compare to similar publishers?')">How do I compare to similar publishers?</button>
+                            <button class="sq-btn" onclick="insightAsk('What\'s my biggest opportunity right now?')">What's my biggest opportunity right now?</button>
+                        </div>
+                        <div class="insights-chat-messages" id="insights-chat-messages">
+                            <div class="aimee-msg">
+                                <div class="msg-avatar">🤖</div>
+                                <div>
+                                    <div class="msg-bubble"><strong>Aimee</strong>Hi! I've analysed your latest data. Your renewal rate is strong at 94.9%, but the cancellation trend needs attention. What would you like to explore?</div>
+                                    <div class="msg-time">Just now</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="insights-input-row">
+                            <input class="insights-input" id="insights-input" placeholder="Ask me anything about your metrics..." onkeydown="if(event.key==='Enter')insightAsk()">
+                            <button class="aimee-send" onclick="insightAsk()">➤</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section C: Recommended Actions -->
+                <div>
+                    <div class="insights-section-title">⚡ Recommended Actions</div>
+
+                    <div class="action-card">
+                        <span class="action-priority high">High</span>
+                        <div class="action-body">
+                            <div class="action-title">Review retention offers for at-risk cancellations</div>
+                            <div class="action-impact">Expected impact: reduce cancellation rate by 0.4–0.8%</div>
+                        </div>
+                        <button class="btn-sm primary" onclick="openAimee('Help me design a retention offer for subscribers who are at risk of cancelling.')">Take Action</button>
+                    </div>
+
+                    <div class="action-card">
+                        <span class="action-priority high">High</span>
+                        <div class="action-body">
+                            <div class="action-title">Increase Direct Debit acquisition budget</div>
+                            <div class="action-impact">Expected impact: +1.64% improvement in renewal rate</div>
+                        </div>
+                        <button class="btn-sm primary" onclick="openAimee('How much should I increase my Direct Debit acquisition budget and where should I allocate it?')">Take Action</button>
+                    </div>
+
+                    <div class="action-card">
+                        <span class="action-priority medium">Medium</span>
+                        <div class="action-body">
+                            <div class="action-title">Investigate East region decline</div>
+                            <div class="action-impact">Expected impact: recover up to 12% regional subscriber loss</div>
+                        </div>
+                        <button class="btn-sm" onclick="showPage('uk-map', null)">View UK Map</button>
+                    </div>
+
+                    <div class="action-card">
+                        <span class="action-priority low">Low</span>
+                        <div class="action-body">
+                            <div class="action-title">Test Premium upsell offer at Standard renewal</div>
+                            <div class="action-impact">Expected impact: increase Premium mix, extend average tenure</div>
+                        </div>
+                        <button class="btn-sm primary" onclick="openAimee('Design a Premium upsell offer I can present to Standard subscribers at renewal time.')">Take Action</button>
+                    </div>
+                </div>
+
+            </div>
+
             <!-- STUB PAGES -->
             <div id="subscriptions" class="page"><div class="coming-soon">Subscriptions — coming soon</div></div>
             <div id="world-map"     class="page"><div class="coming-soon">World Map — coming soon</div></div>
@@ -694,10 +1076,41 @@
     </div>
 </div>
 
+<!-- AIMEE CHAT PANEL -->
+<div class="aimee-panel" id="aimee-panel">
+    <div class="aimee-header">
+        <div class="aimee-header-left">
+            <div class="aimee-avatar">🤖</div>
+            <div>
+                <div class="aimee-header-name">Talk to Aimee</div>
+                <div class="aimee-header-sub">AI Insights Assistant</div>
+            </div>
+        </div>
+        <button class="aimee-close" onclick="closeAimee()">×</button>
+    </div>
+    <div class="aimee-messages" id="aimee-messages">
+        <div class="aimee-msg">
+            <div class="msg-avatar">🤖</div>
+            <div>
+                <div class="msg-bubble"><strong>Aimee</strong>Hi! I'm Aimee, your ESco AI assistant. I've been analysing your subscription data. Your renewal rate is strong at 94.9%, but I'm watching your cancellation trend. What would you like to know?</div>
+                <div class="msg-time">Just now</div>
+            </div>
+        </div>
+    </div>
+    <div class="aimee-input-area">
+        <input class="aimee-input" id="aimee-input" placeholder="Ask me anything about your metrics..." onkeydown="if(event.key==='Enter')sendAimeeMessage()">
+        <button class="aimee-send" onclick="sendAimeeMessage()">➤</button>
+    </div>
+</div>
+
+<!-- AIMEE FAB -->
+<button class="aimee-fab" onclick="toggleAimee()" title="Talk to Aimee">🤖</button>
+
 <script>
     const pageTitles = {
         'visual-topline': 'Visual Topline — Title #03',
         'scorecard':      'Success Scorecard',
+        'insights':       'Aimee AI Insights',
         'subscriptions':  'Subscriptions',
         'world-map':      'World Map',
         'uk-map':         'UK Map',
@@ -814,6 +1227,85 @@
         _origShowPage(pageId, navEl);
         if (pageId === 'visual-topline') setTimeout(initCharts, 50);
     };
+
+    // ── AIMEE CHAT ──
+    const aimeeResponses = {
+        'cancellation': "Your cancellation rate of 3.2% is approaching the 3.5% alert threshold. Based on your data, the highest-risk segment is Standard-tier subscribers in months 6–12. I'd recommend a targeted retention offer — a 10% loyalty discount at month 9 renewal has worked well for similar publishers. Would you like me to draft a retention email sequence?",
+        'direct debit': "Direct Debit is your strongest channel right now — continuous renewals are up 1.64% and DD subscribers have 18% better long-term retention. I'd recommend shifting 15–20% of your Cash with Order acquisition budget to Direct Debit campaigns. The payback period is typically under 4 months. Want me to model the projected impact?",
+        'east': "The East region decline of 12% is statistically significant. Cross-referencing with your issue run data, distribution in the Norwich and Cambridge postcodes dropped in the same period. I'd check with your fulfilment team on any delivery changes. Meanwhile, a targeted reactivation campaign for lapsed East-region subscribers could recover 30–40% of the lost volume.",
+        'lookalike': "Your lookalike audiences are outperforming baseline by 15% — this is above average for your publication category. The key driver appears to be the seed audience you're using (Premium subscribers with 3+ year tenure). I'd recommend expanding lookalike reach to 2–3% similarity and testing across Facebook and programmatic display simultaneously.",
+        'premium': "Premium tier subscribers have 23% longer tenure than Standard — your upsell strategy is clearly working. The optimal moment to present an upgrade offer is at months 8–10, just before the Standard renewal window. A 'Premium trial for 3 months at Standard price' offer has converted at 22% in similar tests. Want a template for this?",
+        'renewal': "Your overall renewal rate of 94.94% is strong — above the industry median of 91%. The standout figure is Continuous renewals at 95.30% (+1.64%). Cash with Order at 75% has room to improve — many publishers convert these to Direct Debit mandates at renewal, which significantly boosts retention. Want to explore that approach?",
+        'compare': "Compared to similar regional publishers in your category, your renewal rate of 94.9% is in the top quartile. Your yield of £4.80 is slightly below the median of £5.10 — there may be a pricing opportunity here, particularly for Premium tier. Your cancellation rate of 3.2% is at the median; the top performers run at under 2.5%.",
+        'opportunity': "Your biggest opportunity right now is the Direct Debit channel — it's outperforming all others and you're likely underinvesting in it. Second is the Premium upsell: with 23% longer tenure, converting even 5% more Standard subscribers to Premium would add meaningful revenue. Third, addressing the East region decline could recover 400–500 subscribers quickly.",
+        'default': "That's a great question. Based on your current data, your strongest metrics are renewal rate (94.9%) and Direct Debit growth (+1.64%). The areas most worth watching are your cancellation trend and the East region. Would you like me to go deeper on any of these?"
+    };
+
+    function getAimeeResponse(msg) {
+        const m = msg.toLowerCase();
+        if (m.includes('cancel')) return aimeeResponses['cancellation'];
+        if (m.includes('direct debit') || m.includes('payment')) return aimeeResponses['direct debit'];
+        if (m.includes('east') || m.includes('region') || m.includes('map')) return aimeeResponses['east'];
+        if (m.includes('lookalike') || m.includes('audience')) return aimeeResponses['lookalike'];
+        if (m.includes('premium') || m.includes('upsell') || m.includes('tier')) return aimeeResponses['premium'];
+        if (m.includes('renew') || m.includes('yield')) return aimeeResponses['renewal'];
+        if (m.includes('compare') || m.includes('publisher') || m.includes('benchmark')) return aimeeResponses['compare'];
+        if (m.includes('opportunit') || m.includes('biggest') || m.includes('focus')) return aimeeResponses['opportunity'];
+        return aimeeResponses['default'];
+    }
+
+    function appendAimeeMsg(container, role, text) {
+        const isUser = role === 'user';
+        const div = document.createElement('div');
+        div.className = 'aimee-msg' + (isUser ? ' user-msg' : '');
+        div.innerHTML = `
+            <div class="msg-avatar ${isUser ? 'user' : ''}"> ${isUser ? '👤' : '🤖'}</div>
+            <div>
+                <div class="msg-bubble ${isUser ? 'user' : ''}">
+                    ${!isUser ? '<strong>Aimee</strong>' : ''}${text}
+                </div>
+                <div class="msg-time">Just now</div>
+            </div>`;
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
+    }
+
+    function sendAimeeMessage() {
+        const input = document.getElementById('aimee-input');
+        const msg = input.value.trim();
+        if (!msg) return;
+        const container = document.getElementById('aimee-messages');
+        appendAimeeMsg(container, 'user', msg);
+        input.value = '';
+        setTimeout(() => appendAimeeMsg(container, 'aimee', getAimeeResponse(msg)), 600);
+    }
+
+    function toggleAimee() {
+        document.getElementById('aimee-panel').classList.toggle('open');
+    }
+    function closeAimee() {
+        document.getElementById('aimee-panel').classList.remove('open');
+    }
+    function openAimee(prefill) {
+        const panel = document.getElementById('aimee-panel');
+        panel.classList.add('open');
+        if (prefill) {
+            const input = document.getElementById('aimee-input');
+            input.value = prefill;
+            setTimeout(() => { sendAimeeMessage(); }, 300);
+        }
+    }
+
+    // Insights page chat
+    function insightAsk(msg) {
+        const input = document.getElementById('insights-input');
+        const text = msg || input.value.trim();
+        if (!text) return;
+        const container = document.getElementById('insights-chat-messages');
+        appendAimeeMsg(container, 'user', text);
+        if (input) input.value = '';
+        setTimeout(() => appendAimeeMsg(container, 'aimee', getAimeeResponse(text)), 600);
+    }
 </script>
 </body>
 </html>
