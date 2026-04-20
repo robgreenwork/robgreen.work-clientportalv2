@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ESco Client Portal V2 (static)",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "3000", "--directory", "/Users/robgreen/robgreen.work-clientportalv2"],
+      "port": 3000
+    }
+  ]
+}
