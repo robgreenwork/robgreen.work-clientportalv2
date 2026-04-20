@@ -1665,7 +1665,9 @@
     const _origShowPage = showPage;
     showPage = function(pageId, navEl) {
         _origShowPage(pageId, navEl);
-        document.querySelector('.sidebar').style.display = (pageId === 'email-cancellation' || pageId === 'email-promo') ? 'none' : '';
+        const isEmail = pageId === 'email-cancellation' || pageId === 'email-promo';
+        document.querySelector('.sidebar').style.display = isEmail ? 'none' : '';
+        document.querySelector('.header').style.display = isEmail ? 'none' : '';
         if (pageId === 'visual-topline') setTimeout(initCharts, 50);
         if (pageId === 'cancellation-report' || pageId === 'promo-report') setTimeout(() => initDeepDiveCharts(pageId), 50);
     };
