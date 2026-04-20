@@ -799,7 +799,8 @@
 
         <nav class="nav-menu">
 
-            <div class="nav-item" style="padding:10px 16px;font-weight:700;font-size:12.5px;color:#00BCBA;border-left:3px solid #00BCBA;background:rgba(0,188,186,0.08);margin:4px 8px 8px 0;border-radius:0 5px 5px 0;" onclick="showPage('alert-emails',this)">📧 Alert Emails Demo</div>
+            <div class="nav-item" style="padding:10px 16px;font-weight:700;font-size:12.5px;color:#e74c3c;border-left:3px solid #e74c3c;background:rgba(239,68,68,0.06);margin:4px 8px 4px 0;border-radius:0 5px 5px 0;" onclick="showPage('email-cancellation',this)">📧 Cancellation Alert Email</div>
+            <div class="nav-item" style="padding:10px 16px;font-weight:700;font-size:12.5px;color:#007a79;border-left:3px solid #00BCBA;background:rgba(0,188,186,0.06);margin:0 8px 8px 0;border-radius:0 5px 5px 0;" onclick="showPage('email-promo',this)">📧 Spring Promo Alert Email</div>
 
             <div class="nav-section-header" onclick="toggleSection(this)">
                 <span class="nav-arrow">▶</span><span>ESco Connect</span>
@@ -820,8 +821,6 @@
                 <div class="nav-item" onclick="showPage('issue-run',this)">Issue Run Figures</div>
                 <div class="nav-item" onclick="showPage('payments',this)">Payments Dashboard</div>
                 <div class="nav-item" onclick="showPage('cancellations',this)">Online Cancellations</div>
-                <div class="nav-item" onclick="showPage('cancellation-report',this)">↳ Cancellation Deep-Dive<span class="nav-new-badge" style="background:#e74c3c;">ALERT</span></div>
-                <div class="nav-item" onclick="showPage('promo-report',this)">↳ Spring Promo Report<span class="nav-new-badge" style="background:#00BCBA;">NEW</span></div>
                 <div class="nav-item" onclick="showPage('scorecard',this)">Success Scorecard<span class="nav-new-badge">NEW</span></div>
                 <div class="nav-item" onclick="showPage('insights',this)">Aimee Insights<span class="nav-new-badge" style="background:#00BCBA;">AI</span></div>
             </div>
@@ -840,6 +839,8 @@
             </div>
             <div class="nav-children">
                 <div class="nav-item" onclick="showPage('stub',this)">All Reports</div>
+                <div class="nav-item" onclick="showPage('cancellation-report',this)">Cancellation Deep-Dive<span class="nav-new-badge" style="background:#e74c3c;">ALERT</span></div>
+                <div class="nav-item" onclick="showPage('promo-report',this)">Spring Promo Report<span class="nav-new-badge" style="background:#00BCBA;">NEW</span></div>
             </div>
 
             <div class="nav-section-header" onclick="toggleSection(this)">
@@ -1215,20 +1216,10 @@
 
             </div>
 
-            <!-- ALERT EMAILS DEMO -->
-            <div id="alert-emails" class="page">
-
-                <div style="margin-bottom:20px;">
-                    <div style="font-size:13px;color:#666;background:white;padding:14px 18px;border-radius:8px;border:1px solid #eaedf0;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
-                        💡 <strong>How this works:</strong> ESco monitors your key metrics against benchmarks across our entire publisher base. When something needs your attention — good or bad — we send you a personalised alert email. Click <strong>"View Report →"</strong> in either email below to see the full journey.
-                    </div>
-                </div>
-
-                <div class="email-demo-grid">
-
-                    <!-- RISK EMAIL -->
-                    <div>
-                        <div style="font-size:11px;font-weight:700;color:#e74c3c;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">🔴 Risk Alert</div>
+            <!-- CANCELLATION ALERT EMAIL -->
+            <div id="email-cancellation" class="page">
+                <div style="max-width:600px;margin:0 auto;">
+                <div style="font-size:11px;font-weight:700;color:#e74c3c;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">🔴 Risk Alert Email</div>
                         <div class="email-card">
                             <div class="email-client-bar">
                                 <div class="email-client-dot" style="background:#e74c3c;"></div>
@@ -1275,11 +1266,13 @@
                             </div>
                         </div>
                         <div class="journey-arrow">↓ Click the button above to follow the journey</div>
-                    </div>
+                </div>
+            </div>
 
-                    <!-- OPPORTUNITY EMAIL -->
-                    <div>
-                        <div style="font-size:11px;font-weight:700;color:#007a79;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">🟢 Opportunity Alert</div>
+            <!-- SPRING PROMO ALERT EMAIL -->
+            <div id="email-promo" class="page">
+                <div style="max-width:600px;margin:0 auto;">
+                <div style="font-size:11px;font-weight:700;color:#007a79;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">🟢 Opportunity Alert Email</div>
                         <div class="email-card">
                             <div class="email-client-bar">
                                 <div class="email-client-dot" style="background:#e74c3c;"></div>
@@ -1326,8 +1319,6 @@
                             </div>
                         </div>
                         <div class="journey-arrow">↓ Click the button above to follow the journey</div>
-                    </div>
-
                 </div>
             </div>
 
@@ -1556,7 +1547,8 @@
         'visual-topline': 'Visual Topline — Title #03',
         'scorecard':      'Success Scorecard',
         'insights':            'Aimee AI Insights',
-        'alert-emails':        'Alert Emails Demo',
+        'email-cancellation':  'Cancellation Alert Email',
+        'email-promo':         'Spring Promo Alert Email',
         'cancellation-report': 'Cancellation Rate — Deep Dive',
         'promo-report':        'Spring Promo 2026 — Performance Report',
         'subscriptions':  'Subscriptions',
@@ -1673,7 +1665,7 @@
     const _origShowPage = showPage;
     showPage = function(pageId, navEl) {
         _origShowPage(pageId, navEl);
-        document.querySelector('.sidebar').style.display = pageId === 'alert-emails' ? 'none' : '';
+        document.querySelector('.sidebar').style.display = (pageId === 'email-cancellation' || pageId === 'email-promo') ? 'none' : '';
         if (pageId === 'visual-topline') setTimeout(initCharts, 50);
         if (pageId === 'cancellation-report' || pageId === 'promo-report') setTimeout(() => initDeepDiveCharts(pageId), 50);
     };
