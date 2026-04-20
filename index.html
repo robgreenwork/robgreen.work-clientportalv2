@@ -415,6 +415,157 @@
             border: 1px solid #eaedf0;
         }
 
+        /* ── EMAIL ALERTS DEMO ── */
+        .email-demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 900px) { .email-demo-grid { grid-template-columns: 1fr; } }
+        .email-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            border: 1px solid #e8eaed;
+            overflow: hidden;
+        }
+        .email-client-bar {
+            background: #f5f5f5;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+        .email-client-dot {
+            width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+        }
+        .email-header-bar {
+            padding: 14px 20px 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .email-subject {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+        }
+        .email-meta {
+            font-size: 11px;
+            color: #999;
+            display: flex;
+            gap: 12px;
+        }
+        .email-body {
+            padding: 20px;
+        }
+        .email-logo-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid #00BCBA;
+        }
+        .email-logo-bar svg { width: 80px; height: auto; }
+        .email-alert-banner {
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .email-alert-banner.risk { background: rgba(239,68,68,0.08); color: #c0392b; border: 1px solid rgba(239,68,68,0.2); }
+        .email-alert-banner.opportunity { background: rgba(0,188,186,0.08); color: #007a79; border: 1px solid rgba(0,188,186,0.2); }
+        .email-p {
+            font-size: 13px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+        .email-stat-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .email-stat {
+            flex: 1;
+            background: #f8f9fb;
+            border-radius: 8px;
+            padding: 12px 14px;
+            text-align: center;
+            border: 1px solid #eaedf0;
+        }
+        .email-stat-value {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1a1a2e;
+        }
+        .email-stat-value.red { color: #e74c3c; }
+        .email-stat-value.green { color: #00897b; }
+        .email-stat-label { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 2px; }
+        .email-cta {
+            display: block;
+            text-align: center;
+            padding: 13px 24px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            width: 100%;
+            transition: opacity 0.15s;
+        }
+        .email-cta:hover { opacity: 0.88; }
+        .email-cta.risk { background: #531E6A; color: white; }
+        .email-cta.opportunity { background: #00BCBA; color: white; }
+        .email-footer {
+            padding: 14px 20px;
+            background: #f8f9fb;
+            border-top: 1px solid #f0f0f0;
+            font-size: 10px;
+            color: #bbb;
+            line-height: 1.6;
+        }
+        .journey-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #999;
+            margin: -8px 0 16px;
+        }
+
+        /* ── DEEP DIVE REPORTS ── */
+        .report-hero {
+            background: white;
+            border-radius: 8px;
+            padding: 20px 24px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            border: 1px solid #eaedf0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .report-hero-left h2 { font-size: 18px; font-weight: 800; color: #1a1a2e; margin-bottom: 4px; }
+        .report-hero-left p  { font-size: 12px; color: #888; }
+        .report-status-badge {
+            font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 20px;
+        }
+        .report-status-badge.risk { background: rgba(239,68,68,0.1); color: #c0392b; }
+        .report-status-badge.good { background: rgba(0,188,186,0.1); color: #007a79; }
+
         /* ── PERFORMANCE ALERTS ── */
         .alert-card {
             display: flex;
@@ -648,6 +799,8 @@
 
         <nav class="nav-menu">
 
+            <div class="nav-item" style="padding:10px 16px;font-weight:700;font-size:12.5px;color:#00BCBA;border-left:3px solid #00BCBA;background:rgba(0,188,186,0.08);margin:4px 8px 8px 0;border-radius:0 5px 5px 0;" onclick="showPage('alert-emails',this)">📧 Alert Emails Demo</div>
+
             <div class="nav-section-header" onclick="toggleSection(this)">
                 <span class="nav-arrow">▶</span><span>ESco Connect</span>
             </div>
@@ -667,6 +820,8 @@
                 <div class="nav-item" onclick="showPage('issue-run',this)">Issue Run Figures</div>
                 <div class="nav-item" onclick="showPage('payments',this)">Payments Dashboard</div>
                 <div class="nav-item" onclick="showPage('cancellations',this)">Online Cancellations</div>
+                <div class="nav-item" onclick="showPage('cancellation-report',this)">↳ Cancellation Deep-Dive<span class="nav-new-badge" style="background:#e74c3c;">ALERT</span></div>
+                <div class="nav-item" onclick="showPage('promo-report',this)">↳ Spring Promo Report<span class="nav-new-badge" style="background:#00BCBA;">NEW</span></div>
                 <div class="nav-item" onclick="showPage('scorecard',this)">Success Scorecard<span class="nav-new-badge">NEW</span></div>
                 <div class="nav-item" onclick="showPage('insights',this)">Aimee Insights<span class="nav-new-badge" style="background:#00BCBA;">AI</span></div>
             </div>
@@ -1060,6 +1215,297 @@
 
             </div>
 
+            <!-- ALERT EMAILS DEMO -->
+            <div id="alert-emails" class="page">
+
+                <div style="margin-bottom:20px;">
+                    <div style="font-size:13px;color:#666;background:white;padding:14px 18px;border-radius:8px;border:1px solid #eaedf0;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+                        💡 <strong>How this works:</strong> ESco monitors your key metrics against benchmarks across our entire publisher base. When something needs your attention — good or bad — we send you a personalised alert email. Click <strong>"View Report →"</strong> in either email below to see the full journey.
+                    </div>
+                </div>
+
+                <div class="email-demo-grid">
+
+                    <!-- RISK EMAIL -->
+                    <div>
+                        <div style="font-size:11px;font-weight:700;color:#e74c3c;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">🔴 Risk Alert</div>
+                        <div class="email-card">
+                            <div class="email-client-bar">
+                                <div class="email-client-dot" style="background:#e74c3c;"></div>
+                                <div class="email-client-dot" style="background:#f59e0b;"></div>
+                                <div class="email-client-dot" style="background:#22c55e;"></div>
+                                <span style="margin-left:8px;">Outlook — Inbox</span>
+                            </div>
+                            <div class="email-header-bar">
+                                <div class="email-subject">⚠️ Action needed: Your cancellation rate has exceeded the benchmark</div>
+                                <div class="email-meta">
+                                    <span>From: <strong>insights@esco.co.uk</strong></span>
+                                    <span>To: demo@publisher.co.uk</span>
+                                    <span>Today, 09:14</span>
+                                </div>
+                            </div>
+                            <div class="email-body">
+                                <div class="email-logo-bar">
+                                    <svg viewBox="0 0 348 156" xmlns="http://www.w3.org/2000/svg"><style>.es0{fill:#531E6A}.es1{fill:#00BCBA}</style><path class="es0" d="M5.3,56.7c0-22.9,16.3-40.9,39.5-40.9c27,0,39.5,19.8,39.5,42.8c0,1.7,0,3.8-0.1,5.6H31.8c2.2,8.5,8.4,12.9,16.9,12.9c6.5,0,11.7-2.5,17.4-8l15.2,12.6c-7.5,9.5-18.4,15.9-34,15.9C22.7,97.6,5.3,81.2,5.3,56.7z M58.6,50.1c-1-8.7-6.1-14.2-13.6-14.2c-7.2,0-12.1,5.6-13.6,14.2H58.6z"/><path class="es0" d="M88.5,92.2l15.6-18.7c10,8,21.1,12.1,32.8,12.1c7.5,0,11.6-2.6,11.6-7.2c0-4.2-3.3-6.5-17.1-9.7c-21.5-4.9-38.2-11-38.2-32.1c0-18.8,14.9-32.4,39.2-32.4c17.2,0,30.7,4.6,41.7,13.5l-14,19.8c-9.3-6.5-19.4-10-28.3-10c-6.8,0-10.1,2.9-10.1,6.8c0,4.6,3.5,6.7,17.5,9.8c23.3,5.1,37.8,12.6,37.8,31.8c0,20.7-16.3,33-40.9,33C118,109,101,103.4,88.5,92.2z"/><path class="es0" d="M182.1,56.6c0-22.1,17.2-40.8,41.9-40.8c16.1,0,26.8,6.9,33.4,17.5L239,46.6c-3.8-5.2-8.2-7.7-14.2-7.7c-10,0-16.1,7.8-16.1,17.6c0,10.1,6.4,17.8,15.6,17.8c6.5,0,10.4-3.2,14.8-8.2l18.7,13.5c-7.2,10.7-17.6,17.9-34.9,17.9C199.4,97.5,182.1,79,182.1,56.6z"/><path class="es0" d="M257.9,56.7c0-22.3,18.2-40.9,43.4-40.9c25,0,43.1,18.4,43.1,40.9c0,22.3-18.2,40.9-43.4,40.9C276,97.6,257.9,79.2,257.9,56.7z M317.7,56.7c0-9.5-6.9-17.6-16.6-17.6c-10,0-16.3,8-16.3,17.6c0,9.5,6.9,17.6,16.6,17.6C311.3,74.3,317.7,66.3,317.7,56.7z"/><path class="es1" d="M202.3,125.8c-38.7,34.6-101.4,34.6-140.1,0l15.6-19.5c30,27.5,78.6,27.5,108.6,0L202.3,125.8z"/></svg>
+                                </div>
+                                <div class="email-alert-banner risk">⚠️ Your cancellation rate has exceeded the publisher benchmark</div>
+                                <p class="email-p">Hi there,</p>
+                                <p class="email-p">We continuously monitor key subscription metrics across our publisher base, and we've noticed that your cancellation rate has <strong>increased above the average</strong> for publishers of your size and type.</p>
+                                <div class="email-stat-row">
+                                    <div class="email-stat">
+                                        <div class="email-stat-value red">3.2%</div>
+                                        <div class="email-stat-label">Your Rate</div>
+                                    </div>
+                                    <div class="email-stat">
+                                        <div class="email-stat-value">2.8%</div>
+                                        <div class="email-stat-label">Benchmark Avg</div>
+                                    </div>
+                                    <div class="email-stat">
+                                        <div class="email-stat-value red">+0.4%</div>
+                                        <div class="email-stat-label">Above Avg</div>
+                                    </div>
+                                </div>
+                                <p class="email-p">We've put together a detailed report showing exactly where the cancellations are happening — broken down by subscriber segment, tenure, and reason code — so you can take targeted action quickly.</p>
+                                <p class="email-p">Aimee, your AI assistant, is on hand in the portal to help you interpret the data and recommend next steps.</p>
+                                <button class="email-cta risk" onclick="goToReport('cancellation-report', 'Your cancellation rate is 0.4% above the publisher benchmark. I\'ve analysed the data and can see the main drivers. Shall I walk you through them?')">View Your Cancellation Report →</button>
+                            </div>
+                            <div class="email-footer">
+                                ESco Subscription Management · insights@esco.co.uk<br>
+                                You're receiving this because you're subscribed to ESco performance alerts. <u>Manage preferences</u>
+                            </div>
+                        </div>
+                        <div class="journey-arrow">↓ Click the button above to follow the journey</div>
+                    </div>
+
+                    <!-- OPPORTUNITY EMAIL -->
+                    <div>
+                        <div style="font-size:11px;font-weight:700;color:#007a79;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">🟢 Opportunity Alert</div>
+                        <div class="email-card">
+                            <div class="email-client-bar">
+                                <div class="email-client-dot" style="background:#e74c3c;"></div>
+                                <div class="email-client-dot" style="background:#f59e0b;"></div>
+                                <div class="email-client-dot" style="background:#22c55e;"></div>
+                                <span style="margin-left:8px;">Outlook — Inbox</span>
+                            </div>
+                            <div class="email-header-bar">
+                                <div class="email-subject">🎉 Great news: Your Spring Promo is outperforming the benchmark</div>
+                                <div class="email-meta">
+                                    <span>From: <strong>insights@esco.co.uk</strong></span>
+                                    <span>To: demo@publisher.co.uk</span>
+                                    <span>Today, 11:32</span>
+                                </div>
+                            </div>
+                            <div class="email-body">
+                                <div class="email-logo-bar">
+                                    <svg viewBox="0 0 348 156" xmlns="http://www.w3.org/2000/svg"><style>.eo0{fill:#531E6A}.eo1{fill:#00BCBA}</style><path class="eo0" d="M5.3,56.7c0-22.9,16.3-40.9,39.5-40.9c27,0,39.5,19.8,39.5,42.8c0,1.7,0,3.8-0.1,5.6H31.8c2.2,8.5,8.4,12.9,16.9,12.9c6.5,0,11.7-2.5,17.4-8l15.2,12.6c-7.5,9.5-18.4,15.9-34,15.9C22.7,97.6,5.3,81.2,5.3,56.7z M58.6,50.1c-1-8.7-6.1-14.2-13.6-14.2c-7.2,0-12.1,5.6-13.6,14.2H58.6z"/><path class="eo0" d="M88.5,92.2l15.6-18.7c10,8,21.1,12.1,32.8,12.1c7.5,0,11.6-2.6,11.6-7.2c0-4.2-3.3-6.5-17.1-9.7c-21.5-4.9-38.2-11-38.2-32.1c0-18.8,14.9-32.4,39.2-32.4c17.2,0,30.7,4.6,41.7,13.5l-14,19.8c-9.3-6.5-19.4-10-28.3-10c-6.8,0-10.1,2.9-10.1,6.8c0,4.6,3.5,6.7,17.5,9.8c23.3,5.1,37.8,12.6,37.8,31.8c0,20.7-16.3,33-40.9,33C118,109,101,103.4,88.5,92.2z"/><path class="eo0" d="M182.1,56.6c0-22.1,17.2-40.8,41.9-40.8c16.1,0,26.8,6.9,33.4,17.5L239,46.6c-3.8-5.2-8.2-7.7-14.2-7.7c-10,0-16.1,7.8-16.1,17.6c0,10.1,6.4,17.8,15.6,17.8c6.5,0,10.4-3.2,14.8-8.2l18.7,13.5c-7.2,10.7-17.6,17.9-34.9,17.9C199.4,97.5,182.1,79,182.1,56.6z"/><path class="eo0" d="M257.9,56.7c0-22.3,18.2-40.9,43.4-40.9c25,0,43.1,18.4,43.1,40.9c0,22.3-18.2,40.9-43.4,40.9C276,97.6,257.9,79.2,257.9,56.7z M317.7,56.7c0-9.5-6.9-17.6-16.6-17.6c-10,0-16.3,8-16.3,17.6c0,9.5,6.9,17.6,16.6,17.6C311.3,74.3,317.7,66.3,317.7,56.7z"/><path class="eo1" d="M202.3,125.8c-38.7,34.6-101.4,34.6-140.1,0l15.6-19.5c30,27.5,78.6,27.5,108.6,0L202.3,125.8z"/></svg>
+                                </div>
+                                <div class="email-alert-banner opportunity">🎉 Your Spring Promo is performing 23% above the publisher benchmark</div>
+                                <p class="email-p">Hi there,</p>
+                                <p class="email-p">We have some great news! Your <strong>Spring Promo 2026</strong> campaign is performing exceptionally well — significantly above the average response rate we see across our publisher base for similar promotions.</p>
+                                <div class="email-stat-row">
+                                    <div class="email-stat">
+                                        <div class="email-stat-value green">4.8%</div>
+                                        <div class="email-stat-label">Your Response Rate</div>
+                                    </div>
+                                    <div class="email-stat">
+                                        <div class="email-stat-value">3.9%</div>
+                                        <div class="email-stat-label">Benchmark Avg</div>
+                                    </div>
+                                    <div class="email-stat">
+                                        <div class="email-stat-value green">+23%</div>
+                                        <div class="email-stat-label">Above Avg</div>
+                                    </div>
+                                </div>
+                                <p class="email-p">This is a real opportunity. The promo is bringing in <strong>142 new subscribers</strong> with a strong Direct Debit uptake — these are high-value, high-retention acquisitions. Now is the time to consider extending the campaign or increasing the budget.</p>
+                                <p class="email-p">We've prepared a full breakdown in your portal. Aimee is ready to help you decide the best next steps.</p>
+                                <button class="email-cta opportunity" onclick="goToReport('promo-report', 'Your Spring Promo 2026 is performing 23% above benchmark — this is a real opportunity! I\'ve broken down what\'s driving the performance. Want to explore how to capitalise on it?')">View Your Promo Report →</button>
+                            </div>
+                            <div class="email-footer">
+                                ESco Subscription Management · insights@esco.co.uk<br>
+                                You're receiving this because you're subscribed to ESco performance alerts. <u>Manage preferences</u>
+                            </div>
+                        </div>
+                        <div class="journey-arrow">↓ Click the button above to follow the journey</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- CANCELLATION DEEP-DIVE REPORT -->
+            <div id="cancellation-report" class="page">
+                <div class="report-hero">
+                    <div class="report-hero-left">
+                        <h2>📉 Cancellation Rate — Deep Dive</h2>
+                        <p>Triggered by alert: Rate exceeded publisher benchmark · Report generated 20 Apr 2026</p>
+                    </div>
+                    <span class="report-status-badge risk">⚠️ Above Benchmark</span>
+                </div>
+
+                <div class="grid-3">
+                    <div class="kpi-card">
+                        <div class="kpi-icon amber">📊</div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">Your Rate</div>
+                            <div class="kpi-value" style="color:#e74c3c;">3.2%</div>
+                            <div class="kpi-badge down">▲ +1.2% vs last month</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon blue">🏆</div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">Publisher Benchmark</div>
+                            <div class="kpi-value">2.8%</div>
+                            <div class="kpi-badge neutral">Industry average</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon amber">⚠️</div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">Above Benchmark</div>
+                            <div class="kpi-value" style="color:#e74c3c;">+0.4%</div>
+                            <div class="kpi-badge down">Action recommended</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="panel-card">
+                        <div class="panel-card-title">Cancellation Rate vs Benchmark (12 months)</div>
+                        <div style="position:relative;height:220px;">
+                            <canvas id="chartCancelTrend"></canvas>
+                        </div>
+                    </div>
+                    <div class="panel-card">
+                        <div class="panel-card-title">Cancellations by Reason Code</div>
+                        <div style="position:relative;height:220px;">
+                            <canvas id="chartCancelReason"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="panel-card">
+                        <div class="panel-card-title">Cancellations by Membership Tier</div>
+                        <div style="position:relative;height:200px;display:flex;align-items:center;justify-content:center;">
+                            <canvas id="chartCancelTier"></canvas>
+                        </div>
+                    </div>
+                    <div class="panel-card">
+                        <div class="panel-card-title">Cancellations by Subscriber Tenure</div>
+                        <div style="position:relative;height:200px;display:flex;align-items:center;justify-content:center;">
+                            <canvas id="chartCancelTenure"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-title">Monthly Breakdown</div>
+                    <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
+                        <thead>
+                            <tr style="background:#f7f8fa;">
+                                <th style="padding:10px 14px;text-align:left;font-weight:600;color:#666;border-bottom:1px solid #eaedf0;">Month</th>
+                                <th style="padding:10px 14px;text-align:right;font-weight:600;color:#666;border-bottom:1px solid #eaedf0;">Cancellations</th>
+                                <th style="padding:10px 14px;text-align:right;font-weight:600;color:#666;border-bottom:1px solid #eaedf0;">Your Rate</th>
+                                <th style="padding:10px 14px;text-align:right;font-weight:600;color:#666;border-bottom:1px solid #eaedf0;">Benchmark</th>
+                                <th style="padding:10px 14px;text-align:right;font-weight:600;color:#666;border-bottom:1px solid #eaedf0;">Variance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom:1px solid #f3f4f6;"><td style="padding:9px 14px;">Jan 2026</td><td style="padding:9px 14px;text-align:right;">82</td><td style="padding:9px 14px;text-align:right;">2.1%</td><td style="padding:9px 14px;text-align:right;">2.8%</td><td style="padding:9px 14px;text-align:right;color:#22a648;">−0.7%</td></tr>
+                            <tr style="border-bottom:1px solid #f3f4f6;background:#fafbfc;"><td style="padding:9px 14px;">Feb 2026</td><td style="padding:9px 14px;text-align:right;">96</td><td style="padding:9px 14px;text-align:right;">2.5%</td><td style="padding:9px 14px;text-align:right;">2.8%</td><td style="padding:9px 14px;text-align:right;color:#22a648;">−0.3%</td></tr>
+                            <tr style="border-bottom:1px solid #f3f4f6;"><td style="padding:9px 14px;">Mar 2026</td><td style="padding:9px 14px;text-align:right;">109</td><td style="padding:9px 14px;text-align:right;">2.8%</td><td style="padding:9px 14px;text-align:right;">2.8%</td><td style="padding:9px 14px;text-align:right;color:#888;">0.0%</td></tr>
+                            <tr style="border-bottom:1px solid #f3f4f6;background:#fafbfc;"><td style="padding:9px 14px;font-weight:600;">Apr 2026</td><td style="padding:9px 14px;text-align:right;font-weight:600;">124</td><td style="padding:9px 14px;text-align:right;font-weight:600;color:#e74c3c;">3.2%</td><td style="padding:9px 14px;text-align:right;">2.8%</td><td style="padding:9px 14px;text-align:right;color:#e74c3c;">+0.4% ⚠️</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="ai-insight">
+                    <div class="ai-insight-icon">🤖</div>
+                    <div>
+                        <div class="ai-insight-title">Aimee — Cancellation Analysis</div>
+                        The spike is concentrated in Standard-tier subscribers at months 6–12 of tenure. This cohort accounts for 61% of April's cancellations despite being 34% of your base. A targeted retention offer at the month-9 renewal point could address this directly.
+                        <br><button class="btn-aimee-sm" onclick="openAimee('The cancellation spike is in Standard-tier subscribers at months 6-12. What retention offer would you recommend for this cohort?')" style="margin-top:8px;">💬 Ask Aimee about this</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROMO DEEP-DIVE REPORT -->
+            <div id="promo-report" class="page">
+                <div class="report-hero">
+                    <div class="report-hero-left">
+                        <h2>🎉 Spring Promo 2026 — Performance Report</h2>
+                        <p>Promo code: SPRING26 · Campaign period: 1 Mar – 30 Apr 2026 · Report generated 20 Apr 2026</p>
+                    </div>
+                    <span class="report-status-badge good">✅ Above Benchmark</span>
+                </div>
+
+                <div class="grid-3">
+                    <div class="kpi-card">
+                        <div class="kpi-icon green">📈</div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">Response Rate</div>
+                            <div class="kpi-value" style="color:#007a79;">4.8%</div>
+                            <div class="kpi-badge up">▲ +23% vs benchmark</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon green">👥</div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">New Subscribers</div>
+                            <div class="kpi-value">142</div>
+                            <div class="kpi-badge up">▲ +38 vs target</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon blue">💳</div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">DD Uptake</div>
+                            <div class="kpi-value">68%</div>
+                            <div class="kpi-badge up">▲ High retention signal</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="panel-card">
+                        <div class="panel-card-title">Weekly Response Rate vs Benchmark</div>
+                        <div style="position:relative;height:220px;">
+                            <canvas id="chartPromoWeekly"></canvas>
+                        </div>
+                    </div>
+                    <div class="panel-card">
+                        <div class="panel-card-title">Cumulative New Subscribers</div>
+                        <div style="position:relative;height:220px;">
+                            <canvas id="chartPromoCumulative"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="panel-card">
+                        <div class="panel-card-title">New Subscriber Mix</div>
+                        <div style="position:relative;height:200px;display:flex;align-items:center;justify-content:center;">
+                            <canvas id="chartPromoMix"></canvas>
+                        </div>
+                    </div>
+                    <div class="panel-card">
+                        <div class="panel-card-title">Payment Method Breakdown</div>
+                        <div style="position:relative;height:200px;display:flex;align-items:center;justify-content:center;">
+                            <canvas id="chartPromoPayment"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ai-insight" style="border-left-color:#00BCBA;">
+                    <div class="ai-insight-icon">🤖</div>
+                    <div>
+                        <div class="ai-insight-title">Aimee — Promo Opportunity Analysis</div>
+                        This is your strongest promo performance in 18 months. The 68% Direct Debit uptake means these subscribers are likely to renew at a much higher rate than cash acquisitions. With 10 days of the campaign remaining, extending the budget by even 20% could add an estimated 28–35 additional high-value subscribers.
+                        <br><button class="btn-aimee-sm" onclick="openAimee('My Spring Promo is 23% above benchmark with 68% DD uptake. What would you recommend to capitalise on the remaining campaign window?')" style="margin-top:8px;">💬 Ask Aimee about this</button>
+                    </div>
+                </div>
+            </div>
+
             <!-- STUB PAGES -->
             <div id="subscriptions" class="page"><div class="coming-soon">Subscriptions — coming soon</div></div>
             <div id="world-map"     class="page"><div class="coming-soon">World Map — coming soon</div></div>
@@ -1109,7 +1555,10 @@
     const pageTitles = {
         'visual-topline': 'Visual Topline — Title #03',
         'scorecard':      'Success Scorecard',
-        'insights':       'Aimee AI Insights',
+        'insights':            'Aimee AI Insights',
+        'alert-emails':        'Alert Emails Demo',
+        'cancellation-report': 'Cancellation Rate — Deep Dive',
+        'promo-report':        'Spring Promo 2026 — Performance Report',
         'subscriptions':  'Subscriptions',
         'world-map':      'World Map',
         'uk-map':         'UK Map',
@@ -1224,7 +1673,9 @@
     const _origShowPage = showPage;
     showPage = function(pageId, navEl) {
         _origShowPage(pageId, navEl);
+        document.querySelector('.sidebar').style.display = pageId === 'alert-emails' ? 'none' : '';
         if (pageId === 'visual-topline') setTimeout(initCharts, 50);
+        if (pageId === 'cancellation-report' || pageId === 'promo-report') setTimeout(() => initDeepDiveCharts(pageId), 50);
     };
 
     // ── AIMEE CHAT ──
@@ -1293,6 +1744,110 @@
             input.value = prefill;
             setTimeout(() => { sendAimeeMessage(); }, 300);
         }
+    }
+
+    // ── DEEP DIVE CHARTS ──
+    function initDeepDiveCharts(pageId) {
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        const weeks  = ['Wk 1','Wk 2','Wk 3','Wk 4','Wk 5','Wk 6','Wk 7','Wk 8'];
+
+        if (pageId === 'cancellation-report') {
+            // Trend vs Benchmark
+            const c1 = document.getElementById('chartCancelTrend');
+            if (c1 && !c1._chartInstance) {
+                c1._chartInstance = new Chart(c1, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan','Feb','Mar','Apr'],
+                        datasets: [
+                            { label: 'Your Rate', data: [2.1,2.5,2.8,3.2], borderColor: '#e74c3c', backgroundColor: 'rgba(231,76,60,0.08)', tension: 0.4, fill: true, pointRadius: 5, pointBackgroundColor: '#e74c3c' },
+                            { label: 'Benchmark', data: [2.8,2.8,2.8,2.8], borderColor: '#672584', borderDash: [6,4], backgroundColor: 'transparent', tension: 0, pointRadius: 0 }
+                        ]
+                    },
+                    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ labels:{ boxWidth:12, font:{size:11}, color:'#444' } } }, scales:{ y:{ min:1.5, max:4, ticks:{ callback: v => v+'%', color:'#888', font:{size:11} }, grid:{ color:'rgba(0,0,0,0.05)' } }, x:{ grid:{display:false}, ticks:{ color:'#888', font:{size:11} } } } }
+                });
+            }
+            // By reason
+            const c2 = document.getElementById('chartCancelReason');
+            if (c2 && !c2._chartInstance) {
+                c2._chartInstance = new Chart(c2, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Price too high','No longer needed','Found alternative','Moving house','Other'],
+                        datasets: [{ data: [41,28,19,8,4], backgroundColor: ['#e74c3c','#f59e0b','#672584','#00BCBA','#bbb'], borderRadius: 4 }]
+                    },
+                    options: { responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{ legend:{display:false} }, scales:{ x:{ ticks:{ color:'#888', font:{size:11} }, grid:{ color:'rgba(0,0,0,0.05)' } }, y:{ ticks:{ color:'#444', font:{size:11} }, grid:{display:false} } } }
+                });
+            }
+            // By tier
+            const c3 = document.getElementById('chartCancelTier');
+            if (c3 && !c3._chartInstance) {
+                c3._chartInstance = new Chart(c3, { type:'doughnut', data:{ labels:['Standard','Premium','Essential','Digital'], datasets:[{ data:[61,18,14,7], backgroundColor:['#e74c3c','#672584','#00BCBA','#f59e0b'], borderWidth:2, borderColor:'#fff' }] }, options:{ cutout:'65%', plugins:{ legend:{ position:'right', labels:{ boxWidth:12, font:{size:11}, color:'#444' } } } } });
+            }
+            // By tenure
+            const c4 = document.getElementById('chartCancelTenure');
+            if (c4 && !c4._chartInstance) {
+                c4._chartInstance = new Chart(c4, { type:'doughnut', data:{ labels:['0–6 months','6–12 months','1–2 years','2+ years'], datasets:[{ data:[22,48,19,11], backgroundColor:['#f59e0b','#e74c3c','#672584','#00BCBA'], borderWidth:2, borderColor:'#fff' }] }, options:{ cutout:'65%', plugins:{ legend:{ position:'right', labels:{ boxWidth:12, font:{size:11}, color:'#444' } } } } });
+            }
+        }
+
+        if (pageId === 'promo-report') {
+            // Weekly response rate
+            const p1 = document.getElementById('chartPromoWeekly');
+            if (p1 && !p1._chartInstance) {
+                p1._chartInstance = new Chart(p1, {
+                    type:'bar',
+                    data:{
+                        labels: weeks,
+                        datasets:[
+                            { label:'Your Rate', data:[3.8,4.1,4.5,4.7,4.9,5.1,4.8,4.8], backgroundColor:'rgba(0,188,186,0.7)', borderRadius:4 },
+                            { label:'Benchmark', type:'line', data:[3.9,3.9,3.9,3.9,3.9,3.9,3.9,3.9], borderColor:'#531E6A', borderDash:[6,4], pointRadius:0, backgroundColor:'transparent' }
+                        ]
+                    },
+                    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ labels:{ boxWidth:12, font:{size:11}, color:'#444' } } }, scales:{ y:{ ticks:{ callback: v=>v+'%', color:'#888', font:{size:11} }, grid:{ color:'rgba(0,0,0,0.05)' } }, x:{ grid:{display:false}, ticks:{ color:'#888', font:{size:11} } } } }
+                });
+            }
+            // Cumulative
+            const p2 = document.getElementById('chartPromoCumulative');
+            if (p2 && !p2._chartInstance) {
+                p2._chartInstance = new Chart(p2, {
+                    type:'line',
+                    data:{
+                        labels: weeks,
+                        datasets:[
+                            { label:'New Subscribers', data:[14,31,55,78,98,118,132,142], borderColor:'#00BCBA', backgroundColor:'rgba(0,188,186,0.1)', tension:0.4, fill:true, pointRadius:4, pointBackgroundColor:'#00BCBA' },
+                            { label:'Target', data:[12,26,43,61,78,96,110,104], borderColor:'#531E6A', borderDash:[6,4], backgroundColor:'transparent', tension:0.3, pointRadius:0 }
+                        ]
+                    },
+                    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ labels:{ boxWidth:12, font:{size:11}, color:'#444' } } }, scales:{ y:{ ticks:{ color:'#888', font:{size:11} }, grid:{ color:'rgba(0,0,0,0.05)' } }, x:{ grid:{display:false}, ticks:{ color:'#888', font:{size:11} } } } }
+                });
+            }
+            // Subscriber mix
+            const p3 = document.getElementById('chartPromoMix');
+            if (p3 && !p3._chartInstance) {
+                p3._chartInstance = new Chart(p3, { type:'doughnut', data:{ labels:['New to brand','Lapsed returnees','Upgrade from digital'], datasets:[{ data:[74,18,8], backgroundColor:['#00BCBA','#531E6A','#f59e0b'], borderWidth:2, borderColor:'#fff' }] }, options:{ cutout:'65%', plugins:{ legend:{ position:'right', labels:{ boxWidth:12, font:{size:11}, color:'#444' } } } } });
+            }
+            // Payment method
+            const p4 = document.getElementById('chartPromoPayment');
+            if (p4 && !p4._chartInstance) {
+                p4._chartInstance = new Chart(p4, { type:'doughnut', data:{ labels:['Direct Debit','Credit Card','Cash'], datasets:[{ data:[68,22,10], backgroundColor:['#00BCBA','#672584','#f59e0b'], borderWidth:2, borderColor:'#fff' }] }, options:{ cutout:'65%', plugins:{ legend:{ position:'right', labels:{ boxWidth:12, font:{size:11}, color:'#444' } } } } });
+            }
+        }
+    }
+
+    // Navigate from email CTA to deep-dive report with Aimee pre-loaded
+    function goToReport(pageId, aimeeMessage) {
+        // Find matching nav item and show page
+        const allNavItems = document.querySelectorAll('.nav-item');
+        let matchedNav = null;
+        allNavItems.forEach(item => {
+            if (item.getAttribute('onclick') && item.getAttribute('onclick').includes("'" + pageId + "'")) matchedNav = item;
+        });
+        showPage(pageId, matchedNav);
+        // Scroll to top
+        document.querySelector('.content').scrollTop = 0;
+        // Open Aimee with context after brief delay
+        setTimeout(() => openAimee(aimeeMessage), 400);
     }
 
     // Insights page chat
