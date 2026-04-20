@@ -6,12 +6,11 @@
     <title>ESco Client Portal V2</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-family: 'Proxima Nova', 'Trebuchet MS', 'Segoe UI', sans-serif;
             background: #f0f2f5;
             color: #1a1a2e;
         }
@@ -21,7 +20,7 @@
         /* ── SIDEBAR ── */
         .sidebar {
             width: 230px;
-            background: #1e2a3a;
+            background: #672584;
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
@@ -97,10 +96,10 @@
             color: rgba(255,255,255,0.9);
         }
         .nav-item.active {
-            background: rgba(99,160,255,0.2);
-            color: #7eb8ff;
-            border-left-color: #4d9fff;
-            font-weight: 500;
+            background: rgba(0,188,186,0.18);
+            color: #00BCBA;
+            border-left-color: #00BCBA;
+            font-weight: 600;
         }
         .nav-new-badge {
             font-size: 9px;
@@ -147,9 +146,9 @@
             color: #666;
         }
         .header-logout {
-            color: #4d9fff;
+            color: #531E6A;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
         }
         .header-logout:hover { text-decoration: underline; }
 
@@ -165,7 +164,7 @@
         /* ── AI INSIGHT ── */
         .ai-insight {
             background: white;
-            border-left: 3px solid #4d9fff;
+            border-left: 3px solid #00BCBA;
             border-radius: 0 8px 8px 0;
             padding: 12px 16px;
             margin-bottom: 20px;
@@ -183,7 +182,7 @@
         }
         .ai-insight-title {
             font-weight: 600;
-            color: #2d7dd2;
+            color: #531E6A;
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -224,9 +223,9 @@
             font-size: 20px;
             flex-shrink: 0;
         }
-        .kpi-icon.blue  { background: rgba(77,159,255,0.12); }
-        .kpi-icon.green { background: rgba(52,199,89,0.12); }
-        .kpi-icon.amber { background: rgba(245,158,11,0.12); }
+        .kpi-icon.blue  { background: rgba(83,30,106,0.1); }
+        .kpi-icon.green { background: rgba(0,188,186,0.12); }
+        .kpi-icon.amber { background: rgba(103,37,132,0.1); }
         .kpi-body { flex: 1; min-width: 0; }
         .kpi-label {
             font-size: 11px;
@@ -452,15 +451,15 @@
         /* ── TALK TO AIMEE BUTTON ── */
         .btn-aimee {
             display: inline-flex; align-items: center; gap: 5px;
-            background: #1e2a3a; color: white; border: none;
+            background: #531E6A; color: white; border: none;
             padding: 6px 12px; border-radius: 6px; font-size: 12px;
             font-weight: 600; cursor: pointer; font-family: inherit;
             transition: background 0.15s;
         }
-        .btn-aimee:hover { background: #2c3e50; }
+        .btn-aimee:hover { background: #672584; }
         .btn-aimee-sm {
             display: inline-flex; align-items: center; gap: 4px;
-            background: rgba(30,42,58,0.08); color: #1e2a3a; border: none;
+            background: rgba(30,42,58,0.08); color: #531E6A; border: none;
             padding: 4px 10px; border-radius: 5px; font-size: 11px;
             font-weight: 600; cursor: pointer; font-family: inherit;
             transition: background 0.15s; margin-top: 8px;
@@ -476,7 +475,7 @@
         }
         .aimee-panel.open { right: 0; }
         .aimee-header {
-            background: #1e2a3a; color: white; padding: 16px 18px;
+            background: #531E6A; color: white; padding: 16px 18px;
             display: flex; align-items: center; justify-content: space-between;
             flex-shrink: 0;
         }
@@ -512,8 +511,8 @@
             padding: 10px 13px; font-size: 12.5px; color: #333;
             line-height: 1.5; max-width: 220px;
         }
-        .msg-bubble.user { background: #1e2a3a; color: white; border-radius: 12px 12px 3px 12px; }
-        .msg-bubble strong { color: #1e2a3a; display: block; margin-bottom: 3px; font-size: 12px; }
+        .msg-bubble.user { background: #672584; color: white; border-radius: 12px 12px 3px 12px; }
+        .msg-bubble strong { color: #531E6A; display: block; margin-bottom: 3px; font-size: 12px; }
         .msg-bubble.user strong { color: rgba(255,255,255,0.7); }
         .msg-time { font-size: 10px; color: #bbb; margin-top: 4px; }
         .aimee-input-area {
@@ -525,21 +524,21 @@
             padding: 8px 14px; font-size: 12.5px; outline: none;
             font-family: inherit; resize: none; line-height: 1.4;
         }
-        .aimee-input:focus { border-color: #4d9fff; }
+        .aimee-input:focus { border-color: #00BCBA; }
         .aimee-send {
             width: 34px; height: 34px; border-radius: 50%;
-            background: #1e2a3a; border: none; color: white;
+            background: #531E6A; border: none; color: white;
             font-size: 14px; cursor: pointer; flex-shrink: 0;
             display: flex; align-items: center; justify-content: center;
             transition: background 0.15s;
         }
-        .aimee-send:hover { background: #2c3e50; }
+        .aimee-send:hover { background: #672584; }
 
         /* Aimee toggle FAB */
         .aimee-fab {
             position: fixed; bottom: 24px; right: 24px; z-index: 999;
             width: 52px; height: 52px; border-radius: 50%;
-            background: linear-gradient(135deg, #1e2a3a, #2c4a6e);
+            background: linear-gradient(135deg, #531E6A, #672584);
             box-shadow: 0 4px 16px rgba(30,42,58,0.35);
             border: none; cursor: pointer; font-size: 22px;
             display: flex; align-items: center; justify-content: center;
@@ -580,9 +579,9 @@
         }
         .btn-sm:hover { background: #f4f6f8; }
         .btn-sm.primary {
-            background: #1e2a3a; color: white; border-color: #1e2a3a;
+            background: #531E6A; color: white; border-color: #531E6A;
         }
-        .btn-sm.primary:hover { background: #2c3e50; }
+        .btn-sm.primary:hover { background: #672584; }
 
         /* Ask Aimee chat in Insights page */
         .insights-chat {
@@ -596,7 +595,7 @@
             padding: 6px 14px; font-size: 12px; cursor: pointer; font-family: inherit;
             color: #444; transition: all 0.15s;
         }
-        .sq-btn:hover { background: #1e2a3a; color: white; border-color: #1e2a3a; }
+        .sq-btn:hover { background: #531E6A; color: white; border-color: #531E6A; }
         .insights-chat-messages {
             background: #f8f9fb; border-radius: 8px; padding: 14px;
             min-height: 140px; margin-bottom: 12px;
@@ -607,7 +606,7 @@
             flex: 1; border: 1px solid #e0e4e9; border-radius: 8px;
             padding: 10px 14px; font-size: 13px; outline: none; font-family: inherit;
         }
-        .insights-input:focus { border-color: #4d9fff; }
+        .insights-input:focus { border-color: #00BCBA; }
 
         /* Action cards */
         .action-card {
