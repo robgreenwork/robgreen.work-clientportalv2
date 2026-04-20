@@ -619,12 +619,20 @@
 
         /* ── AIMEE CHAT PANEL ── */
         .aimee-panel {
-            position: fixed; top: 0; right: -340px; width: 320px; height: 100vh;
-            background: white; box-shadow: -4px 0 20px rgba(0,0,0,0.12);
-            display: flex; flex-direction: column; z-index: 1000;
-            transition: right 0.3s ease; border-left: 1px solid #e8eaed;
+            width: 0;
+            flex-shrink: 0;
+            overflow: hidden;
+            transition: width 0.3s ease;
+            background: white;
+            border-left: 1px solid #e8eaed;
         }
-        .aimee-panel.open { right: 0; }
+        .aimee-panel.open { width: 320px; }
+        .aimee-panel-inner {
+            width: 320px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
         .aimee-header {
             background: #531E6A; color: white; padding: 16px 18px;
             display: flex; align-items: center; justify-content: space-between;
@@ -685,17 +693,16 @@
         }
         .aimee-send:hover { background: #672584; }
 
-        /* Aimee toggle FAB */
-        .aimee-fab {
-            position: fixed; bottom: 24px; right: 24px; z-index: 999;
-            width: 52px; height: 52px; border-radius: 50%;
-            background: linear-gradient(135deg, #531E6A, #672584);
-            box-shadow: 0 4px 16px rgba(30,42,58,0.35);
-            border: none; cursor: pointer; font-size: 22px;
-            display: flex; align-items: center; justify-content: center;
-            transition: transform 0.2s, box-shadow 0.2s;
+        /* Aimee toggle button in header */
+        .aimee-toggle-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: #531E6A; color: white; border: none;
+            padding: 6px 14px; border-radius: 6px; font-size: 12px;
+            font-weight: 600; cursor: pointer; font-family: inherit;
+            transition: background 0.15s;
         }
-        .aimee-fab:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(30,42,58,0.45); }
+        .aimee-toggle-btn:hover { background: #672584; }
+        .aimee-toggle-btn.active { background: #672584; }
 
         /* ── INSIGHTS PAGE ── */
         .insights-section-title {
@@ -879,6 +886,7 @@
         <div class="header">
             <div class="header-title" id="header-title">Visual Topline — Title #03</div>
             <div class="header-right">
+                <button class="aimee-toggle-btn" id="aimee-toggle-btn" onclick="toggleAimee()">🤖 Ask Aimee</button>
                 <span>Welcome demo@esco.co.uk</span>
                 <span class="header-logout">Log Out</span>
             </div>
@@ -1510,37 +1518,36 @@
 
         </div>
     </div>
-</div>
 
-<!-- AIMEE CHAT PANEL -->
-<div class="aimee-panel" id="aimee-panel">
-    <div class="aimee-header">
-        <div class="aimee-header-left">
-            <div class="aimee-avatar">🤖</div>
-            <div>
-                <div class="aimee-header-name">Talk to Aimee</div>
-                <div class="aimee-header-sub">AI Insights Assistant</div>
+    <!-- AIMEE CHAT PANEL (integrated right sidebar) -->
+    <div class="aimee-panel" id="aimee-panel">
+      <div class="aimee-panel-inner">
+        <div class="aimee-header">
+            <div class="aimee-header-left">
+                <div class="aimee-avatar">🤖</div>
+                <div>
+                    <div class="aimee-header-name">Ask Aimee</div>
+                    <div class="aimee-header-sub">AI Insights Assistant</div>
+                </div>
+            </div>
+            <button class="aimee-close" onclick="closeAimee()">×</button>
+        </div>
+        <div class="aimee-messages" id="aimee-messages">
+            <div class="aimee-msg">
+                <div class="msg-avatar">🤖</div>
+                <div>
+                    <div class="msg-bubble"><strong>Aimee</strong>Hi! I'm Aimee, your ESco AI assistant. I've been analysing your subscription data. Your renewal rate is strong at 94.9%, but I'm watching your cancellation trend. What would you like to know?</div>
+                    <div class="msg-time">Just now</div>
+                </div>
             </div>
         </div>
-        <button class="aimee-close" onclick="closeAimee()">×</button>
-    </div>
-    <div class="aimee-messages" id="aimee-messages">
-        <div class="aimee-msg">
-            <div class="msg-avatar">🤖</div>
-            <div>
-                <div class="msg-bubble"><strong>Aimee</strong>Hi! I'm Aimee, your ESco AI assistant. I've been analysing your subscription data. Your renewal rate is strong at 94.9%, but I'm watching your cancellation trend. What would you like to know?</div>
-                <div class="msg-time">Just now</div>
-            </div>
+        <div class="aimee-input-area">
+            <input class="aimee-input" id="aimee-input" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendAimeeMessage()">
+            <button class="aimee-send" onclick="sendAimeeMessage()">➤</button>
         </div>
-    </div>
-    <div class="aimee-input-area">
-        <input class="aimee-input" id="aimee-input" placeholder="Ask me anything about your metrics..." onkeydown="if(event.key==='Enter')sendAimeeMessage()">
-        <button class="aimee-send" onclick="sendAimeeMessage()">➤</button>
+      </div>
     </div>
 </div>
-
-<!-- AIMEE FAB -->
-<button class="aimee-fab" onclick="toggleAimee()" title="Talk to Aimee">🤖</button>
 
 <script>
     const pageTitles = {
@@ -1739,14 +1746,18 @@
     }
 
     function toggleAimee() {
-        document.getElementById('aimee-panel').classList.toggle('open');
+        const panel = document.getElementById('aimee-panel');
+        panel.classList.toggle('open');
+        document.getElementById('aimee-toggle-btn').classList.toggle('active', panel.classList.contains('open'));
     }
     function closeAimee() {
         document.getElementById('aimee-panel').classList.remove('open');
+        document.getElementById('aimee-toggle-btn').classList.remove('active');
     }
     function openAimee(prefill) {
         const panel = document.getElementById('aimee-panel');
         panel.classList.add('open');
+        document.getElementById('aimee-toggle-btn').classList.add('active');
         if (prefill) {
             const input = document.getElementById('aimee-input');
             input.value = prefill;
