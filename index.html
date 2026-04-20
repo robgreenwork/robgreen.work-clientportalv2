@@ -1660,8 +1660,22 @@
         }
     }
 
-    // Init on load, and re-init when switching to visual-topline page
-    window.addEventListener('load', initCharts);
+    // ── HASH ROUTING ──
+    function loadFromHash() {
+        const hash = window.location.hash.replace('#', '');
+        if (hash && document.getElementById(hash)) {
+            showPage(hash, null);
+        }
+    }
+    window.addEventListener('load', () => { loadFromHash(); initCharts(); });
+    window.addEventListener('hashchange', loadFromHash);
+
+    // Update hash when navigating
+    const _hashOrigShowPage = showPage;
+    showPage = function(pageId, navEl) {
+        _hashOrigShowPage(pageId, navEl);
+        history.replaceState(null, '', '#' + pageId);
+    };
     const _origShowPage = showPage;
     showPage = function(pageId, navEl) {
         _origShowPage(pageId, navEl);
