@@ -7,6 +7,73 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <style>
+        /* ── LOGIN SCREEN ── */
+        #login-screen {
+            position: fixed;
+            inset: 0;
+            background: #672584;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        #login-screen.hidden { display: none; }
+        .login-box {
+            background: white;
+            border-radius: 12px;
+            padding: 40px 36px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            text-align: center;
+        }
+        .login-logo { margin-bottom: 24px; }
+        .login-logo svg { width: 120px; height: auto; }
+        .login-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        .login-subtitle {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 28px;
+        }
+        .login-field {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #1a1a2e;
+            margin-bottom: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .login-field:focus { border-color: #672584; }
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #531E6A;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .login-btn:hover { background: #672584; }
+        .login-error {
+            color: #e53e3e;
+            font-size: 12.5px;
+            margin-top: 10px;
+            min-height: 18px;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
@@ -791,6 +858,23 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+    <div class="login-box">
+        <div class="login-logo">
+            <svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+                <text x="0" y="44" font-family="Trebuchet MS, sans-serif" font-size="48" font-weight="700" fill="#531E6A">eSco</text>
+            </svg>
+        </div>
+        <div class="login-title">Client Portal</div>
+        <div class="login-subtitle">Enter your password to continue</div>
+        <input id="login-password" class="login-field" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
+        <button class="login-btn" onclick="doLogin()">Sign In</button>
+        <div class="login-error" id="login-error"></div>
+    </div>
+</div>
+
 <div class="container">
 
     <!-- SIDEBAR -->
@@ -893,7 +977,7 @@
             <div class="header-right">
                 <button class="aimee-toggle-btn" id="aimee-toggle-btn" onclick="toggleAimee()">🤖 Ask Aimee</button>
                 <span>Welcome demo@esco.co.uk</span>
-                <span class="header-logout">Log Out</span>
+                <span class="header-logout" onclick="doLogout()">Log Out</span>
             </div>
         </div>
 
@@ -1671,6 +1755,36 @@
             });
         }
     }
+
+    // ── AUTH ──
+    const PORTAL_PASSWORD = 'esco2024';
+    const AUTH_KEY = 'esco_portal_auth';
+
+    function doLogin() {
+        const val = document.getElementById('login-password').value;
+        if (val === PORTAL_PASSWORD) {
+            localStorage.setItem(AUTH_KEY, '1');
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('login-error').textContent = '';
+        } else {
+            document.getElementById('login-error').textContent = 'Incorrect password. Please try again.';
+            document.getElementById('login-password').value = '';
+            document.getElementById('login-password').focus();
+        }
+    }
+
+    function doLogout() {
+        localStorage.removeItem(AUTH_KEY);
+        document.getElementById('login-password').value = '';
+        document.getElementById('login-error').textContent = '';
+        document.getElementById('login-screen').classList.remove('hidden');
+    }
+
+    (function checkAuth() {
+        if (localStorage.getItem(AUTH_KEY) === '1') {
+            document.getElementById('login-screen').classList.add('hidden');
+        }
+    })();
 
     // ── HASH ROUTING ──
     function loadFromHash() {
