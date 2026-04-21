@@ -986,44 +986,6 @@
             <!-- VISUAL TOPLINE -->
             <div id="visual-topline" class="page active">
 
-                <!-- Performance Alerts -->
-                <div id="alert-cancellation" class="alert-card alert-amber">
-                    <div class="alert-icon">⚠️</div>
-                    <div class="alert-body">
-                        <div class="alert-title">Cancellation Rate Rising</div>
-                        <div class="alert-desc">Your cancellation rate is up 1.2% month-on-month, approaching the 3.5% watch threshold.</div>
-                        <div class="alert-meta">
-                            <span class="alert-badge amber">3.2% current</span>
-                            <span class="alert-badge amber">▲ +1.2% MoM</span>
-                            <button class="btn-aimee-sm" onclick="openAimee('I noticed your cancellation rate is up 1.2% month-on-month. What should I do to address this?')">💬 Talk to Aimee</button>
-                        </div>
-                    </div>
-                    <button class="alert-dismiss" onclick="this.closest('.alert-card').style.display='none'">×</button>
-                </div>
-
-                <div id="alert-subscribers" class="alert-card alert-amber">
-                    <div class="alert-icon">📉</div>
-                    <div class="alert-body">
-                        <div class="alert-title">Subscriber Count Declining</div>
-                        <div class="alert-desc">Total subscribers are down 12 this week. Three consecutive weeks of decline detected.</div>
-                        <div class="alert-meta">
-                            <span class="alert-badge amber">3,884 current</span>
-                            <span class="alert-badge amber">▼ −12 this week</span>
-                            <button class="btn-aimee-sm" onclick="openAimee('My subscriber count has declined for 3 consecutive weeks, down 12 this week. What actions would you recommend?')">💬 Talk to Aimee</button>
-                        </div>
-                    </div>
-                    <button class="alert-dismiss" onclick="this.closest('.alert-card').style.display='none'">×</button>
-                </div>
-
-                <div class="ai-insight">
-                    <div class="ai-insight-icon">💡</div>
-                    <div>
-                        <div class="ai-insight-title">Aimee AI Insight — Opportunity</div>
-                        Direct Debit continuous renewals are up +1.64%. This is your strongest acquisition channel right now — consider increasing budget here.
-                        <br><button class="btn-aimee-sm" onclick="openAimee('Tell me more about the Direct Debit opportunity and how I can act on it.')" style="margin-top:8px;">💬 Ask Aimee about this</button>
-                    </div>
-                </div>
-
                 <div class="grid-3">
                     <div class="kpi-card">
                         <div class="kpi-icon blue">📋</div>
@@ -1760,10 +1722,20 @@
     const PORTAL_PASSWORD = 'esco2024';
     const AUTH_KEY = 'esco_portal_auth';
 
+    function authStore(action, val) {
+        try {
+            if (action === 'set') localStorage.setItem(AUTH_KEY, val);
+            else if (action === 'remove') localStorage.removeItem(AUTH_KEY);
+            else return localStorage.getItem(AUTH_KEY);
+        } catch(e) {
+            if (action === 'get') return null;
+        }
+    }
+
     function doLogin() {
-        const val = document.getElementById('login-password').value;
+        const val = document.getElementById('login-password').value.trim();
         if (val === PORTAL_PASSWORD) {
-            localStorage.setItem(AUTH_KEY, '1');
+            authStore('set', '1');
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('login-error').textContent = '';
         } else {
@@ -1774,14 +1746,14 @@
     }
 
     function doLogout() {
-        localStorage.removeItem(AUTH_KEY);
+        authStore('remove');
         document.getElementById('login-password').value = '';
         document.getElementById('login-error').textContent = '';
         document.getElementById('login-screen').classList.remove('hidden');
     }
 
     (function checkAuth() {
-        if (localStorage.getItem(AUTH_KEY) === '1') {
+        if (authStore('get') === '1') {
             document.getElementById('login-screen').classList.add('hidden');
         }
     })();
