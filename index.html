@@ -470,6 +470,18 @@
         }
         .scorecard-text { font-size: 12px; color: #888; }
 
+        .scorecard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .scorecard-span-2 { grid-column: span 2; }
+        .scorecard-items-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
         /* ── COMING SOON ── */
         .coming-soon {
             background: white;
@@ -1082,57 +1094,99 @@
 
             <!-- SUCCESS SCORECARD -->
             <div id="scorecard" class="page">
-                <div class="grid-2">
-                    <div class="scorecard-section">
-                        <div class="scorecard-section-title">📊 Performance Metrics</div>
-                        <div class="scorecard-items">
-                            <div class="scorecard-item good">
-                                <div class="status-dot good"></div>
-                                <div><span class="scorecard-label">Subscription Volumes</span><span class="scorecard-text">Growing consistently YoY</span></div>
-                            </div>
-                            <div class="scorecard-item good">
-                                <div class="status-dot good"></div>
-                                <div><span class="scorecard-label">Renewal Rate</span><span class="scorecard-text">94.9% — Steady, trending up</span></div>
-                            </div>
-                            <div class="scorecard-item warning">
-                                <div class="status-dot warning"></div>
-                                <div><span class="scorecard-label">Cancellation Rate</span><span class="scorecard-text">3.2% — Watch closely</span></div>
-                            </div>
-                            <div class="scorecard-item good">
-                                <div class="status-dot good"></div>
-                                <div><span class="scorecard-label">Average Tenure</span><span class="scorecard-text">2.8 years — Stable</span></div>
-                            </div>
-                            <div class="scorecard-item good">
-                                <div class="status-dot good"></div>
-                                <div><span class="scorecard-label">Revenue Growth</span><span class="scorecard-text">+12% YoY</span></div>
-                            </div>
+                <div class="scorecard-grid">
+
+                    <!-- Performance -->
+                    <div class="scorecard-section scorecard-span-2">
+                        <div class="scorecard-section-title">📊 Performance</div>
+                        <div class="scorecard-items scorecard-items-cols">
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">% on Continuous Payment</span><span class="scorecard-text">76% — steady</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Average Life Time Value</span><span class="scorecard-text">£142 — growing</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Average Tenure</span><span class="scorecard-text">2.8 years — stable</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Subscription Volumes</span><span class="scorecard-text">Growing — 3,901 active</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Subscription Revenue</span><span class="scorecard-text">+12% YoY — growing</span></div></div>
+                            <div class="scorecard-item warning"><div class="status-dot warning"></div><div><span class="scorecard-label">Cancellation Rate</span><span class="scorecard-text">3.2% — watch closely</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Renewal Rate</span><span class="scorecard-text">94.9% — steady / rising</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Calls / 1,000 Customers</span><span class="scorecard-text">Steady — no increase</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Emails / 1,000 Customers</span><span class="scorecard-text">Steady — no increase</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Time to Resolve</span><span class="scorecard-text">Within SLA — stable</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Goneaways / 1,000 Customers</span><span class="scorecard-text">Steady / falling</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Replacement Copy Requests</span><span class="scorecard-text">Steady / falling</span></div></div>
                         </div>
                     </div>
+
+                    <!-- Customer Comms -->
                     <div class="scorecard-section">
-                        <div class="scorecard-section-title">✓ Compliance &amp; Operations</div>
+                        <div class="scorecard-section-title">💬 Customer Comms</div>
                         <div class="scorecard-items">
-                            <div class="scorecard-item good">
-                                <div class="status-dot good"></div>
-                                <div><span class="scorecard-label">Portal Usage</span><span class="scorecard-text">Team actively using reports</span></div>
-                            </div>
-                            <div class="scorecard-item good">
-                                <div class="status-dot good"></div>
-                                <div><span class="scorecard-label">PCI Compliance</span><span class="scorecard-text">Certified &amp; compliant</span></div>
-                            </div>
-                            <div class="scorecard-item good">
-                                <div class="status-dot good"></div>
-                                <div><span class="scorecard-label">GDPR Compliance</span><span class="scorecard-text">Data policies in place</span></div>
-                            </div>
-                            <div class="scorecard-item good">
-                                <div class="status-dot good"></div>
-                                <div><span class="scorecard-label">eCommerce Setup</span><span class="scorecard-text">All integrations active</span></div>
-                            </div>
-                            <div class="scorecard-item warning">
-                                <div class="status-dot warning"></div>
-                                <div><span class="scorecard-label">Data Quality</span><span class="scorecard-text">Using 68% of available data</span></div>
-                            </div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Last Reviewed</span><span class="scorecard-text">Reviewed within last 12 months</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Pricing Up to Date</span><span class="scorecard-text">Current pricing applied</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Messaging Up to Date</span><span class="scorecard-text">All comms refreshed</span></div></div>
+                            <div class="scorecard-item warning"><div class="status-dot warning"></div><div><span class="scorecard-label">Images Up to Date</span><span class="scorecard-text">Some assets need refreshing</span></div></div>
                         </div>
                     </div>
+
+                    <!-- eCommerce -->
+                    <div class="scorecard-section">
+                        <div class="scorecard-section-title">🛒 eCommerce</div>
+                        <div class="scorecard-items">
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Conversion Rate</span><span class="scorecard-text">4.2% — above benchmark</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Messaging Up to Date</span><span class="scorecard-text">Current copy live</span></div></div>
+                            <div class="scorecard-item warning"><div class="status-dot warning"></div><div><span class="scorecard-label">Images Up to Date</span><span class="scorecard-text">Needs review</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Digital Wallets</span><span class="scorecard-text">Apple Pay &amp; Google Pay active</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Strike-Through Prices</span><span class="scorecard-text">Enabled on offers</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Website Accessibility</span><span class="scorecard-text">WCAG 2.1 AA compliant</span></div></div>
+                            <div class="scorecard-item warning"><div class="status-dot warning"></div><div><span class="scorecard-label">Cross / Upselling</span><span class="scorecard-text">Partially implemented</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Abandon Basket</span><span class="scorecard-text">Recovery emails active</span></div></div>
+                        </div>
+                    </div>
+
+                    <!-- Compliance -->
+                    <div class="scorecard-section">
+                        <div class="scorecard-section-title">✅ Compliance</div>
+                        <div class="scorecard-items">
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">PCI</span><span class="scorecard-text">Certified &amp; compliant</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">GDPR Policy</span><span class="scorecard-text">Policy in place</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Privacy Policy</span><span class="scorecard-text">Published &amp; up to date</span></div></div>
+                            <div class="scorecard-item warning"><div class="status-dot warning"></div><div><span class="scorecard-label">DMCC</span><span class="scorecard-text">Under review</span></div></div>
+                        </div>
+                    </div>
+
+                    <!-- Reporting -->
+                    <div class="scorecard-section">
+                        <div class="scorecard-section-title">📋 Reporting</div>
+                        <div class="scorecard-items">
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Reviewing Reports Regularly</span><span class="scorecard-text">Weekly cadence in place</span></div></div>
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Trained on Portal Topline</span><span class="scorecard-text">Team trained</span></div></div>
+                            <div class="scorecard-item warning"><div class="status-dot warning"></div><div><span class="scorecard-label">Interactive Portal Reports</span><span class="scorecard-text">Training scheduled</span></div></div>
+                        </div>
+                    </div>
+
+                    <!-- Data -->
+                    <div class="scorecard-section">
+                        <div class="scorecard-section-title">🗄️ Data</div>
+                        <div class="scorecard-items">
+                            <div class="scorecard-item warning"><div class="status-dot warning"></div><div><span class="scorecard-label">Data Used for Marketing</span><span class="scorecard-text">68% of available data utilised</span></div></div>
+                            <div class="scorecard-item warning"><div class="status-dot warning"></div><div><span class="scorecard-label">Single Customer View (Orbit)</span><span class="scorecard-text">Integration in progress</span></div></div>
+                        </div>
+                    </div>
+
+                    <!-- User Journeys -->
+                    <div class="scorecard-section">
+                        <div class="scorecard-section-title">🧭 User Journeys</div>
+                        <div class="scorecard-items">
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Purchase &amp; Access Flow</span><span class="scorecard-text">Customers can easily purchase and access content</span></div></div>
+                        </div>
+                    </div>
+
+                    <!-- Banking / Finance -->
+                    <div class="scorecard-section">
+                        <div class="scorecard-section-title">🏦 Banking / Finance</div>
+                        <div class="scorecard-items">
+                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Subs Bank Account Reconciliation</span><span class="scorecard-text">Reconciled monthly — up to date</span></div></div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
