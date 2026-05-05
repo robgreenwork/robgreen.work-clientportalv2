@@ -1,2029 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESco Client Portal V2</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <style>
-        /* ── LOGIN SCREEN ── */
-        #login-screen {
-            position: fixed;
-            inset: 0;
-            background: #672584;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-        #login-screen.hidden { display: none; }
-        .login-box {
-            background: white;
-            border-radius: 12px;
-            padding: 40px 36px;
-            width: 100%;
-            max-width: 380px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-            text-align: center;
-        }
-        .login-logo { margin-bottom: 24px; }
-        .login-logo svg { width: 120px; height: auto; }
-        .login-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 6px;
-        }
-        .login-subtitle {
-            font-size: 13px;
-            color: #888;
-            margin-bottom: 28px;
-        }
-        .login-field {
-            width: 100%;
-            padding: 11px 14px;
-            border: 1.5px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-            font-family: inherit;
-            color: #1a1a2e;
-            margin-bottom: 14px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .login-field:focus { border-color: #672584; }
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            background: #531E6A;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            font-family: inherit;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .login-btn:hover { background: #672584; }
-        .login-error {
-            color: #e53e3e;
-            font-size: 12.5px;
-            margin-top: 10px;
-            min-height: 18px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESco Client Portal — Demo Hub</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Proxima Nova', 'Trebuchet MS', sans-serif;
+    background: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
 
-        body {
-            font-family: 'Proxima Nova', 'Trebuchet MS', 'Segoe UI', sans-serif;
-            background: #f0f2f5;
-            color: #1a1a2e;
-        }
+  header {
+    background: #672584;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
 
-        .container { display: flex; height: 100vh; }
+  header svg {
+    height: 40px;
+    width: auto;
+  }
 
-        /* ── SIDEBAR ── */
-        .sidebar {
-            width: 230px;
-            background: #672584;
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-            overflow-y: auto;
-        }
+  header .header-text {
+    border-left: 1px solid rgba(255,255,255,0.3);
+    padding-left: 16px;
+  }
 
-        .sidebar-brand {
-            padding: 20px 18px 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
+  header .header-text h1 {
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
 
-        /* eSco logo */
-        .esco-logo svg .st0 { fill: #ffffff; }
-        .esco-logo svg .st1 { fill: #00BCBA; }
-        .esco-logo svg {
-            width: 110px;
-            height: auto;
-            display: block;
-        }
+  header .header-text p {
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    margin-top: 2px;
+  }
 
-        .brand-subtitle {
-            font-size: 11px;
-            color: rgba(255,255,255,0.4);
-            margin-top: 5px;
-            letter-spacing: 0.3px;
-        }
+  main {
+    flex: 1;
+    max-width: 960px;
+    margin: 60px auto;
+    padding: 0 24px;
+    width: 100%;
+  }
 
-        /* Nav */
-        .nav-menu { flex: 1; padding: 6px 0 16px; }
+  .hub-title {
+    text-align: center;
+    margin-bottom: 48px;
+  }
 
-        .nav-section-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 9px 16px;
-            cursor: pointer;
-            color: rgba(255,255,255,0.45);
-            font-size: 12.5px;
-            font-weight: 500;
-            transition: background 0.15s, color 0.15s;
-            user-select: none;
-            letter-spacing: 0.1px;
-        }
-        .nav-section-header:hover {
-            background: rgba(255,255,255,0.05);
-            color: rgba(255,255,255,0.75);
-        }
-        .nav-section-header.open { color: rgba(255,255,255,0.75); }
+  .hub-title h2 {
+    font-size: 28px;
+    color: #1a1a2e;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
 
-        .nav-arrow {
-            font-size: 8px;
-            transition: transform 0.2s;
-            flex-shrink: 0;
-            opacity: 0.6;
-        }
-        .nav-section-header.open .nav-arrow { transform: rotate(90deg); }
+  .hub-title p {
+    color: #666;
+    font-size: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
 
-        .nav-children { display: none; }
-        .nav-children.open { display: block; }
+  .versions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
 
-        .nav-item {
-            padding: 8px 14px 8px 32px;
-            cursor: pointer;
-            color: rgba(255,255,255,0.6);
-            font-size: 13px;
-            transition: background 0.15s, color 0.15s;
-            border-left: 3px solid transparent;
-            margin: 1px 8px 1px 0;
-            border-radius: 0 5px 5px 0;
-        }
-        .nav-item:hover {
-            background: rgba(255,255,255,0.06);
-            color: rgba(255,255,255,0.9);
-        }
-        .nav-item.active {
-            background: rgba(0,188,186,0.18);
-            color: #00BCBA;
-            border-left-color: #00BCBA;
-            font-weight: 600;
-        }
-        .nav-new-badge {
-            font-size: 9px;
-            background: #f59e0b;
-            color: white;
-            padding: 1px 5px;
-            border-radius: 8px;
-            font-weight: 600;
-            margin-left: 4px;
-            vertical-align: middle;
-            letter-spacing: 0.3px;
-        }
+  .version-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    transition: box-shadow 0.2s, transform 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+  }
 
-        .nav-divider {
-            height: 1px;
-            background: rgba(255,255,255,0.07);
-            margin: 6px 0;
-        }
+  .version-card:hover {
+    box-shadow: 0 8px 28px rgba(0,0,0,0.14);
+    transform: translateY(-3px);
+  }
 
-        /* ── MAIN ── */
-        .main { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
+  .card-header {
+    padding: 28px 28px 20px;
+    border-bottom: 1px solid #f0f0f0;
+  }
 
-        .header {
-            background: white;
-            padding: 0 24px;
-            height: 52px;
-            border-bottom: 1px solid #e8eaed;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-        }
-        .header-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: #1a1a2e;
-        }
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 13px;
-            color: #666;
-        }
-        .header-logout {
-            color: #531E6A;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        .header-logout:hover { text-decoration: underline; }
+  .card-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
 
-        .content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px;
-        }
+  .badge-v3 { background: #531E6A; color: white; }
+  .badge-v2 { background: #00BCBA; color: white; }
+  .badge-zoho { background: #1a237e; color: white; }
 
-        .page { display: none; }
-        .page.active { display: block; }
+  .card-header h3 {
+    font-size: 20px;
+    color: #1a1a2e;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
 
-        /* ── AI INSIGHT ── */
-        .ai-insight {
-            background: white;
-            border-left: 3px solid #00BCBA;
-            border-radius: 0 8px 8px 0;
-            padding: 12px 16px;
-            margin-bottom: 20px;
-            font-size: 13px;
-            color: #444;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-        .ai-insight-icon {
-            font-size: 16px;
-            margin-top: 1px;
-            flex-shrink: 0;
-        }
-        .ai-insight-title {
-            font-weight: 600;
-            color: #531E6A;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 3px;
-        }
+  .card-header .card-subtitle {
+    font-size: 13px;
+    color: #888;
+  }
 
-        /* ── KPI CARDS ── */
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 16px;
-            margin-bottom: 20px;
-        }
+  .card-body {
+    padding: 20px 28px 28px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
 
-        .kpi-card {
-            background: white;
-            border-radius: 8px;
-            padding: 18px 20px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-            border: 1px solid #eaedf0;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        .kpi-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-        .kpi-icon.blue  { background: rgba(83,30,106,0.1); }
-        .kpi-icon.green { background: rgba(0,188,186,0.12); }
-        .kpi-icon.amber { background: rgba(103,37,132,0.1); }
-        .kpi-body { flex: 1; min-width: 0; }
-        .kpi-label {
-            font-size: 11px;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-        .kpi-value {
-            font-size: 26px;
-            font-weight: 700;
-            color: #1a1a2e;
-            line-height: 1.1;
-        }
-        .kpi-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 3px 8px;
-            border-radius: 20px;
-            margin-top: 5px;
-        }
-        .kpi-badge.up   { background: rgba(52,199,89,0.12); color: #22a648; }
-        .kpi-badge.down { background: rgba(239,68,68,0.1);  color: #dc2626; }
-        .kpi-badge.neutral { background: rgba(107,114,128,0.1); color: #555; }
+  .feature-list {
+    list-style: none;
+    flex: 1;
+    margin-bottom: 24px;
+  }
 
-        /* ── PANEL CARD ── */
-        .panel-card {
-            background: white;
-            border-radius: 8px;
-            padding: 18px 20px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-            border: 1px solid #eaedf0;
-            margin-bottom: 20px;
-        }
-        .panel-card-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 14px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #f0f0f0;
-        }
+  .feature-list li {
+    font-size: 13.5px;
+    color: #444;
+    padding: 6px 0;
+    border-bottom: 1px solid #f5f5f5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.4;
+  }
 
-        /* ── RENEWAL TABLE ── */
-        .renewal-table {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-            border: 1px solid #eaedf0;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        .renewal-table-header {
-            background: #f7f8fa;
-            padding: 10px 16px;
-            font-size: 12px;
-            color: #666;
-            border-bottom: 1px solid #eaedf0;
-        }
-        .renewal-table-grid {
-            display: grid;
-            grid-template-columns: 72px 1fr 1fr 1fr;
-        }
-        .renewal-col-header {
-            padding: 10px 16px;
-            font-size: 11px;
-            color: #888;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-            border-bottom: 1px solid #eaedf0;
-            border-right: 1px solid #f3f4f6;
-            background: #fafbfc;
-        }
-        .renewal-row-label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 14px 8px;
-            border-right: 1px solid #f3f4f6;
-            border-bottom: 1px solid #f3f4f6;
-            background: #fafbfc;
-        }
-        .renewal-row-label span {
-            writing-mode: vertical-rl;
-            transform: rotate(180deg);
-            font-size: 10px;
-            font-weight: 700;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-        }
-        .renewal-cell {
-            padding: 14px 16px;
-            border-right: 1px solid #f3f4f6;
-            border-bottom: 1px solid #f3f4f6;
-            text-align: center;
-        }
-        .renewal-cell-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1a1a2e;
-        }
-        .renewal-cell-change {
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 2px 8px;
-            border-radius: 20px;
-            margin-top: 5px;
-        }
-        .renewal-cell-change.up   { background: rgba(52,199,89,0.1);  color: #22a648; }
-        .renewal-cell-change.down { background: rgba(239,68,68,0.08); color: #dc2626; }
+  .feature-list li:last-child { border-bottom: none; }
 
-        /* ── CHART PLACEHOLDER ── */
-        .chart-placeholder {
-            background: #f8f9fb;
-            border-radius: 6px;
-            min-height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #c0c4cc;
-            font-size: 13px;
-            border: 1px dashed #e0e4e9;
-            gap: 8px;
-        }
+  .feature-list li .icon {
+    font-size: 14px;
+    flex-shrink: 0;
+  }
 
-        /* ── SCORECARD ── */
-        .scorecard-section {
-            background: white;
-            border-radius: 8px;
-            padding: 18px 20px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-            border: 1px solid #eaedf0;
-            margin-bottom: 20px;
-        }
-        .scorecard-section-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 12px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #f0f0f0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .scorecard-items { display: flex; flex-direction: column; gap: 6px; }
-        .scorecard-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 6px;
-        }
-        .scorecard-item.good    { background: rgba(52,199,89,0.06); }
-        .scorecard-item.warning { background: rgba(245,158,11,0.07); }
+  .card-cta {
+    display: block;
+    text-align: center;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
 
-        .status-dot {
-            width: 8px; height: 8px;
-            border-radius: 50%; flex-shrink: 0;
-        }
-        .status-dot.good    { background: #34c759; }
-        .status-dot.warning { background: #f59e0b; }
+  .card-cta:hover { opacity: 0.88; }
 
-        .scorecard-label {
-            font-size: 12px; font-weight: 600;
-            color: #333; display: block; margin-bottom: 1px;
-        }
-        .scorecard-text { font-size: 12px; color: #888; }
+  .cta-v3 { background: #531E6A; color: white; }
+  .cta-v2 { background: #00BCBA; color: white; }
+  .cta-zoho { background: #1a237e; color: white; }
 
-        .scorecard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-        .scorecard-span-2 { grid-column: span 2; }
-        .scorecard-items-cols {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-        }
-
-        /* ── COMING SOON ── */
-        .coming-soon {
-            background: white;
-            border-radius: 8px;
-            padding: 60px 40px;
-            text-align: center;
-            color: #bbb;
-            font-size: 14px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-            border: 1px solid #eaedf0;
-        }
-
-        /* ── EMAIL ALERTS DEMO ── */
-        .email-demo-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-        @media (max-width: 900px) { .email-demo-grid { grid-template-columns: 1fr; } }
-        .email-card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-            border: 1px solid #e8eaed;
-            overflow: hidden;
-        }
-        .email-client-bar {
-            background: #f5f5f5;
-            border-bottom: 1px solid #e0e0e0;
-            padding: 10px 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            color: #888;
-        }
-        .email-client-dot {
-            width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
-        }
-        .email-header-bar {
-            padding: 14px 20px 10px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .email-subject {
-            font-size: 14px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 4px;
-        }
-        .email-meta {
-            font-size: 11px;
-            color: #999;
-            display: flex;
-            gap: 12px;
-        }
-        .email-body {
-            padding: 20px;
-        }
-        .email-logo-bar {
-            display: flex;
-            align-items: center;
-            margin-bottom: 18px;
-            padding-bottom: 14px;
-        }
-        .email-logo-bar svg { width: 80px; height: auto; }
-        .email-alert-banner {
-            border-radius: 8px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-        .email-alert-banner.risk { background: rgba(239,68,68,0.08); color: #c0392b; border: 1px solid rgba(239,68,68,0.2); }
-        .email-alert-banner.opportunity { background: rgba(0,188,186,0.08); color: #007a79; border: 1px solid rgba(0,188,186,0.2); }
-        .email-p {
-            font-size: 13px;
-            color: #444;
-            line-height: 1.7;
-            margin-bottom: 14px;
-        }
-        .email-stat-row {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 18px;
-        }
-        .email-stat {
-            flex: 1;
-            background: #f8f9fb;
-            border-radius: 8px;
-            padding: 12px 14px;
-            text-align: center;
-            border: 1px solid #eaedf0;
-        }
-        .email-stat.benchmark {
-            background: #B2E4E4;
-            border-color: #B2E4E4;
-        }
-        .email-stat.benchmark .email-stat-value { color: #531E6A; }
-        .email-stat.benchmark .email-stat-label { color: #531E6A; }
-        .email-stat-value {
-            font-size: 22px;
-            font-weight: 800;
-            color: #1a1a2e;
-        }
-        .email-stat-value.red { color: #e74c3c; }
-        .email-stat-value.green { color: #00897b; }
-        .email-stat-label { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 2px; }
-        .email-cta {
-            display: block;
-            text-align: center;
-            padding: 13px 24px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 700;
-            text-decoration: none;
-            cursor: pointer;
-            border: none;
-            font-family: inherit;
-            width: 100%;
-            transition: opacity 0.15s;
-        }
-        .email-cta:hover { opacity: 0.88; }
-        .email-cta.risk { background: #531E6A; color: white; }
-        .email-cta.opportunity { background: #531E6A; color: white; }
-        .email-footer {
-            padding: 14px 20px;
-            background: #f8f9fb;
-            border-top: 1px solid #f0f0f0;
-            font-size: 10px;
-            color: #bbb;
-            line-height: 1.6;
-        }
-        .journey-arrow {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 12px;
-            color: #999;
-            margin: -8px 0 16px;
-        }
-
-        /* ── DEEP DIVE REPORTS ── */
-        .report-hero {
-            background: white;
-            border-radius: 8px;
-            padding: 20px 24px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-            border: 1px solid #eaedf0;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        .report-hero-left h2 { font-size: 18px; font-weight: 800; color: #1a1a2e; margin-bottom: 4px; }
-        .report-hero-left p  { font-size: 12px; color: #888; }
-        .report-status-badge {
-            font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 20px;
-        }
-        .report-status-badge.risk { background: rgba(239,68,68,0.1); color: #c0392b; }
-        .report-status-badge.good { background: rgba(0,188,186,0.1); color: #007a79; }
-
-        /* ── PERFORMANCE ALERTS ── */
-        .alert-card {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            background: white;
-            border-radius: 8px;
-            padding: 14px 16px;
-            margin-bottom: 12px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-            border: 1px solid #eaedf0;
-            border-left: 4px solid #f59e0b;
-        }
-        .alert-card.alert-red  { border-left-color: #ef4444; }
-        .alert-card.alert-amber{ border-left-color: #f59e0b; }
-        .alert-card.alert-green{ border-left-color: #22c55e; }
-        .alert-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
-        .alert-body { flex: 1; min-width: 0; }
-        .alert-title { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 2px; }
-        .alert-desc  { font-size: 12px; color: #666; margin-bottom: 8px; }
-        .alert-meta  { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .alert-badge {
-            font-size: 11px; font-weight: 600; padding: 2px 8px;
-            border-radius: 20px; background: rgba(239,68,68,0.1); color: #dc2626;
-        }
-        .alert-badge.amber { background: rgba(245,158,11,0.1); color: #b45309; }
-        .alert-badge.green { background: rgba(34,197,94,0.1); color: #15803d; }
-        .alert-dismiss {
-            background: none; border: none; color: #bbb; cursor: pointer;
-            font-size: 16px; padding: 0 4px; flex-shrink: 0; line-height: 1;
-        }
-        .alert-dismiss:hover { color: #888; }
-
-        /* ── TALK TO AIMEE BUTTON ── */
-        .btn-aimee {
-            display: inline-flex; align-items: center; gap: 5px;
-            background: #531E6A; color: white; border: none;
-            padding: 6px 12px; border-radius: 6px; font-size: 12px;
-            font-weight: 600; cursor: pointer; font-family: inherit;
-            transition: background 0.15s;
-        }
-        .btn-aimee:hover { background: #672584; }
-        .btn-aimee-sm {
-            display: inline-flex; align-items: center; gap: 4px;
-            background: rgba(30,42,58,0.08); color: #531E6A; border: none;
-            padding: 4px 10px; border-radius: 5px; font-size: 11px;
-            font-weight: 600; cursor: pointer; font-family: inherit;
-            transition: background 0.15s; margin-top: 8px;
-        }
-        .btn-aimee-sm:hover { background: rgba(30,42,58,0.15); }
-
-        /* ── AIMEE CHAT PANEL ── */
-        .aimee-panel {
-            width: 0;
-            flex-shrink: 0;
-            overflow: hidden;
-            transition: width 0.3s ease;
-            background: white;
-            border-left: 1px solid #e8eaed;
-        }
-        .aimee-panel.open { width: 320px; }
-        .aimee-panel-inner {
-            width: 320px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        .aimee-header {
-            background: #531E6A; color: white; padding: 16px 18px;
-            display: flex; align-items: center; justify-content: space-between;
-            flex-shrink: 0;
-        }
-        .aimee-header-left { display: flex; align-items: center; gap: 10px; }
-        .aimee-avatar {
-            width: 34px; height: 34px; border-radius: 50%;
-            background: linear-gradient(135deg, #00BCBA, #4d9fff);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 16px; flex-shrink: 0;
-        }
-        .aimee-header-name { font-size: 14px; font-weight: 700; }
-        .aimee-header-sub  { font-size: 11px; color: rgba(255,255,255,0.5); }
-        .aimee-close {
-            background: none; border: none; color: rgba(255,255,255,0.6);
-            font-size: 20px; cursor: pointer; line-height: 1; padding: 0;
-        }
-        .aimee-close:hover { color: white; }
-        .aimee-messages {
-            flex: 1; overflow-y: auto; padding: 16px;
-            display: flex; flex-direction: column; gap: 12px;
-        }
-        .aimee-msg { display: flex; gap: 8px; align-items: flex-start; }
-        .aimee-msg.user-msg { flex-direction: row-reverse; }
-        .msg-avatar {
-            width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
-            background: linear-gradient(135deg,#00BCBA,#4d9fff);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 13px;
-        }
-        .msg-avatar.user { background: #e8eaed; font-size: 12px; }
-        .msg-bubble {
-            background: #f4f6f8; border-radius: 12px 12px 12px 3px;
-            padding: 10px 13px; font-size: 12.5px; color: #333;
-            line-height: 1.5; max-width: 220px;
-        }
-        .msg-bubble.user { background: #672584; color: white; border-radius: 12px 12px 3px 12px; }
-        .msg-bubble strong { color: #531E6A; display: block; margin-bottom: 3px; font-size: 12px; }
-        .msg-bubble.user strong { color: rgba(255,255,255,0.7); }
-        .msg-time { font-size: 10px; color: #bbb; margin-top: 4px; }
-        .aimee-input-area {
-            padding: 12px 16px; border-top: 1px solid #f0f0f0;
-            display: flex; gap: 8px; flex-shrink: 0;
-        }
-        .aimee-input {
-            flex: 1; border: 1px solid #e0e4e9; border-radius: 20px;
-            padding: 8px 14px; font-size: 12.5px; outline: none;
-            font-family: inherit; resize: none; line-height: 1.4;
-        }
-        .aimee-input:focus { border-color: #00BCBA; }
-        .aimee-send {
-            width: 34px; height: 34px; border-radius: 50%;
-            background: #531E6A; border: none; color: white;
-            font-size: 14px; cursor: pointer; flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
-            transition: background 0.15s;
-        }
-        .aimee-send:hover { background: #672584; }
-
-        /* Aimee toggle button in header */
-        .aimee-toggle-btn {
-            display: inline-flex; align-items: center; gap: 6px;
-            background: #531E6A; color: white; border: none;
-            padding: 6px 14px; border-radius: 6px; font-size: 12px;
-            font-weight: 600; cursor: pointer; font-family: inherit;
-            transition: background 0.15s;
-        }
-        .aimee-toggle-btn:hover { background: #672584; }
-        .aimee-toggle-btn.active { background: #672584; }
-
-        /* ── INSIGHTS PAGE ── */
-        .insights-section-title {
-            font-size: 15px; font-weight: 700; color: #1a1a2e;
-            margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
-        }
-        .insight-card {
-            background: white; border-radius: 8px; padding: 16px 18px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.07); border: 1px solid #eaedf0;
-            border-left: 4px solid #4d9fff; margin-bottom: 12px;
-            display: flex; gap: 14px; align-items: flex-start;
-        }
-        .insight-card.good   { border-left-color: #22c55e; }
-        .insight-card.warn   { border-left-color: #f59e0b; }
-        .insight-card.urgent { border-left-color: #ef4444; }
-        .insight-card-icon { font-size: 22px; flex-shrink: 0; }
-        .insight-card-body  { flex: 1; }
-        .insight-card-title { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
-        .insight-card-desc  { font-size: 12.5px; color: #555; line-height: 1.5; margin-bottom: 10px; }
-        .insight-card-footer{ display: flex; align-items: center; gap: 8px; }
-        .severity-badge {
-            font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px;
-            text-transform: uppercase; letter-spacing: 0.4px;
-        }
-        .severity-badge.good   { background: rgba(34,197,94,0.1);  color: #15803d; }
-        .severity-badge.warn   { background: rgba(245,158,11,0.1); color: #b45309; }
-        .severity-badge.urgent { background: rgba(239,68,68,0.1);  color: #dc2626; }
-        .btn-sm {
-            font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 5px;
-            border: 1px solid #e0e4e9; background: white; cursor: pointer;
-            font-family: inherit; color: #444; transition: background 0.15s;
-        }
-        .btn-sm:hover { background: #f4f6f8; }
-        .btn-sm.primary {
-            background: #531E6A; color: white; border-color: #531E6A;
-        }
-        .btn-sm.primary:hover { background: #672584; }
-
-        /* Ask Aimee chat in Insights page */
-        .insights-chat {
-            background: white; border-radius: 8px; padding: 20px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.07); border: 1px solid #eaedf0;
-            margin-bottom: 20px;
-        }
-        .suggested-questions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-        .sq-btn {
-            background: #f4f6f8; border: 1px solid #e0e4e9; border-radius: 20px;
-            padding: 6px 14px; font-size: 12px; cursor: pointer; font-family: inherit;
-            color: #444; transition: all 0.15s;
-        }
-        .sq-btn:hover { background: #531E6A; color: white; border-color: #531E6A; }
-        .insights-chat-messages {
-            background: #f8f9fb; border-radius: 8px; padding: 14px;
-            min-height: 140px; margin-bottom: 12px;
-            display: flex; flex-direction: column; gap: 12px;
-        }
-        .insights-input-row { display: flex; gap: 8px; }
-        .insights-input {
-            flex: 1; border: 1px solid #e0e4e9; border-radius: 8px;
-            padding: 10px 14px; font-size: 13px; outline: none; font-family: inherit;
-        }
-        .insights-input:focus { border-color: #00BCBA; }
-
-        /* Action cards */
-        .action-card {
-            background: white; border-radius: 8px; padding: 16px 18px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.07); border: 1px solid #eaedf0;
-            margin-bottom: 12px; display: flex; gap: 14px; align-items: center;
-        }
-        .action-priority {
-            font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px;
-            text-transform: uppercase; letter-spacing: 0.4px; flex-shrink: 0;
-        }
-        .action-priority.high   { background: rgba(239,68,68,0.1);  color: #dc2626; }
-        .action-priority.medium { background: rgba(245,158,11,0.1); color: #b45309; }
-        .action-priority.low    { background: rgba(34,197,94,0.1);  color: #15803d; }
-        .action-body { flex: 1; }
-        .action-title  { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 3px; }
-        .action-impact { font-size: 12px; color: #777; }
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  footer {
+    text-align: center;
+    padding: 28px;
+    font-size: 12px;
+    color: #aaa;
+  }
+</style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
-<div id="login-screen">
-    <div class="login-box">
-        <div class="login-logo">
-            <svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
-                <text x="0" y="44" font-family="Trebuchet MS, sans-serif" font-size="48" font-weight="700" fill="#531E6A">eSco</text>
-            </svg>
-        </div>
-        <div class="login-title">Client Portal</div>
-        <div class="login-subtitle">Enter your password to continue</div>
-        <input id="login-password" class="login-field" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
-        <button class="login-btn" onclick="doLogin()">Sign In</button>
-        <div class="login-error" id="login-error"></div>
-    </div>
-</div>
-
-<div class="container">
-
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <div class="sidebar-brand">
-            <div class="esco-logo">
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 348 156">
-                    <style>.st0{fill:#ffffff;}.st1{fill:#00BCBA;}</style>
-                    <path class="st0" d="M5.3,56.7c0-22.9,16.3-40.9,39.5-40.9c27,0,39.5,19.8,39.5,42.8c0,1.7,0,3.8-0.1,5.6H31.8c2.2,8.5,8.4,12.9,16.9,12.9c6.5,0,11.7-2.5,17.4-8l15.2,12.6c-7.5,9.5-18.4,15.9-34,15.9C22.7,97.6,5.3,81.2,5.3,56.7z M58.6,50.1c-1-8.7-6.1-14.2-13.6-14.2c-7.2,0-12.1,5.6-13.6,14.2H58.6z"/>
-                    <path class="st0" d="M88.5,92.2l15.6-18.7c10,8,21.1,12.1,32.8,12.1c7.5,0,11.6-2.6,11.6-7.2c0-4.2-3.3-6.5-17.1-9.7c-21.5-4.9-38.2-11-38.2-32.1c0-18.8,14.9-32.4,39.2-32.4c17.2,0,30.7,4.6,41.7,13.5l-14,19.8c-9.3-6.5-19.4-10-28.3-10c-6.8,0-10.1,2.9-10.1,6.8c0,4.6,3.5,6.7,17.5,9.8c23.3,5.1,37.8,12.6,37.8,31.8c0,20.7-16.3,33-40.9,33C118,109,101,103.4,88.5,92.2z"/>
-                    <path class="st0" d="M182.1,56.6c0-22.1,17.2-40.8,41.9-40.8c16.1,0,26.8,6.9,33.4,17.5L239,46.6c-3.8-5.2-8.2-7.7-14.2-7.7c-10,0-16.1,7.8-16.1,17.6c0,10.1,6.4,17.8,15.6,17.8c6.5,0,10.4-3.2,14.8-8.2l18.7,13.5c-7.2,10.7-17.6,17.9-34.9,17.9C199.4,97.5,182.1,79,182.1,56.6z"/>
-                    <path class="st0" d="M257.9,56.7c0-22.3,18.2-40.9,43.4-40.9c25,0,43.1,18.4,43.1,40.9c0,22.3-18.2,40.9-43.4,40.9C276,97.6,257.9,79.2,257.9,56.7z M317.7,56.7c0-9.5-6.9-17.6-16.6-17.6c-10,0-16.3,8-16.3,17.6c0,9.5,6.9,17.6,16.6,17.6C311.3,74.3,317.7,66.3,317.7,56.7z"/>
-                    <path class="st1" d="M202.3,125.8c-38.7,34.6-101.4,34.6-140.1,0l15.6-19.5c30,27.5,78.6,27.5,108.6,0L202.3,125.8z"/>
-                </svg>
-            </div>
-            <div class="brand-subtitle">Client Portal V2</div>
-        </div>
-
-        <nav class="nav-menu">
-
-            <div class="nav-item" style="padding:10px 16px;font-weight:700;font-size:12.5px;color:#e74c3c;border-left:3px solid #e74c3c;background:rgba(239,68,68,0.06);margin:4px 8px 4px 0;border-radius:0 5px 5px 0;" onclick="showPage('email-cancellation',this)">📧 Cancellation Alert Email</div>
-            <div class="nav-item" style="padding:10px 16px;font-weight:700;font-size:12.5px;color:#007a79;border-left:3px solid #00BCBA;background:rgba(0,188,186,0.06);margin:0 8px 8px 0;border-radius:0 5px 5px 0;" onclick="showPage('email-promo',this)">📧 Spring Promo Alert Email</div>
-
-            <div class="nav-section-header" onclick="toggleSection(this)">
-                <span class="nav-arrow">▶</span><span>ESco Connect</span>
-            </div>
-            <div class="nav-children">
-                <div class="nav-item" onclick="showPage('connect',this)">Overview</div>
-            </div>
-
-            <div class="nav-section-header open" onclick="toggleSection(this)">
-                <span class="nav-arrow">▶</span><span>Dashboards</span>
-            </div>
-            <div class="nav-children open">
-                <div class="nav-item" onclick="showPage('subscriptions',this)">Subscriptions</div>
-                <div class="nav-item active" onclick="showPage('visual-topline',this)">Visual Topline</div>
-                <div class="nav-item" onclick="showPage('world-map',this)">World Map</div>
-                <div class="nav-item" onclick="showPage('uk-map',this)">UK Map</div>
-                <div class="nav-item" onclick="showPage('promotions',this)">Promotions</div>
-                <div class="nav-item" onclick="showPage('issue-run',this)">Issue Run Figures</div>
-                <div class="nav-item" onclick="showPage('payments',this)">Payments Dashboard</div>
-                <div class="nav-item" onclick="showPage('cancellations',this)">Online Cancellations</div>
-                <div class="nav-item" onclick="showPage('scorecard',this)">Success Scorecard<span class="nav-new-badge">NEW</span></div>
-                <div class="nav-item" onclick="showPage('insights',this)">Aimee Insights<span class="nav-new-badge" style="background:#00BCBA;">AI</span></div>
-            </div>
-
-            <div class="nav-divider"></div>
-
-            <div class="nav-section-header" onclick="toggleSection(this)">
-                <span class="nav-arrow">▶</span><span>Downloads</span>
-            </div>
-            <div class="nav-children">
-                <div class="nav-item" onclick="showPage('stub',this)">All Downloads</div>
-            </div>
-
-            <div class="nav-section-header" onclick="toggleSection(this)">
-                <span class="nav-arrow">▶</span><span>Reports</span>
-            </div>
-            <div class="nav-children">
-                <div class="nav-item" onclick="showPage('stub',this)">All Reports</div>
-                <div class="nav-item" onclick="showPage('cancellation-report',this)">Cancellation Deep-Dive<span class="nav-new-badge" style="background:#e74c3c;">ALERT</span></div>
-                <div class="nav-item" onclick="showPage('promo-report',this)">Spring Promo Report<span class="nav-new-badge" style="background:#00BCBA;">NEW</span></div>
-            </div>
-
-            <div class="nav-section-header" onclick="toggleSection(this)">
-                <span class="nav-arrow">▶</span><span>Interactive Analysis</span>
-            </div>
-            <div class="nav-children">
-                <div class="nav-item" onclick="showPage('stub',this)">Overview</div>
-            </div>
-
-            <div class="nav-section-header" onclick="toggleSection(this)">
-                <span class="nav-arrow">▶</span><span>Customer Service</span>
-            </div>
-            <div class="nav-children">
-                <div class="nav-item" onclick="showPage('stub',this)">Overview</div>
-            </div>
-
-            <div class="nav-section-header" onclick="toggleSection(this)">
-                <span class="nav-arrow">▶</span><span>System</span>
-            </div>
-            <div class="nav-children">
-                <div class="nav-item" onclick="showPage('stub',this)">Settings</div>
-            </div>
-
-            <div class="nav-section-header" onclick="toggleSection(this)">
-                <span class="nav-arrow">▶</span><span>Orbit</span>
-            </div>
-            <div class="nav-children">
-                <div class="nav-item" onclick="showPage('stub',this)">Overview</div>
-            </div>
-
-        </nav>
-    </div>
-
-    <!-- MAIN -->
-    <div class="main">
-        <div class="header">
-            <div class="header-title" id="header-title">Visual Topline — Title #03</div>
-            <div class="header-right">
-                <button class="aimee-toggle-btn" id="aimee-toggle-btn" onclick="toggleAimee()">🤖 Ask Aimee</button>
-                <span>Welcome demo@esco.co.uk</span>
-                <span class="header-logout" onclick="doLogout()">Log Out</span>
-            </div>
-        </div>
-
-        <div class="content">
-
-            <!-- VISUAL TOPLINE -->
-            <div id="visual-topline" class="page active">
-
-                <div class="grid-3">
-                    <div class="kpi-card">
-                        <div class="kpi-icon blue">📋</div>
-                        <div class="kpi-body">
-                            <div class="kpi-label">Total Live Orders</div>
-                            <div class="kpi-value">3,901</div>
-                            <div class="kpi-badge up">▲ +24 this week</div>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon green">👥</div>
-                        <div class="kpi-body">
-                            <div class="kpi-label">Total Subscribers</div>
-                            <div class="kpi-value">3,884</div>
-                            <div class="kpi-badge down">▼ −12 this week</div>
-                            <button class="btn-aimee-sm" onclick="openAimee('My subscriber count is down 12 this week. Why might this be happening and what can I do?')">💬 Ask Aimee</button>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon amber">📄</div>
-                        <div class="kpi-body">
-                            <div class="kpi-label">Total Copies</div>
-                            <div class="kpi-value">3,911</div>
-                            <div class="kpi-badge up">▲ +31 this week</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Renewal & Yield -->
-                <div class="renewal-table">
-                    <div class="renewal-table-header" style="display:flex;align-items:center;justify-content:space-between;">
-                        <span>Renewal &amp; Yield — Current: 13/11/2025 to 13/02/2026 &nbsp;vs&nbsp; Historic: 13/02/2025 to 13/02/2026</span>
-                        <button class="btn-aimee-sm" style="margin:0;" onclick="openAimee('Can you analyse my renewal and yield figures and tell me where to focus?')">💬 Ask Aimee</button>
-                    </div>
-                    <div class="renewal-table-grid">
-                        <div class="renewal-col-header"></div>
-                        <div class="renewal-col-header">Overall</div>
-                        <div class="renewal-col-header">Continuous</div>
-                        <div class="renewal-col-header">Cash with Order</div>
-
-                        <div class="renewal-row-label"><span>Renewals</span></div>
-                        <div class="renewal-cell">
-                            <div class="renewal-cell-value">94.94%</div>
-                            <div class="renewal-cell-change up">▲ +2.15%</div>
-                        </div>
-                        <div class="renewal-cell">
-                            <div class="renewal-cell-value">95.30%</div>
-                            <div class="renewal-cell-change up">▲ +1.64%</div>
-                        </div>
-                        <div class="renewal-cell">
-                            <div class="renewal-cell-value">75.00%</div>
-                            <div class="renewal-cell-change up">▲ +9.78%</div>
-                        </div>
-
-                        <div class="renewal-row-label"><span>Yield</span></div>
-                        <div class="renewal-cell">
-                            <div class="renewal-cell-value">£4.80</div>
-                            <div class="renewal-cell-change down">▼ −£0.10</div>
-                        </div>
-                        <div class="renewal-cell">
-                            <div class="renewal-cell-value">£4.81</div>
-                            <div class="renewal-cell-change down">▼ −£0.09</div>
-                        </div>
-                        <div class="renewal-cell">
-                            <div class="renewal-cell-value">£4.28</div>
-                            <div class="renewal-cell-change down">▼ −£0.68</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid-2">
-                    <div class="panel-card">
-                        <div class="panel-card-title">Live Payment Types (Copies)</div>
-                        <div style="position:relative;height:200px;display:flex;align-items:center;justify-content:center;">
-                            <canvas id="chartPaymentTypes"></canvas>
-                        </div>
-                    </div>
-                    <div class="panel-card">
-                        <div class="panel-card-title">Membership Level (Copies)</div>
-                        <div style="position:relative;height:200px;display:flex;align-items:center;justify-content:center;">
-                            <canvas id="chartMembershipLevel"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel-card">
-                    <div class="panel-card-title">Issue Run Totals (excluding essential frees)</div>
-                    <div style="position:relative;height:260px;">
-                        <canvas id="chartIssueRun"></canvas>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- SUCCESS SCORECARD -->
-            <div id="scorecard" class="page">
-                <div class="scorecard-grid">
-
-                    <!-- Performance -->
-                    <div class="scorecard-section scorecard-span-2">
-                        <div class="scorecard-section-title">📊 Performance</div>
-                        <div class="scorecard-items scorecard-items-cols">
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">% on Continuous Payment</span><span class="scorecard-text">76% — steady</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Average Life Time Value</span><span class="scorecard-text">£142 — growing</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Average Tenure</span><span class="scorecard-text">2.8 years — stable</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Subscription Volumes</span><span class="scorecard-text">Growing — 3,901 active</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Subscription Revenue</span><span class="scorecard-text">+12% YoY — growing</span></div></div>
-                            <div class="scorecard-item warning"><div class="status-dot warning"></div><div><span class="scorecard-label">Cancellation Rate</span><span class="scorecard-text">3.2% — watch closely</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Renewal Rate</span><span class="scorecard-text">94.9% — steady / rising</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Calls / 1,000 Customers</span><span class="scorecard-text">Steady — no increase</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Emails / 1,000 Customers</span><span class="scorecard-text">Steady — no increase</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Time to Resolve</span><span class="scorecard-text">Within SLA — stable</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Goneaways / 1,000 Customers</span><span class="scorecard-text">Steady / falling</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Replacement Copy Requests</span><span class="scorecard-text">Steady / falling</span></div></div>
-                        </div>
-                    </div>
-
-                    <!-- Customer Comms -->
-                    <div class="scorecard-section">
-                        <div class="scorecard-section-title">💬 Customer Comms</div>
-                        <div class="scorecard-items">
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Last Reviewed</span><span class="scorecard-text">Reviewed within last 12 months</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Pricing Up to Date</span><span class="scorecard-text">Current pricing applied</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Messaging Up to Date</span><span class="scorecard-text">All comms refreshed</span></div></div>
-                            <div class="scorecard-item warning"><div class="status-dot warning"></div><div><span class="scorecard-label">Images Up to Date</span><span class="scorecard-text">Some assets need refreshing</span></div></div>
-                        </div>
-                    </div>
-
-                    <!-- eCommerce -->
-                    <div class="scorecard-section">
-                        <div class="scorecard-section-title">🛒 eCommerce</div>
-                        <div class="scorecard-items">
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Conversion Rate</span><span class="scorecard-text">4.2% — above benchmark</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Messaging Up to Date</span><span class="scorecard-text">Current copy live</span></div></div>
-                            <div class="scorecard-item warning"><div class="status-dot warning"></div><div><span class="scorecard-label">Images Up to Date</span><span class="scorecard-text">Needs review</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Digital Wallets</span><span class="scorecard-text">Apple Pay &amp; Google Pay active</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Strike-Through Prices</span><span class="scorecard-text">Enabled on offers</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Website Accessibility</span><span class="scorecard-text">WCAG 2.1 AA compliant</span></div></div>
-                            <div class="scorecard-item warning"><div class="status-dot warning"></div><div><span class="scorecard-label">Cross / Upselling</span><span class="scorecard-text">Partially implemented</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Abandon Basket</span><span class="scorecard-text">Recovery emails active</span></div></div>
-                        </div>
-                    </div>
-
-                    <!-- Compliance -->
-                    <div class="scorecard-section">
-                        <div class="scorecard-section-title">✅ Compliance</div>
-                        <div class="scorecard-items">
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">PCI</span><span class="scorecard-text">Certified &amp; compliant</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">GDPR Policy</span><span class="scorecard-text">Policy in place</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Privacy Policy</span><span class="scorecard-text">Published &amp; up to date</span></div></div>
-                            <div class="scorecard-item warning"><div class="status-dot warning"></div><div><span class="scorecard-label">DMCC</span><span class="scorecard-text">Under review</span></div></div>
-                        </div>
-                    </div>
-
-                    <!-- Reporting -->
-                    <div class="scorecard-section">
-                        <div class="scorecard-section-title">📋 Reporting</div>
-                        <div class="scorecard-items">
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Reviewing Reports Regularly</span><span class="scorecard-text">Weekly cadence in place</span></div></div>
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Trained on Portal Topline</span><span class="scorecard-text">Team trained</span></div></div>
-                            <div class="scorecard-item warning"><div class="status-dot warning"></div><div><span class="scorecard-label">Interactive Portal Reports</span><span class="scorecard-text">Training scheduled</span></div></div>
-                        </div>
-                    </div>
-
-                    <!-- Data -->
-                    <div class="scorecard-section">
-                        <div class="scorecard-section-title">🗄️ Data</div>
-                        <div class="scorecard-items">
-                            <div class="scorecard-item warning"><div class="status-dot warning"></div><div><span class="scorecard-label">Data Used for Marketing</span><span class="scorecard-text">68% of available data utilised</span></div></div>
-                            <div class="scorecard-item warning"><div class="status-dot warning"></div><div><span class="scorecard-label">Single Customer View (Orbit)</span><span class="scorecard-text">Integration in progress</span></div></div>
-                        </div>
-                    </div>
-
-                    <!-- User Journeys -->
-                    <div class="scorecard-section">
-                        <div class="scorecard-section-title">🧭 User Journeys</div>
-                        <div class="scorecard-items">
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Purchase &amp; Access Flow</span><span class="scorecard-text">Customers can easily purchase and access content</span></div></div>
-                        </div>
-                    </div>
-
-                    <!-- Banking / Finance -->
-                    <div class="scorecard-section">
-                        <div class="scorecard-section-title">🏦 Banking / Finance</div>
-                        <div class="scorecard-items">
-                            <div class="scorecard-item good"><div class="status-dot good"></div><div><span class="scorecard-label">Subs Bank Account Reconciliation</span><span class="scorecard-text">Reconciled monthly — up to date</span></div></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- INSIGHTS PAGE -->
-            <div id="insights" class="page">
-
-                <!-- Section A: Active AI Insights -->
-                <div style="margin-bottom:24px;">
-                    <div class="insights-section-title">💡 Active AI Insights</div>
-
-                    <div class="insight-card urgent">
-                        <div class="insight-card-icon">🚨</div>
-                        <div class="insight-card-body">
-                            <div class="insight-card-title">Cancellation Alert: Rate Up 1.2% MoM</div>
-                            <div class="insight-card-desc">Your cancellation rate has risen to 3.2%, up 1.2% month-on-month. At the current trajectory it will exceed the 3.5% watch threshold within 6 weeks. Consider reviewing your retention offers and examining which subscriber segments are cancelling most.</div>
-                            <div class="insight-card-footer">
-                                <span class="severity-badge urgent">Urgent</span>
-                                <button class="btn-sm primary" onclick="openAimee('My cancellation rate is up 1.2% MoM and approaching 3.5%. What specific actions should I take?')">Take Action</button>
-                                <button class="btn-sm" onclick="showPage('cancellations', null)">View Cancellations</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="insight-card good">
-                        <div class="insight-card-icon">📈</div>
-                        <div class="insight-card-body">
-                            <div class="insight-card-title">Opportunity: Direct Debit Growth +1.64%</div>
-                            <div class="insight-card-desc">Continuous Direct Debit renewals are performing strongly at +1.64% above baseline. Subscribers acquired via this channel show 18% better retention. This is your most cost-effective acquisition channel right now — increasing budget here could yield significant returns.</div>
-                            <div class="insight-card-footer">
-                                <span class="severity-badge good">Opportunity</span>
-                                <button class="btn-sm primary" onclick="openAimee('How can I capitalise on the Direct Debit growth trend? What budget allocation would you recommend?')">Learn More</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="insight-card warn">
-                        <div class="insight-card-icon">🗺️</div>
-                        <div class="insight-card-body">
-                            <div class="insight-card-title">Warning: East Region Decline — Down 12%</div>
-                            <div class="insight-card-desc">UK Map data shows a 12% subscriber decline in the East region compared to last month. This is the most significant regional movement in the last quarter. Local competitor activity or distribution issues may be contributing factors worth investigating.</div>
-                            <div class="insight-card-footer">
-                                <span class="severity-badge warn">Watch</span>
-                                <button class="btn-sm primary" onclick="openAimee('The East region is down 12% month-on-month. What could be causing this and how should I respond?')">Ask Aimee</button>
-                                <button class="btn-sm" onclick="showPage('uk-map', null)">View UK Map</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="insight-card good">
-                        <div class="insight-card-icon">🎯</div>
-                        <div class="insight-card-body">
-                            <div class="insight-card-title">Recommendation: Lookalike Audiences 15% More Effective</div>
-                            <div class="insight-card-desc">Your lookalike audience campaigns are outperforming baseline by 15%. Subscribers acquired through this channel have a higher average tenure and lower early-cancellation rate. Expanding this targeting approach across more campaigns is recommended.</div>
-                            <div class="insight-card-footer">
-                                <span class="severity-badge good">Positive</span>
-                                <button class="btn-sm primary" onclick="openAimee('Tell me more about expanding lookalike audience targeting. What channels and budgets should I consider?')">Learn More</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="insight-card good">
-                        <div class="insight-card-icon">⭐</div>
-                        <div class="insight-card-body">
-                            <div class="insight-card-title">Insight: Premium Members Have 23% Longer Tenure</div>
-                            <div class="insight-card-desc">Analysis of your membership tiers shows Premium subscribers have an average tenure 23% longer than Standard. Your upsell strategy is working. Consider introducing a mid-tier promotional offer to move more Standard members to Premium at renewal time.</div>
-                            <div class="insight-card-footer">
-                                <span class="severity-badge good">Strategic</span>
-                                <button class="btn-sm primary" onclick="openAimee('How can I design a upsell strategy to move more Standard subscribers to Premium at renewal?')">Take Action</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section B: Ask Aimee -->
-                <div style="margin-bottom:24px;">
-                    <div class="insights-section-title">💬 Ask Aimee</div>
-                    <div class="insights-chat">
-                        <div class="suggested-questions">
-                            <button class="sq-btn" onclick="insightAsk('Why is my cancellation rate up?')">Why is my cancellation rate up?</button>
-                            <button class="sq-btn" onclick="insightAsk('Which payment method should I focus on?')">Which payment method should I focus on?</button>
-                            <button class="sq-btn" onclick="insightAsk('How do I compare to similar publishers?')">How do I compare to similar publishers?</button>
-                            <button class="sq-btn" onclick="insightAsk('What\'s my biggest opportunity right now?')">What's my biggest opportunity right now?</button>
-                        </div>
-                        <div class="insights-chat-messages" id="insights-chat-messages">
-                            <div class="aimee-msg">
-                                <div class="msg-avatar">🤖</div>
-                                <div>
-                                    <div class="msg-bubble"><strong>Aimee</strong>Hi! I've analysed your latest data. Your renewal rate is strong at 94.9%, but the cancellation trend needs attention. What would you like to explore?</div>
-                                    <div class="msg-time">Just now</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="insights-input-row">
-                            <input class="insights-input" id="insights-input" placeholder="Ask me anything about your metrics..." onkeydown="if(event.key==='Enter')insightAsk()">
-                            <button class="aimee-send" onclick="insightAsk()">➤</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section C: Recommended Actions -->
-                <div>
-                    <div class="insights-section-title">⚡ Recommended Actions</div>
-
-                    <div class="action-card">
-                        <span class="action-priority high">High</span>
-                        <div class="action-body">
-                            <div class="action-title">Review retention offers for at-risk cancellations</div>
-                            <div class="action-impact">Expected impact: reduce cancellation rate by 0.4–0.8%</div>
-                        </div>
-                        <button class="btn-sm primary" onclick="openAimee('Help me design a retention offer for subscribers who are at risk of cancelling.')">Take Action</button>
-                    </div>
-
-                    <div class="action-card">
-                        <span class="action-priority high">High</span>
-                        <div class="action-body">
-                            <div class="action-title">Increase Direct Debit acquisition budget</div>
-                            <div class="action-impact">Expected impact: +1.64% improvement in renewal rate</div>
-                        </div>
-                        <button class="btn-sm primary" onclick="openAimee('How much should I increase my Direct Debit acquisition budget and where should I allocate it?')">Take Action</button>
-                    </div>
-
-                    <div class="action-card">
-                        <span class="action-priority medium">Medium</span>
-                        <div class="action-body">
-                            <div class="action-title">Investigate East region decline</div>
-                            <div class="action-impact">Expected impact: recover up to 12% regional subscriber loss</div>
-                        </div>
-                        <button class="btn-sm" onclick="showPage('uk-map', null)">View UK Map</button>
-                    </div>
-
-                    <div class="action-card">
-                        <span class="action-priority low">Low</span>
-                        <div class="action-body">
-                            <div class="action-title">Test Premium upsell offer at Standard renewal</div>
-                            <div class="action-impact">Expected impact: increase Premium mix, extend average tenure</div>
-                        </div>
-                        <button class="btn-sm primary" onclick="openAimee('Design a Premium upsell offer I can present to Standard subscribers at renewal time.')">Take Action</button>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- CANCELLATION ALERT EMAIL -->
-            <div id="email-cancellation" class="page">
-                <div style="max-width:600px;margin:0 auto;">
-                <div style="font-size:11px;font-weight:700;color:#e74c3c;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">🔴 Risk Alert Email</div>
-                        <div class="email-card">
-                            <div class="email-client-bar">
-                                <div class="email-client-dot" style="background:#e74c3c;"></div>
-                                <div class="email-client-dot" style="background:#f59e0b;"></div>
-                                <div class="email-client-dot" style="background:#22c55e;"></div>
-                                <span style="margin-left:8px;">Outlook — Inbox</span>
-                            </div>
-                            <div class="email-header-bar">
-                                <div class="email-subject">⚠️ Action needed: Your cancellation rate has exceeded the benchmark</div>
-                                <div class="email-meta">
-                                    <span>From: <strong>insights@esco.co.uk</strong></span>
-                                    <span>To: demo@publisher.co.uk</span>
-                                    <span>Today, 09:14</span>
-                                </div>
-                            </div>
-                            <div class="email-body">
-                                <div class="email-logo-bar">
-                                    <svg viewBox="0 0 348 156" xmlns="http://www.w3.org/2000/svg"><style>.es0{fill:#531E6A}.es1{fill:#00BCBA}</style><path class="es0" d="M5.3,56.7c0-22.9,16.3-40.9,39.5-40.9c27,0,39.5,19.8,39.5,42.8c0,1.7,0,3.8-0.1,5.6H31.8c2.2,8.5,8.4,12.9,16.9,12.9c6.5,0,11.7-2.5,17.4-8l15.2,12.6c-7.5,9.5-18.4,15.9-34,15.9C22.7,97.6,5.3,81.2,5.3,56.7z M58.6,50.1c-1-8.7-6.1-14.2-13.6-14.2c-7.2,0-12.1,5.6-13.6,14.2H58.6z"/><path class="es0" d="M88.5,92.2l15.6-18.7c10,8,21.1,12.1,32.8,12.1c7.5,0,11.6-2.6,11.6-7.2c0-4.2-3.3-6.5-17.1-9.7c-21.5-4.9-38.2-11-38.2-32.1c0-18.8,14.9-32.4,39.2-32.4c17.2,0,30.7,4.6,41.7,13.5l-14,19.8c-9.3-6.5-19.4-10-28.3-10c-6.8,0-10.1,2.9-10.1,6.8c0,4.6,3.5,6.7,17.5,9.8c23.3,5.1,37.8,12.6,37.8,31.8c0,20.7-16.3,33-40.9,33C118,109,101,103.4,88.5,92.2z"/><path class="es0" d="M182.1,56.6c0-22.1,17.2-40.8,41.9-40.8c16.1,0,26.8,6.9,33.4,17.5L239,46.6c-3.8-5.2-8.2-7.7-14.2-7.7c-10,0-16.1,7.8-16.1,17.6c0,10.1,6.4,17.8,15.6,17.8c6.5,0,10.4-3.2,14.8-8.2l18.7,13.5c-7.2,10.7-17.6,17.9-34.9,17.9C199.4,97.5,182.1,79,182.1,56.6z"/><path class="es0" d="M257.9,56.7c0-22.3,18.2-40.9,43.4-40.9c25,0,43.1,18.4,43.1,40.9c0,22.3-18.2,40.9-43.4,40.9C276,97.6,257.9,79.2,257.9,56.7z M317.7,56.7c0-9.5-6.9-17.6-16.6-17.6c-10,0-16.3,8-16.3,17.6c0,9.5,6.9,17.6,16.6,17.6C311.3,74.3,317.7,66.3,317.7,56.7z"/><path class="es1" d="M202.3,125.8c-38.7,34.6-101.4,34.6-140.1,0l15.6-19.5c30,27.5,78.6,27.5,108.6,0L202.3,125.8z"/></svg>
-                                </div>
-                                <div class="email-alert-banner risk">⚠️ Your cancellation rate has exceeded the publisher benchmark</div>
-                                <p class="email-p">Hi there,</p>
-                                <p class="email-p">We continuously monitor key subscription metrics across our publisher base, and we've noticed that your cancellation rate has <strong>increased above the average</strong> for publishers of your size and type.</p>
-                                <div class="email-stat-row">
-                                    <div class="email-stat">
-                                        <div class="email-stat-value red">3.2%</div>
-                                        <div class="email-stat-label">Your Rate</div>
-                                    </div>
-                                    <div class="email-stat benchmark">
-                                        <div class="email-stat-value">2.8%</div>
-                                        <div class="email-stat-label">Publisher Average</div>
-                                    </div>
-                                    <div class="email-stat">
-                                        <div class="email-stat-value red">+0.4%</div>
-                                        <div class="email-stat-label">Above Avg</div>
-                                    </div>
-                                </div>
-                                <p class="email-p">We've put together a detailed report showing exactly where the cancellations are happening — broken down by subscriber segment, tenure, and reason code — so you can take targeted action quickly.</p>
-                                <p class="email-p">Aimee, your AI assistant, is on hand in the portal to help you interpret the data and recommend next steps.</p>
-                                <button class="email-cta risk" onclick="goToReport('cancellation-report', 'Your cancellation rate is 0.4% above the publisher benchmark. I\'ve analysed the data and can see the main drivers. Shall I walk you through them?')">View Your Cancellation Report →</button>
-                            </div>
-                            <div class="email-footer">
-                                ESco Subscription Management · insights@esco.co.uk<br>
-                                You're receiving this because you're subscribed to ESco performance alerts. <u>Manage preferences</u>
-                            </div>
-                        </div>
-                        <div class="journey-arrow">↓ Click the button above to follow the journey</div>
-                </div>
-            </div>
-
-            <!-- SPRING PROMO ALERT EMAIL -->
-            <div id="email-promo" class="page">
-                <div style="max-width:600px;margin:0 auto;">
-                <div style="font-size:11px;font-weight:700;color:#007a79;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">🟢 Opportunity Alert Email</div>
-                        <div class="email-card">
-                            <div class="email-client-bar">
-                                <div class="email-client-dot" style="background:#e74c3c;"></div>
-                                <div class="email-client-dot" style="background:#f59e0b;"></div>
-                                <div class="email-client-dot" style="background:#22c55e;"></div>
-                                <span style="margin-left:8px;">Outlook — Inbox</span>
-                            </div>
-                            <div class="email-header-bar">
-                                <div class="email-subject">🎉 Great news: Your Spring Promo is outperforming the benchmark</div>
-                                <div class="email-meta">
-                                    <span>From: <strong>insights@esco.co.uk</strong></span>
-                                    <span>To: demo@publisher.co.uk</span>
-                                    <span>Today, 11:32</span>
-                                </div>
-                            </div>
-                            <div class="email-body">
-                                <div class="email-logo-bar">
-                                    <svg viewBox="0 0 348 156" xmlns="http://www.w3.org/2000/svg"><style>.eo0{fill:#531E6A}.eo1{fill:#00BCBA}</style><path class="eo0" d="M5.3,56.7c0-22.9,16.3-40.9,39.5-40.9c27,0,39.5,19.8,39.5,42.8c0,1.7,0,3.8-0.1,5.6H31.8c2.2,8.5,8.4,12.9,16.9,12.9c6.5,0,11.7-2.5,17.4-8l15.2,12.6c-7.5,9.5-18.4,15.9-34,15.9C22.7,97.6,5.3,81.2,5.3,56.7z M58.6,50.1c-1-8.7-6.1-14.2-13.6-14.2c-7.2,0-12.1,5.6-13.6,14.2H58.6z"/><path class="eo0" d="M88.5,92.2l15.6-18.7c10,8,21.1,12.1,32.8,12.1c7.5,0,11.6-2.6,11.6-7.2c0-4.2-3.3-6.5-17.1-9.7c-21.5-4.9-38.2-11-38.2-32.1c0-18.8,14.9-32.4,39.2-32.4c17.2,0,30.7,4.6,41.7,13.5l-14,19.8c-9.3-6.5-19.4-10-28.3-10c-6.8,0-10.1,2.9-10.1,6.8c0,4.6,3.5,6.7,17.5,9.8c23.3,5.1,37.8,12.6,37.8,31.8c0,20.7-16.3,33-40.9,33C118,109,101,103.4,88.5,92.2z"/><path class="eo0" d="M182.1,56.6c0-22.1,17.2-40.8,41.9-40.8c16.1,0,26.8,6.9,33.4,17.5L239,46.6c-3.8-5.2-8.2-7.7-14.2-7.7c-10,0-16.1,7.8-16.1,17.6c0,10.1,6.4,17.8,15.6,17.8c6.5,0,10.4-3.2,14.8-8.2l18.7,13.5c-7.2,10.7-17.6,17.9-34.9,17.9C199.4,97.5,182.1,79,182.1,56.6z"/><path class="eo0" d="M257.9,56.7c0-22.3,18.2-40.9,43.4-40.9c25,0,43.1,18.4,43.1,40.9c0,22.3-18.2,40.9-43.4,40.9C276,97.6,257.9,79.2,257.9,56.7z M317.7,56.7c0-9.5-6.9-17.6-16.6-17.6c-10,0-16.3,8-16.3,17.6c0,9.5,6.9,17.6,16.6,17.6C311.3,74.3,317.7,66.3,317.7,56.7z"/><path class="eo1" d="M202.3,125.8c-38.7,34.6-101.4,34.6-140.1,0l15.6-19.5c30,27.5,78.6,27.5,108.6,0L202.3,125.8z"/></svg>
-                                </div>
-                                <div class="email-alert-banner opportunity">🎉 Your Spring Promo is performing 23% above the publisher benchmark</div>
-                                <p class="email-p">Hi there,</p>
-                                <p class="email-p">We have some great news! Your <strong>Spring Promo 2026</strong> campaign is performing exceptionally well — significantly above the average response rate we see across our publisher base for similar promotions.</p>
-                                <div class="email-stat-row">
-                                    <div class="email-stat">
-                                        <div class="email-stat-value green">4.8%</div>
-                                        <div class="email-stat-label">Your Response Rate</div>
-                                    </div>
-                                    <div class="email-stat benchmark">
-                                        <div class="email-stat-value">3.9%</div>
-                                        <div class="email-stat-label">Publisher Average</div>
-                                    </div>
-                                    <div class="email-stat">
-                                        <div class="email-stat-value green">+23%</div>
-                                        <div class="email-stat-label">Above Avg</div>
-                                    </div>
-                                </div>
-                                <p class="email-p">This is a real opportunity. The promo is bringing in <strong>142 new subscribers</strong> with a strong Direct Debit uptake — these are high-value, high-retention acquisitions. Now is the time to consider extending the campaign or increasing the budget.</p>
-                                <p class="email-p">We've prepared a full breakdown in your portal. Aimee is ready to help you decide the best next steps.</p>
-                                <button class="email-cta opportunity" onclick="goToReport('promo-report', 'Your Spring Promo 2026 is performing 23% above benchmark — this is a real opportunity! I\'ve broken down what\'s driving the performance. Want to explore how to capitalise on it?')">View Your Promo Report →</button>
-                            </div>
-                            <div class="email-footer">
-                                ESco Subscription Management · insights@esco.co.uk<br>
-                                You're receiving this because you're subscribed to ESco performance alerts. <u>Manage preferences</u>
-                            </div>
-                        </div>
-                        <div class="journey-arrow">↓ Click the button above to follow the journey</div>
-                </div>
-            </div>
-
-            <!-- CANCELLATION DEEP-DIVE REPORT -->
-            <div id="cancellation-report" class="page">
-                <div class="report-hero">
-                    <div class="report-hero-left">
-                        <h2>📉 Cancellation Rate — Deep Dive</h2>
-                        <p>Triggered by alert: Rate exceeded publisher benchmark · Report generated 20 Apr 2026</p>
-                    </div>
-                    <span class="report-status-badge risk">⚠️ Above Benchmark</span>
-                </div>
-
-                <div class="grid-3">
-                    <div class="kpi-card">
-                        <div class="kpi-icon amber">📊</div>
-                        <div class="kpi-body">
-                            <div class="kpi-label">Your Rate</div>
-                            <div class="kpi-value" style="color:#e74c3c;">3.2%</div>
-                            <div class="kpi-badge down">▲ +1.2% vs last month</div>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon blue">🏆</div>
-                        <div class="kpi-body">
-                            <div class="kpi-label">Publisher Benchmark</div>
-                            <div class="kpi-value">2.8%</div>
-                            <div class="kpi-badge neutral">Industry average</div>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon amber">⚠️</div>
-                        <div class="kpi-body">
-                            <div class="kpi-label">Above Benchmark</div>
-                            <div class="kpi-value" style="color:#e74c3c;">+0.4%</div>
-                            <div class="kpi-badge down">Action recommended</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid-2">
-                    <div class="panel-card">
-                        <div class="panel-card-title">Cancellation Rate vs Benchmark (12 months)</div>
-                        <div style="position:relative;height:220px;">
-                            <canvas id="chartCancelTrend"></canvas>
-                        </div>
-                    </div>
-                    <div class="panel-card">
-                        <div class="panel-card-title">Cancellations by Reason Code</div>
-                        <div style="position:relative;height:220px;">
-                            <canvas id="chartCancelReason"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid-2">
-                    <div class="panel-card">
-                        <div class="panel-card-title">Cancellations by Membership Tier</div>
-                        <div style="position:relative;height:200px;display:flex;align-items:center;justify-content:center;">
-                            <canvas id="chartCancelTier"></canvas>
-                        </div>
-                    </div>
-                    <div class="panel-card">
-                        <div class="panel-card-title">Cancellations by Subscriber Tenure</div>
-                        <div style="position:relative;height:200px;display:flex;align-items:center;justify-content:center;">
-                            <canvas id="chartCancelTenure"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel-card">
-                    <div class="panel-card-title">Monthly Breakdown</div>
-                    <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
-                        <thead>
-                            <tr style="background:#f7f8fa;">
-                                <th style="padding:10px 14px;text-align:left;font-weight:600;color:#666;border-bottom:1px solid #eaedf0;">Month</th>
-                                <th style="padding:10px 14px;text-align:right;font-weight:600;color:#666;border-bottom:1px solid #eaedf0;">Cancellations</th>
-                                <th style="padding:10px 14px;text-align:right;font-weight:600;color:#666;border-bottom:1px solid #eaedf0;">Your Rate</th>
-                                <th style="padding:10px 14px;text-align:right;font-weight:600;color:#666;border-bottom:1px solid #eaedf0;">Benchmark</th>
-                                <th style="padding:10px 14px;text-align:right;font-weight:600;color:#666;border-bottom:1px solid #eaedf0;">Variance</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="border-bottom:1px solid #f3f4f6;"><td style="padding:9px 14px;">Jan 2026</td><td style="padding:9px 14px;text-align:right;">82</td><td style="padding:9px 14px;text-align:right;">2.1%</td><td style="padding:9px 14px;text-align:right;">2.8%</td><td style="padding:9px 14px;text-align:right;color:#22a648;">−0.7%</td></tr>
-                            <tr style="border-bottom:1px solid #f3f4f6;background:#fafbfc;"><td style="padding:9px 14px;">Feb 2026</td><td style="padding:9px 14px;text-align:right;">96</td><td style="padding:9px 14px;text-align:right;">2.5%</td><td style="padding:9px 14px;text-align:right;">2.8%</td><td style="padding:9px 14px;text-align:right;color:#22a648;">−0.3%</td></tr>
-                            <tr style="border-bottom:1px solid #f3f4f6;"><td style="padding:9px 14px;">Mar 2026</td><td style="padding:9px 14px;text-align:right;">109</td><td style="padding:9px 14px;text-align:right;">2.8%</td><td style="padding:9px 14px;text-align:right;">2.8%</td><td style="padding:9px 14px;text-align:right;color:#888;">0.0%</td></tr>
-                            <tr style="border-bottom:1px solid #f3f4f6;background:#fafbfc;"><td style="padding:9px 14px;font-weight:600;">Apr 2026</td><td style="padding:9px 14px;text-align:right;font-weight:600;">124</td><td style="padding:9px 14px;text-align:right;font-weight:600;color:#e74c3c;">3.2%</td><td style="padding:9px 14px;text-align:right;">2.8%</td><td style="padding:9px 14px;text-align:right;color:#e74c3c;">+0.4% ⚠️</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="ai-insight">
-                    <div class="ai-insight-icon">🤖</div>
-                    <div>
-                        <div class="ai-insight-title">Aimee — Cancellation Analysis</div>
-                        The spike is concentrated in Standard-tier subscribers at months 6–12 of tenure. This cohort accounts for 61% of April's cancellations despite being 34% of your base. A targeted retention offer at the month-9 renewal point could address this directly.
-                        <br><button class="btn-aimee-sm" onclick="openAimee('The cancellation spike is in Standard-tier subscribers at months 6-12. What retention offer would you recommend for this cohort?')" style="margin-top:8px;">💬 Ask Aimee about this</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PROMO DEEP-DIVE REPORT -->
-            <div id="promo-report" class="page">
-                <div class="report-hero">
-                    <div class="report-hero-left">
-                        <h2>🎉 Spring Promo 2026 — Performance Report</h2>
-                        <p>Promo code: SPRING26 · Campaign period: 1 Mar – 30 Apr 2026 · Report generated 20 Apr 2026</p>
-                    </div>
-                    <span class="report-status-badge good">✅ Above Benchmark</span>
-                </div>
-
-                <div class="grid-3">
-                    <div class="kpi-card">
-                        <div class="kpi-icon green">📈</div>
-                        <div class="kpi-body">
-                            <div class="kpi-label">Response Rate</div>
-                            <div class="kpi-value" style="color:#007a79;">4.8%</div>
-                            <div class="kpi-badge up">▲ +23% vs benchmark</div>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon green">👥</div>
-                        <div class="kpi-body">
-                            <div class="kpi-label">New Subscribers</div>
-                            <div class="kpi-value">142</div>
-                            <div class="kpi-badge up">▲ +38 vs target</div>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon blue">💳</div>
-                        <div class="kpi-body">
-                            <div class="kpi-label">DD Uptake</div>
-                            <div class="kpi-value">68%</div>
-                            <div class="kpi-badge up">▲ High retention signal</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid-2">
-                    <div class="panel-card">
-                        <div class="panel-card-title">Weekly Response Rate vs Benchmark</div>
-                        <div style="position:relative;height:220px;">
-                            <canvas id="chartPromoWeekly"></canvas>
-                        </div>
-                    </div>
-                    <div class="panel-card">
-                        <div class="panel-card-title">Cumulative New Subscribers</div>
-                        <div style="position:relative;height:220px;">
-                            <canvas id="chartPromoCumulative"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid-2">
-                    <div class="panel-card">
-                        <div class="panel-card-title">New Subscriber Mix</div>
-                        <div style="position:relative;height:200px;display:flex;align-items:center;justify-content:center;">
-                            <canvas id="chartPromoMix"></canvas>
-                        </div>
-                    </div>
-                    <div class="panel-card">
-                        <div class="panel-card-title">Payment Method Breakdown</div>
-                        <div style="position:relative;height:200px;display:flex;align-items:center;justify-content:center;">
-                            <canvas id="chartPromoPayment"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="ai-insight" style="border-left-color:#00BCBA;">
-                    <div class="ai-insight-icon">🤖</div>
-                    <div>
-                        <div class="ai-insight-title">Aimee — Promo Opportunity Analysis</div>
-                        This is your strongest promo performance in 18 months. The 68% Direct Debit uptake means these subscribers are likely to renew at a much higher rate than cash acquisitions. With 10 days of the campaign remaining, extending the budget by even 20% could add an estimated 28–35 additional high-value subscribers.
-                        <br><button class="btn-aimee-sm" onclick="openAimee('My Spring Promo is 23% above benchmark with 68% DD uptake. What would you recommend to capitalise on the remaining campaign window?')" style="margin-top:8px;">💬 Ask Aimee about this</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- STUB PAGES -->
-            <div id="subscriptions" class="page"><div class="coming-soon">Subscriptions — coming soon</div></div>
-            <div id="world-map"     class="page"><div class="coming-soon">World Map — coming soon</div></div>
-            <div id="uk-map"        class="page"><div class="coming-soon">UK Map — coming soon</div></div>
-            <div id="promotions"    class="page"><div class="coming-soon">Promotions — coming soon</div></div>
-            <div id="issue-run"     class="page"><div class="coming-soon">Issue Run Figures — coming soon</div></div>
-            <div id="payments"      class="page"><div class="coming-soon">Payments Dashboard — coming soon</div></div>
-            <div id="cancellations" class="page"><div class="coming-soon">Online Cancellations — coming soon</div></div>
-            <div id="connect"       class="page"><div class="coming-soon">ESco Connect — coming soon</div></div>
-            <div id="stub"          class="page"><div class="coming-soon">Coming soon</div></div>
-
-        </div>
-    </div>
-
-    <!-- AIMEE CHAT PANEL (integrated right sidebar) -->
-    <div class="aimee-panel" id="aimee-panel">
-      <div class="aimee-panel-inner">
-        <div class="aimee-header">
-            <div class="aimee-header-left">
-                <div class="aimee-avatar">🤖</div>
-                <div>
-                    <div class="aimee-header-name">Ask Aimee</div>
-                    <div class="aimee-header-sub">AI Insights Assistant</div>
-                </div>
-            </div>
-            <button class="aimee-close" onclick="closeAimee()">×</button>
-        </div>
-        <div class="aimee-messages" id="aimee-messages">
-            <div class="aimee-msg">
-                <div class="msg-avatar">🤖</div>
-                <div>
-                    <div class="msg-bubble"><strong>Aimee</strong>Hi! I'm Aimee, your ESco AI assistant. I've been analysing your subscription data. Your renewal rate is strong at 94.9%, but I'm watching your cancellation trend. What would you like to know?</div>
-                    <div class="msg-time">Just now</div>
-                </div>
-            </div>
-        </div>
-        <div class="aimee-input-area">
-            <input class="aimee-input" id="aimee-input" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendAimeeMessage()">
-            <button class="aimee-send" onclick="sendAimeeMessage()">➤</button>
-        </div>
+<header>
+  <svg viewBox="0 0 348 156" xmlns="http://www.w3.org/2000/svg">
+    <style>.s0{fill:#fff}.s1{fill:#00BCBA}</style>
+    <path class="s0" d="M5.3,56.7c0-22.9,16.3-40.9,39.5-40.9c27,0,39.5,19.8,39.5,42.8c0,1.7,0,3.8-0.1,5.6H31.8c2.2,8.5,8.4,12.9,16.9,12.9c6.5,0,11.7-2.5,17.4-8l15.2,12.6c-7.5,9.5-18.4,15.9-34,15.9C22.7,97.6,5.3,81.2,5.3,56.7z M58.6,50.1c-1-8.7-6.1-14.2-13.6-14.2c-7.2,0-12.1,5.6-13.6,14.2H58.6z"/>
+    <path class="s0" d="M88.5,92.2l15.6-18.7c10,8,21.1,12.1,32.8,12.1c7.5,0,11.6-2.6,11.6-7.2c0-4.2-3.3-6.5-17.1-9.7c-21.5-4.9-38.2-11-38.2-32.1c0-18.8,14.9-32.4,39.2-32.4c17.2,0,30.7,4.6,41.7,13.5l-14,19.8c-9.3-6.5-19.4-10-28.3-10c-6.8,0-10.1,2.9-10.1,6.8c0,4.6,3.5,6.7,17.5,9.8c23.3,5.1,37.8,12.6,37.8,31.8c0,20.7-16.3,33-40.9,33C118,109,101,103.4,88.5,92.2z"/>
+    <path class="s0" d="M182.1,56.6c0-22.1,17.2-40.8,41.9-40.8c16.1,0,26.8,6.9,33.4,17.5L239,46.6c-3.8-5.2-8.2-7.7-14.2-7.7c-10,0-16.1,7.8-16.1,17.6c0,10.1,6.4,17.8,15.6,17.8c6.5,0,10.4-3.2,14.8-8.2l18.7,13.5c-7.2,10.7-17.6,17.9-34.9,17.9C199.4,97.5,182.1,79,182.1,56.6z"/>
+    <path class="s0" d="M257.9,56.7c0-22.3,18.2-40.9,43.4-40.9c25,0,43.1,18.4,43.1,40.9c0,22.3-18.2,40.9-43.4,40.9C276,97.6,257.9,79.2,257.9,56.7z M317.7,56.7c0-9.5-6.9-17.6-16.6-17.6c-10,0-16.3,8-16.3,17.6c0,9.5,6.9,17.6,16.6,17.6C311.3,74.3,317.7,66.3,317.7,56.7z"/>
+    <path class="s1" d="M202.3,125.8c-38.7,34.6-101.4,34.6-140.1,0l15.6-19.5c30,27.5,78.6,27.5,108.6,0L202.3,125.8z"/>
+  </svg>
+  <div class="header-text">
+    <h1>Client Portal</h1>
+    <p>Demo Versions Hub</p>
+  </div>
+</header>
+
+<main>
+  <div class="hub-title">
+    <h2>Choose a Demo Version</h2>
+    <p>Three variations of the ESco Client Portal — each exploring a different approach to data, AI, and design.</p>
+  </div>
+
+  <div class="versions">
+
+    <!-- Aimee V3 -->
+    <a class="version-card" href="./aimee-v3/">
+      <div class="card-header">
+        <span class="card-badge badge-v3">Full Featured</span>
+        <h3>Aimee V3</h3>
+        <div class="card-subtitle">Complete portal with AI insights &amp; alerts</div>
       </div>
-    </div>
-</div>
+      <div class="card-body">
+        <ul class="feature-list">
+          <li><span class="icon">📊</span> Full performance dashboard &amp; charts</li>
+          <li><span class="icon">🤖</span> Aimee AI assistant with Insights page</li>
+          <li><span class="icon">🔔</span> Proactive performance alert system</li>
+          <li><span class="icon">✉️</span> Email alert journey demos</li>
+          <li><span class="icon">📈</span> Cancellation &amp; promo deep-dive reports</li>
+          <li><span class="icon">🎨</span> Full ESco brand guide styling</li>
+        </ul>
+        <span class="card-cta cta-v3">Open Aimee V3 →</span>
+      </div>
+    </a>
 
-<script>
-    const pageTitles = {
-        'visual-topline': 'Visual Topline — Title #03',
-        'scorecard':      'Success Scorecard',
-        'insights':            'Aimee AI Insights',
-        'email-cancellation':  'Cancellation Alert Email',
-        'email-promo':         'Spring Promo Alert Email',
-        'cancellation-report': 'Cancellation Rate — Deep Dive',
-        'promo-report':        'Spring Promo 2026 — Performance Report',
-        'subscriptions':  'Subscriptions',
-        'world-map':      'World Map',
-        'uk-map':         'UK Map',
-        'promotions':     'Promotions',
-        'issue-run':      'Issue Run Figures',
-        'payments':       'Payments Dashboard',
-        'cancellations':  'Online Cancellations',
-        'connect':        'ESco Connect',
-        'stub':           'Coming Soon'
-    };
+    <!-- Aimee V2 -->
+    <a class="version-card" href="./aimee-v2/">
+      <div class="card-header">
+        <span class="card-badge badge-v2">Stats Focus</span>
+        <h3>Aimee V2</h3>
+        <div class="card-subtitle">Stats surfacing via AI prompt bar</div>
+      </div>
+      <div class="card-body">
+        <ul class="feature-list">
+          <li><span class="icon">📊</span> Core performance dashboard &amp; charts</li>
+          <li><span class="icon">💬</span> Aimee prompt bar for stats queries</li>
+          <li><span class="icon">🔍</span> Natural language data surfacing</li>
+          <li><span class="icon">➖</span> No Insights page or email alerts</li>
+          <li><span class="icon">➖</span> No performance alert banners</li>
+          <li><span class="icon">🎨</span> Full ESco brand guide styling</li>
+        </ul>
+        <span class="card-cta cta-v2">Open Aimee V2 →</span>
+      </div>
+    </a>
 
-    function showPage(pageId, navEl) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        if (navEl) navEl.classList.add('active');
-        document.getElementById('header-title').textContent = pageTitles[pageId] || pageId;
-    }
+    <!-- Zoho -->
+    <a class="version-card" href="./zoho/">
+      <div class="card-header">
+        <span class="card-badge badge-zoho">Zoho Style</span>
+        <h3>Zoho Analytics</h3>
+        <div class="card-subtitle">Zoho Analytics UI pattern with Aimee</div>
+      </div>
+      <div class="card-body">
+        <ul class="feature-list">
+          <li><span class="icon">🧩</span> Zoho Analytics-style widget layout</li>
+          <li><span class="icon">🗂️</span> Top nav tabs: Dashboards, Reports, Data</li>
+          <li><span class="icon">🔽</span> Filter bar with date/publication/region</li>
+          <li><span class="icon">🤖</span> Aimee AI panel integrated</li>
+          <li><span class="icon">📋</span> Data table with subscriber breakdown</li>
+          <li><span class="icon">🎨</span> Zoho navy + ESco brand colour blend</li>
+        </ul>
+        <span class="card-cta cta-zoho">Open Zoho Version →</span>
+      </div>
+    </a>
 
-    function toggleSection(headerEl) {
-        headerEl.classList.toggle('open');
-        const children = headerEl.nextElementSibling;
-        if (children) children.classList.toggle('open');
-    }
+  </div>
+</main>
 
-    // ── CHARTS ──
-    const dxColors = ['#5B8FF9','#61DDAA','#F6BD16','#7262FD','#78D3F8','#9661BC'];
+<footer>
+  ESco Subscriptions &middot; Client Portal Demo &middot; Internal Use Only
+</footer>
 
-    function initCharts() {
-        // Donut: Payment Types
-        const ctxPay = document.getElementById('chartPaymentTypes');
-        if (ctxPay && !ctxPay._chartInstance) {
-            ctxPay._chartInstance = new Chart(ctxPay, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Direct Debit', 'Credit Card', 'Cash', 'Cheque', 'Invoice'],
-                    datasets: [{ data: [52, 24, 11, 8, 5], backgroundColor: dxColors, borderWidth: 2, borderColor: '#fff' }]
-                },
-                options: {
-                    cutout: '65%',
-                    plugins: {
-                        legend: { position: 'right', labels: { boxWidth: 12, font: { size: 12 }, color: '#444' } }
-                    }
-                }
-            });
-        }
-
-        // Donut: Membership Level
-        const ctxMem = document.getElementById('chartMembershipLevel');
-        if (ctxMem && !ctxMem._chartInstance) {
-            ctxMem._chartInstance = new Chart(ctxMem, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Premium', 'Standard', 'Essential', 'Digital Only'],
-                    datasets: [{ data: [38, 33, 18, 11], backgroundColor: dxColors, borderWidth: 2, borderColor: '#fff' }]
-                },
-                options: {
-                    cutout: '65%',
-                    plugins: {
-                        legend: { position: 'right', labels: { boxWidth: 12, font: { size: 12 }, color: '#444' } }
-                    }
-                }
-            });
-        }
-
-        // Bar + Line: Issue Run Totals
-        const ctxIssue = document.getElementById('chartIssueRun');
-        if (ctxIssue && !ctxIssue._chartInstance) {
-            const labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-            ctxIssue._chartInstance = new Chart(ctxIssue, {
-                data: {
-                    labels,
-                    datasets: [
-                        {
-                            type: 'bar',
-                            label: 'Print Run',
-                            data: [3820,3750,3900,3870,3810,3950,3880,3920,3760,3840,3910,3850],
-                            backgroundColor: 'rgba(91,143,249,0.7)',
-                            borderRadius: 4,
-                            yAxisID: 'y'
-                        },
-                        {
-                            type: 'line',
-                            label: 'Digital',
-                            data: [410,430,460,445,470,490,480,510,500,520,515,530],
-                            borderColor: '#61DDAA',
-                            backgroundColor: 'rgba(97,221,170,0.1)',
-                            tension: 0.4,
-                            pointRadius: 3,
-                            fill: true,
-                            yAxisID: 'y'
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { boxWidth: 12, font: { size: 12 }, color: '#444' } }
-                    },
-                    scales: {
-                        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#888', font: { size: 11 } } },
-                        x: { grid: { display: false }, ticks: { color: '#888', font: { size: 11 } } }
-                    }
-                }
-            });
-        }
-    }
-
-    // ── AUTH ──
-    const PORTAL_PASSWORD = 'esco2024';
-    const AUTH_KEY = 'esco_portal_auth';
-
-    function authStore(action, val) {
-        try {
-            if (action === 'set') localStorage.setItem(AUTH_KEY, val);
-            else if (action === 'remove') localStorage.removeItem(AUTH_KEY);
-            else return localStorage.getItem(AUTH_KEY);
-        } catch(e) {
-            if (action === 'get') return null;
-        }
-    }
-
-    function doLogin() {
-        const val = document.getElementById('login-password').value.trim();
-        if (val === PORTAL_PASSWORD) {
-            authStore('set', '1');
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('login-error').textContent = '';
-        } else {
-            document.getElementById('login-error').textContent = 'Incorrect password. Please try again.';
-            document.getElementById('login-password').value = '';
-            document.getElementById('login-password').focus();
-        }
-    }
-
-    function doLogout() {
-        authStore('remove');
-        document.getElementById('login-password').value = '';
-        document.getElementById('login-error').textContent = '';
-        document.getElementById('login-screen').classList.remove('hidden');
-    }
-
-    (function checkAuth() {
-        if (authStore('get') === '1') {
-            document.getElementById('login-screen').classList.add('hidden');
-        }
-    })();
-
-    // ── HASH ROUTING ──
-    function loadFromHash() {
-        const hash = window.location.hash.replace('#', '');
-        if (hash && document.getElementById(hash)) {
-            showPage(hash, null);
-        }
-    }
-    window.addEventListener('load', () => { loadFromHash(); initCharts(); });
-    window.addEventListener('hashchange', loadFromHash);
-
-    // Update hash when navigating
-    const _hashOrigShowPage = showPage;
-    showPage = function(pageId, navEl) {
-        _hashOrigShowPage(pageId, navEl);
-        history.replaceState(null, '', '#' + pageId);
-    };
-    const _origShowPage = showPage;
-    showPage = function(pageId, navEl) {
-        _origShowPage(pageId, navEl);
-        const isEmail = pageId === 'email-cancellation' || pageId === 'email-promo';
-        document.querySelector('.sidebar').style.display = isEmail ? 'none' : '';
-        document.querySelector('.header').style.display = isEmail ? 'none' : '';
-        if (pageId === 'visual-topline') setTimeout(initCharts, 50);
-        if (pageId === 'cancellation-report' || pageId === 'promo-report') setTimeout(() => initDeepDiveCharts(pageId), 50);
-    };
-
-    // ── AIMEE CHAT ──
-    const aimeeResponses = {
-        'cancellation': "Your cancellation rate of 3.2% is approaching the 3.5% alert threshold. Based on your data, the highest-risk segment is Standard-tier subscribers in months 6–12. I'd recommend a targeted retention offer — a 10% loyalty discount at month 9 renewal has worked well for similar publishers. Would you like me to draft a retention email sequence?",
-        'direct debit': "Direct Debit is your strongest channel right now — continuous renewals are up 1.64% and DD subscribers have 18% better long-term retention. I'd recommend shifting 15–20% of your Cash with Order acquisition budget to Direct Debit campaigns. The payback period is typically under 4 months. Want me to model the projected impact?",
-        'east': "The East region decline of 12% is statistically significant. Cross-referencing with your issue run data, distribution in the Norwich and Cambridge postcodes dropped in the same period. I'd check with your fulfilment team on any delivery changes. Meanwhile, a targeted reactivation campaign for lapsed East-region subscribers could recover 30–40% of the lost volume.",
-        'lookalike': "Your lookalike audiences are outperforming baseline by 15% — this is above average for your publication category. The key driver appears to be the seed audience you're using (Premium subscribers with 3+ year tenure). I'd recommend expanding lookalike reach to 2–3% similarity and testing across Facebook and programmatic display simultaneously.",
-        'premium': "Premium tier subscribers have 23% longer tenure than Standard — your upsell strategy is clearly working. The optimal moment to present an upgrade offer is at months 8–10, just before the Standard renewal window. A 'Premium trial for 3 months at Standard price' offer has converted at 22% in similar tests. Want a template for this?",
-        'renewal': "Your overall renewal rate of 94.94% is strong — above the industry median of 91%. The standout figure is Continuous renewals at 95.30% (+1.64%). Cash with Order at 75% has room to improve — many publishers convert these to Direct Debit mandates at renewal, which significantly boosts retention. Want to explore that approach?",
-        'compare': "Compared to similar regional publishers in your category, your renewal rate of 94.9% is in the top quartile. Your yield of £4.80 is slightly below the median of £5.10 — there may be a pricing opportunity here, particularly for Premium tier. Your cancellation rate of 3.2% is at the median; the top performers run at under 2.5%.",
-        'opportunity': "Your biggest opportunity right now is the Direct Debit channel — it's outperforming all others and you're likely underinvesting in it. Second is the Premium upsell: with 23% longer tenure, converting even 5% more Standard subscribers to Premium would add meaningful revenue. Third, addressing the East region decline could recover 400–500 subscribers quickly.",
-        'default': "That's a great question. Based on your current data, your strongest metrics are renewal rate (94.9%) and Direct Debit growth (+1.64%). The areas most worth watching are your cancellation trend and the East region. Would you like me to go deeper on any of these?"
-    };
-
-    function getAimeeResponse(msg) {
-        const m = msg.toLowerCase();
-        if (m.includes('cancel')) return aimeeResponses['cancellation'];
-        if (m.includes('direct debit') || m.includes('payment')) return aimeeResponses['direct debit'];
-        if (m.includes('east') || m.includes('region') || m.includes('map')) return aimeeResponses['east'];
-        if (m.includes('lookalike') || m.includes('audience')) return aimeeResponses['lookalike'];
-        if (m.includes('premium') || m.includes('upsell') || m.includes('tier')) return aimeeResponses['premium'];
-        if (m.includes('renew') || m.includes('yield')) return aimeeResponses['renewal'];
-        if (m.includes('compare') || m.includes('publisher') || m.includes('benchmark')) return aimeeResponses['compare'];
-        if (m.includes('opportunit') || m.includes('biggest') || m.includes('focus')) return aimeeResponses['opportunity'];
-        return aimeeResponses['default'];
-    }
-
-    function appendAimeeMsg(container, role, text) {
-        const isUser = role === 'user';
-        const div = document.createElement('div');
-        div.className = 'aimee-msg' + (isUser ? ' user-msg' : '');
-        div.innerHTML = `
-            <div class="msg-avatar ${isUser ? 'user' : ''}"> ${isUser ? '👤' : '🤖'}</div>
-            <div>
-                <div class="msg-bubble ${isUser ? 'user' : ''}">
-                    ${!isUser ? '<strong>Aimee</strong>' : ''}${text}
-                </div>
-                <div class="msg-time">Just now</div>
-            </div>`;
-        container.appendChild(div);
-        container.scrollTop = container.scrollHeight;
-    }
-
-    function sendAimeeMessage() {
-        const input = document.getElementById('aimee-input');
-        const msg = input.value.trim();
-        if (!msg) return;
-        const container = document.getElementById('aimee-messages');
-        appendAimeeMsg(container, 'user', msg);
-        input.value = '';
-        setTimeout(() => appendAimeeMsg(container, 'aimee', getAimeeResponse(msg)), 600);
-    }
-
-    function toggleAimee() {
-        const panel = document.getElementById('aimee-panel');
-        panel.classList.toggle('open');
-        document.getElementById('aimee-toggle-btn').classList.toggle('active', panel.classList.contains('open'));
-    }
-    function closeAimee() {
-        document.getElementById('aimee-panel').classList.remove('open');
-        document.getElementById('aimee-toggle-btn').classList.remove('active');
-    }
-    function openAimee(prefill) {
-        const panel = document.getElementById('aimee-panel');
-        panel.classList.add('open');
-        document.getElementById('aimee-toggle-btn').classList.add('active');
-        if (prefill) {
-            const input = document.getElementById('aimee-input');
-            input.value = prefill;
-            setTimeout(() => { sendAimeeMessage(); }, 300);
-        }
-    }
-
-    // ── DEEP DIVE CHARTS ──
-    function initDeepDiveCharts(pageId) {
-        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        const weeks  = ['Wk 1','Wk 2','Wk 3','Wk 4','Wk 5','Wk 6','Wk 7','Wk 8'];
-
-        if (pageId === 'cancellation-report') {
-            // Trend vs Benchmark
-            const c1 = document.getElementById('chartCancelTrend');
-            if (c1 && !c1._chartInstance) {
-                c1._chartInstance = new Chart(c1, {
-                    type: 'line',
-                    data: {
-                        labels: ['Jan','Feb','Mar','Apr'],
-                        datasets: [
-                            { label: 'Your Rate', data: [2.1,2.5,2.8,3.2], borderColor: '#e74c3c', backgroundColor: 'rgba(231,76,60,0.08)', tension: 0.4, fill: true, pointRadius: 5, pointBackgroundColor: '#e74c3c' },
-                            { label: 'Benchmark', data: [2.8,2.8,2.8,2.8], borderColor: '#672584', borderDash: [6,4], backgroundColor: 'transparent', tension: 0, pointRadius: 0 }
-                        ]
-                    },
-                    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ labels:{ boxWidth:12, font:{size:11}, color:'#444' } } }, scales:{ y:{ min:1.5, max:4, ticks:{ callback: v => v+'%', color:'#888', font:{size:11} }, grid:{ color:'rgba(0,0,0,0.05)' } }, x:{ grid:{display:false}, ticks:{ color:'#888', font:{size:11} } } } }
-                });
-            }
-            // By reason
-            const c2 = document.getElementById('chartCancelReason');
-            if (c2 && !c2._chartInstance) {
-                c2._chartInstance = new Chart(c2, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Price too high','No longer needed','Found alternative','Moving house','Other'],
-                        datasets: [{ data: [41,28,19,8,4], backgroundColor: ['#e74c3c','#f59e0b','#672584','#00BCBA','#bbb'], borderRadius: 4 }]
-                    },
-                    options: { responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{ legend:{display:false} }, scales:{ x:{ ticks:{ color:'#888', font:{size:11} }, grid:{ color:'rgba(0,0,0,0.05)' } }, y:{ ticks:{ color:'#444', font:{size:11} }, grid:{display:false} } } }
-                });
-            }
-            // By tier
-            const c3 = document.getElementById('chartCancelTier');
-            if (c3 && !c3._chartInstance) {
-                c3._chartInstance = new Chart(c3, { type:'doughnut', data:{ labels:['Standard','Premium','Essential','Digital'], datasets:[{ data:[61,18,14,7], backgroundColor:['#e74c3c','#672584','#00BCBA','#f59e0b'], borderWidth:2, borderColor:'#fff' }] }, options:{ cutout:'65%', plugins:{ legend:{ position:'right', labels:{ boxWidth:12, font:{size:11}, color:'#444' } } } } });
-            }
-            // By tenure
-            const c4 = document.getElementById('chartCancelTenure');
-            if (c4 && !c4._chartInstance) {
-                c4._chartInstance = new Chart(c4, { type:'doughnut', data:{ labels:['0–6 months','6–12 months','1–2 years','2+ years'], datasets:[{ data:[22,48,19,11], backgroundColor:['#f59e0b','#e74c3c','#672584','#00BCBA'], borderWidth:2, borderColor:'#fff' }] }, options:{ cutout:'65%', plugins:{ legend:{ position:'right', labels:{ boxWidth:12, font:{size:11}, color:'#444' } } } } });
-            }
-        }
-
-        if (pageId === 'promo-report') {
-            // Weekly response rate
-            const p1 = document.getElementById('chartPromoWeekly');
-            if (p1 && !p1._chartInstance) {
-                p1._chartInstance = new Chart(p1, {
-                    type:'bar',
-                    data:{
-                        labels: weeks,
-                        datasets:[
-                            { label:'Your Rate', data:[3.8,4.1,4.5,4.7,4.9,5.1,4.8,4.8], backgroundColor:'rgba(0,188,186,0.7)', borderRadius:4 },
-                            { label:'Benchmark', type:'line', data:[3.9,3.9,3.9,3.9,3.9,3.9,3.9,3.9], borderColor:'#531E6A', borderDash:[6,4], pointRadius:0, backgroundColor:'transparent' }
-                        ]
-                    },
-                    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ labels:{ boxWidth:12, font:{size:11}, color:'#444' } } }, scales:{ y:{ ticks:{ callback: v=>v+'%', color:'#888', font:{size:11} }, grid:{ color:'rgba(0,0,0,0.05)' } }, x:{ grid:{display:false}, ticks:{ color:'#888', font:{size:11} } } } }
-                });
-            }
-            // Cumulative
-            const p2 = document.getElementById('chartPromoCumulative');
-            if (p2 && !p2._chartInstance) {
-                p2._chartInstance = new Chart(p2, {
-                    type:'line',
-                    data:{
-                        labels: weeks,
-                        datasets:[
-                            { label:'New Subscribers', data:[14,31,55,78,98,118,132,142], borderColor:'#00BCBA', backgroundColor:'rgba(0,188,186,0.1)', tension:0.4, fill:true, pointRadius:4, pointBackgroundColor:'#00BCBA' },
-                            { label:'Target', data:[12,26,43,61,78,96,110,104], borderColor:'#531E6A', borderDash:[6,4], backgroundColor:'transparent', tension:0.3, pointRadius:0 }
-                        ]
-                    },
-                    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ labels:{ boxWidth:12, font:{size:11}, color:'#444' } } }, scales:{ y:{ ticks:{ color:'#888', font:{size:11} }, grid:{ color:'rgba(0,0,0,0.05)' } }, x:{ grid:{display:false}, ticks:{ color:'#888', font:{size:11} } } } }
-                });
-            }
-            // Subscriber mix
-            const p3 = document.getElementById('chartPromoMix');
-            if (p3 && !p3._chartInstance) {
-                p3._chartInstance = new Chart(p3, { type:'doughnut', data:{ labels:['New to brand','Lapsed returnees','Upgrade from digital'], datasets:[{ data:[74,18,8], backgroundColor:['#00BCBA','#531E6A','#f59e0b'], borderWidth:2, borderColor:'#fff' }] }, options:{ cutout:'65%', plugins:{ legend:{ position:'right', labels:{ boxWidth:12, font:{size:11}, color:'#444' } } } } });
-            }
-            // Payment method
-            const p4 = document.getElementById('chartPromoPayment');
-            if (p4 && !p4._chartInstance) {
-                p4._chartInstance = new Chart(p4, { type:'doughnut', data:{ labels:['Direct Debit','Credit Card','Cash'], datasets:[{ data:[68,22,10], backgroundColor:['#00BCBA','#672584','#f59e0b'], borderWidth:2, borderColor:'#fff' }] }, options:{ cutout:'65%', plugins:{ legend:{ position:'right', labels:{ boxWidth:12, font:{size:11}, color:'#444' } } } } });
-            }
-        }
-    }
-
-    // Navigate from email CTA to deep-dive report with Aimee pre-loaded
-    function goToReport(pageId, aimeeMessage) {
-        // Find matching nav item and show page
-        const allNavItems = document.querySelectorAll('.nav-item');
-        let matchedNav = null;
-        allNavItems.forEach(item => {
-            if (item.getAttribute('onclick') && item.getAttribute('onclick').includes("'" + pageId + "'")) matchedNav = item;
-        });
-        showPage(pageId, matchedNav);
-        // Scroll to top
-        document.querySelector('.content').scrollTop = 0;
-        // Open Aimee with context after brief delay
-        setTimeout(() => openAimee(aimeeMessage), 400);
-    }
-
-    // Insights page chat
-    function insightAsk(msg) {
-        const input = document.getElementById('insights-input');
-        const text = msg || input.value.trim();
-        if (!text) return;
-        const container = document.getElementById('insights-chat-messages');
-        appendAimeeMsg(container, 'user', text);
-        if (input) input.value = '';
-        setTimeout(() => appendAimeeMsg(container, 'aimee', getAimeeResponse(text)), 600);
-    }
-</script>
 </body>
 </html>
